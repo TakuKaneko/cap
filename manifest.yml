@@ -1,6 +1,6 @@
 applications:
 - path: .
-  name: testLaravel
+  name: cap-management
   memory: 128M
   domain: mybluemix.net
   buildpack: https://github.com/cloudfoundry/php-buildpack

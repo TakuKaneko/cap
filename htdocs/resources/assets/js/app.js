@@ -1,22 +1,29 @@
 
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * jsの基本ページ
+ *  - 必ずどの画面でも呼び出される基本のjsファイル
+ *  - 初期設定やコンポーネントの準備を行う
  */
+import Vue from 'vue'
+import router from './router'
+import http from './services/http'
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+/**
+ * コンポーネント一覧
+ */
+Vue.component('navbar', require('./components/Layouts/Navbar.vue'))
+Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('hello', require('./components/Hello.vue'));
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
+ * Vueインスタンスの生成
  */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
 const app = new Vue({
-    el: '#app'
-});
+    router,
+    el: '#app',
+    created () {
+        http.init();
+    }
+}).$mount('#app');
