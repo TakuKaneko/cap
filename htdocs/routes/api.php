@@ -20,17 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'api'], function() {
     Route::post('authenticate', 'AuthenticateController@authenticate');
 
-    Route::group(['middleware' => 'jwt.auth'], function () {
-        Route::get('colors',  function() {
-            $colors = array(
-                'colors'=>
-                    array('id'=>1, 'fruit'=>'apple1', 'color'=>'red1'),
-                    array('id'=>2, 'fruit'=>'apple2', 'color'=>'red2'),
-                    array('id'=>3, 'fruit'=>'apple3', 'color'=>'red3')
-            );
-            return $colors;
-        });
+    Route::get('colors',  function() {
+        $colors = array(
+            'colors'=>
+                array('id'=>1, 'fruit'=>'apple1', 'color'=>'red1'),
+                array('id'=>2, 'fruit'=>'apple2', 'color'=>'red2'),
+                array('id'=>3, 'fruit'=>'apple3', 'color'=>'red3')
+        );
+        return $colors;
+    });
 
+    Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('me', 'AuthenticateController@getCurrentUser');
 
     });    

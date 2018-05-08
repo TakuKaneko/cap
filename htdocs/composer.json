@@ -40,22 +40,8 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "mkdir -p /tmp/app/htdocs/bootstrap/cache",
-            "mkdir -p /tmp/app/htdocs/storage/framework/sessions",
-            "mkdir -p /tmp/app/htdocs/storage/framework/views",
-            "mkdir -p /tmp/app/htdocs/storage/framework/cache",
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize",
-            "php artisan key:generate"
         ],
         "post-update-cmd": [
-            "mkdir -p /tmp/app/htdocs/bootstrap/cache",
-            "mkdir -p /tmp/app/htdocs/storage/framework/sessions",
-            "mkdir -p /tmp/app/htdocs/storage/framework/views",
-            "mkdir -p /tmp/app/htdocs/storage/framework/cache",
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize",
-            "php artisan key:generate"
         ]
     },
     "config": {
