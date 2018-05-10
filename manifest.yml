@@ -1,6 +1,6 @@
 applications:
 - path: .
-  name: cap-management
+  name: cap2
   memory: 128M
   domain: mybluemix.net
   buildpack: https://github.com/cloudfoundry/php-buildpack

@@ -11,10 +11,4 @@
 |
 */
 
-Route::get('/{any}', function () {
-    return view('app');
-})->where('any', '.*');
-
-Route::get('/testVue', function () {
-    return view('vew_sample');
-});
+Route::get('/{any}', 'AppController@index')->where('any', '.*');
