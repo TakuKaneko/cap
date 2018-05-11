@@ -7,7 +7,11 @@
 @section('content')
             <div class="content">
                 <div class="container-fluid">
-
+                    @isset($msg)
+                        <script>
+                            demo.showNotification('top', 'right');
+                        </script>
+                    @endisset
                     <div class="row">
                         <div class="col-md-10">
                             <div class="card">

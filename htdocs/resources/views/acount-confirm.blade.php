@@ -75,6 +75,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <button type="submit" class="btn btn-danger pull-right">確定</button>
                                         <div class="clearfix"></div>
                                     </form>

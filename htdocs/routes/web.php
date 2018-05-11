@@ -21,6 +21,7 @@ Route::get('/acount', function() {
 
 Route::post('/acount', function() {
   return view('acount-list', ['msg' => '編集が完了しました。']);
+  // return view('acount-list');
 });
 
 Route::get('/acount/edit/1', function() {
