@@ -160,7 +160,14 @@
             }
         }
     }
-
+    .card-header-default .card-icon,
+    .card-header-default .card-text,
+    .card-header-default:not(.card-header-icon):not(.card-header-text),
+    &.bg-default,
+    &.card-rotate.bg-default .front,
+    &.card-rotate.bg-default .back{
+      background: linear-gradient(60deg, $gray-color, $gray-color);
+    }
     .card-header-primary .card-icon,
     .card-header-primary .card-text,
     .card-header-primary:not(.card-header-icon):not(.card-header-text),
@@ -500,7 +507,7 @@
       &:not(.card-header-icon):not(.card-header-text):not(.card-header-image){
         border-radius: $border-radius-base;
         margin-top: -20px;
-        padding: 15px;
+        padding: 10px;
       }
 
       .card-icon,

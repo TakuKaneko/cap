@@ -13019,6 +13019,15 @@ fieldset[disabled] .form-check .form-check-input,
   display: none !important;
 }
 
+.card .card-header-default .card-icon,
+.card .card-header-default .card-text,
+.card .card-header-default:not(.card-header-icon):not(.card-header-text),
+.card.bg-default,
+.card.card-rotate.bg-default .front,
+.card.card-rotate.bg-default .back {
+  background: linear-gradient(60deg, #999999, #999999);
+}
+
 .card .card-header-primary .card-icon,
 .card .card-header-primary .card-text,
 .card .card-header-primary:not(.card-header-icon):not(.card-header-text),
@@ -13463,7 +13472,7 @@ fieldset[disabled] .form-check .form-check-input,
 .card [class*="card-header-"]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
   border-radius: 3px;
   margin-top: -20px;
-  padding: 15px;
+  padding: 10px;
 }
 
 .card [class*="card-header-"] .card-icon,
@@ -19144,8 +19153,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .main-panel > .content {
-  margin-top: 70px;
-  padding: 30px 15px;
   min-height: calc(100vh - 123px);
 }
 
@@ -22381,5 +22388,14 @@ Copyright (c) 2015 Daniel Eden
 
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
   background-color: #999;
+}
+
+.content {
+  margin-top: 70px;
+  padding: 10px 15px;
+}
+
+.footer {
+  padding: 0;
 }
 

@@ -30,7 +30,7 @@
       
     </div>
   </div>
+  <!--   Core JS Files   -->
+  <script src="{{ mix('js/app.js') }}"></script>
 </body>
-<!--   Core JS Files   -->
-<script src="{{ mix('js/app.js') }}"></script>
 </html>
