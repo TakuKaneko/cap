@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
   <link rel="stylesheet" href="{{  asset('css/material-dashboard.css') }}">
   <!-- Documentation extras -->
+
+  <!--   Core JS Files   -->
+  <script src="{{ mix('js/app.js') }}"></script>
 </head>
 
 <body>
@@ -30,7 +33,5 @@
       
     </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

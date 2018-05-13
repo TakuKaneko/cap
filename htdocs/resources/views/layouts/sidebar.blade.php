@@ -36,7 +36,7 @@
       @endif
         <a class="nav-link" href="{{ url('/corpus') }}">
           <i class="material-icons">person</i>
-          <p>AIコーパス</p>
+          <p>AIコーパス管理</p>
         </a>
       </li>
       @if (Request::is('training'))

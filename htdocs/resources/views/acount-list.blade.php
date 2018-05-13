@@ -7,11 +7,27 @@
 @section('content')
             <div class="content">
                 <div class="container-fluid">
-                    @isset($msg)
+                    @if (session('msg'))
                         <script>
-                            demo.showNotification('top', 'right');
+                            $(function(){
+                                type = ['', 'info', 'danger','success', 'warning', 'rose', 'primary'];
+                                color = Math.floor((Math.random() * 6) + 1);
+
+                                $.notify({
+                                    icon: "notifications",
+                                    message: "{{ session('msg') }}"
+
+                                }, {
+                                    type: 'success',
+                                    timer: 1000,
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right'
+                                    }
+                                });
+                            });
                         </script>
-                    @endisset
+                    @endif
                     <div class="row">
                         <div class="col-md-10">
                             <div class="card">
@@ -39,9 +55,29 @@
                                                         <button type="button" rel="tooltip" class="btn btn-simple" onclick="location.href='/acount/edit/1'">
                                                             <i class="material-icons">edit</i>
                                                         </button>
-                                                        <button type="button" rel="tooltip" class="btn btn-simple">
+                                                        <button type="button" rel="tooltip" class="btn btn-simple"  data-toggle="modal" data-target="#exampleModal">
                                                             <i class="material-icons">close</i>
                                                         </button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">本当に削除してもよろしいですか？</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    実行すると当該アカウントのプロフィール情報は全て削除されます。
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                                                                    <button type="button" class="btn btn-primary">削除</button>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
