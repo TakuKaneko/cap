@@ -36,7 +36,7 @@ Route::get('/corpus', function() {
   return view('corpus');
 });
 
-Route::match(['get', 'post'],'/corpus/edit/1', function() {
+Route::match(['get', 'post'], '/corpus/edit/1', function() {
   return view('corpus-edit');
 });
 
