@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.dashboard.base')
 
 @section('title')
   TOP
@@ -71,7 +71,7 @@
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons">settings</i>
-                    <a href="{{ url('/acount') }}">新規登録・削除</a>
+                    <a href="/acount">新規登録・削除</a>
                   </div>
                 </div>
               </div>

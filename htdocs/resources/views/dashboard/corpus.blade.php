@@ -1,7 +1,7 @@
-@extends('layouts.base')
+@extends('layouts.dashboard.base')
 
 @section('title')
-  <a href="{{ url('/') }}">TOP</a>
+  <a href="/">TOP</a>
   <span style="margin: 0 5px;"> ＞ </span>
   AIコーパス管理
 @endsection
@@ -16,6 +16,7 @@
                   <h4 class="card-title">自然言語分類コーパス</h4>
                 </div>
                 <div class="card-body" style="padding: 10px 25px;">
+                  <p> 「自然言語分類コーパス」は、入力されたショート・テキストの言語を理解し、意図を分析するのに役立ちます。意図は"クラス"として分類され、学習データからトレーニングした後、トレーニングされていないテキストに対するクラス情報を予測して返すことができるようになります。</p>
                   <!-- 新規作成ボタン -->
                   <div class="row">
                     <button type="button" class="btn btn-danger" style="margin-left:15px;" data-toggle="modal" data-target="#NlCreateModal">新規作成</button>
@@ -32,7 +33,7 @@
                         </div>
                         <div class="modal-body">
                           <p>自然言語分類コーパスを使用すると、入力された自然言語の意図を分類し、分類結果をクライアントに提供することができます。</p>
-                          <form action="/corpus/edit/1" method="post">
+                          <form action="/corpus/view/1" method="post">
                             <div class="form-group">
                               <label for="nl_corpus_name" class="bmd-label-floating">コーパス名</label>
                               <input type="text" class="form-control" id="nl_corpus_name">
@@ -53,7 +54,8 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                          <input type="submit" class="btn btn-primary" value="作成">
+                          <input type="hidden" name="_token" value="{{csrf_token()}}">
+                          <input type="submit" class="btn btn-primary" value="作成" onclick="this.form.target='_blank'">
                           </form>
                         </div>
                       </div>
@@ -66,13 +68,13 @@
                     <div class="col-lg-4 col-md-4 col-sm-6">
                       <div class="card" style="margin:10px 0;">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
-                          <div class="h4 card-title" style="width:95%;float:left;">薬機法＆景表法分類</div>
+                          <h4 class="card-title" style="width:95%;float:left;font-weight:600;">薬機法＆景表法分類</h4>
                           <div class="nav-item dropdown" style="width:5%;float:right;">
                             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:0;">
                               <i class="material-icons">more_vert</i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="corpusDropdownMenuLink">
-                              <a class="dropdown-item" href="/corpus/edit/1">編集</a>
+                              <a class="dropdown-item" href="/corpus/view/1" target="_blank">編集</a>
                               <a class="dropdown-item" href="#">複製</a>
                               <a class="dropdown-item" href="#">無効化</a>
                               <div class="dropdown-divider"></div>
@@ -80,7 +82,7 @@
                             </div>
                           </div>
                           <p class="card-text" style="clear:both;margin-bottom:10px;">クリエイティブが薬機法もしくは景表法に抵触する可能性の有無を分類する。</p>
-                          <a href="#" class="btn btn-sm btn-primary">詳細表示</a>
+                          <a href="/corpus/view/1" class="btn btn-sm btn-primary" target="_blank">詳細表示</a>
                         </div>
                         <div class="card-footer" style="padding-top:0;">
                           <div class="stats">
@@ -94,7 +96,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-6">
                       <div class="card" style="margin:10px 0;">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
-                          <div class="h4 card-title" style="width:95%;float:left;">サンプル</div>
+                            <h4 class="card-title" style="width:95%;float:left;font-weight:600;">サンプル</h4>
                           <div class="nav-item dropdown" style="width:5%;float:right;">
                             <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:0;">
                               <i class="material-icons">more_vert</i>

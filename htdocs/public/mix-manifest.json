@@ -1,4 +1,7 @@
 {
+    "/js/chart.js": "/js/chart.js",
     "/css/material-dashboard.css": "/css/material-dashboard.css",
-    "/js/app.js": "/js/app.js"
+    "/js/app.js": "/js/app.js",
+    "/js/corpus-admin-core.js": "/js/corpus-admin-core.js",
+    "/css/bootstrap.css": "/css/bootstrap.css"
 }

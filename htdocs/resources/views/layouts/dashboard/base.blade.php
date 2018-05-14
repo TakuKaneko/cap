@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <!-- Favicons -->
-  <link rel="icon" href="{{ asset('img/cap-icon.png') }}">
+  <link rel="icon" href="/img/cap-icon.png">
   <title>
     CAP Dashboard
   </title>
@@ -22,14 +22,14 @@
 
 <body>
   <div class="wrapper">
-    @include('layouts.sidebar')
+    @include('layouts.dashboard.sidebar')
 
     <div class="main-panel">
-      @include('layouts.nav')
+      @include('layouts.dashboard.nav')
 
       @yield('content')
 
-      @include('layouts.footer')
+      @include('layouts.dashboard.footer')
       
     </div>
   </div>

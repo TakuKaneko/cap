@@ -23,3 +23,18 @@ mix.scripts([
   'resources/assets/js/material-dashboard.js'
 ], 'public/js/app.js')
 .sass('resources/assets/scss/material-dashboard.scss', 'public/css');
+
+mix.scripts([
+  'resources/assets/js/jquery-3.3.1.slim.min.js',
+  'resources/assets/js/popper.min.js', 
+  'resources/assets/js/bootstrap.min.js'
+], 'public/js/corpus-admin-core.js');
+
+// mix.js('resources/assets/js/bootstrap.min.js', 'public/js');
+
+mix.js('resources/assets/js/Chart.min.js', 'public/js/chart.js');
+
+mix.styles([
+  'resources/assets/scss/bootstrap/bootstrap.min.css', 
+  'resources/assets/scss/bootstrap/bootstrap-dashboard.css' 
+], 'public/css/bootstrap.css');

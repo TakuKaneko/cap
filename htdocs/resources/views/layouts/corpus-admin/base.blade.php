@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="{{ app()->getLocale() }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/img/cap-icon.png">
+  <title>CAPコーパス管理画面</title>
+
+  <!-- Core CSS -->
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <style>
+    .feather {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+
+  <!-- Core JavaScript -->
+  <script src="/js/corpus-admin-core.js"></script>
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #9c27b0;">
+      <a class="navbar-brand text-center" href="#" style="width:180px;">CAP AIコーパス管理画面</a>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#"><span> - </span>薬機法&景表法分類<span> - コーパス</span></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#" onClick="window.close();">閉じる</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      {{--  サイドナビ  --}}
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              @if (Request::is('corpus/view/1'))
+              <a class="nav-link active" href="/corpus/view/1">
+              @else
+              <a class="nav-link" href="/corpus/view/1">
+              @endif
+                <span data-feather="file-text"></span>
+                基本情報
+              </a>
+            </li>
+            <li class="nav-item">
+              @if (Request::is('corpus/data/view/1'))
+              <a class="nav-link active" href="/corpus/data/view/1">
+              @else
+              <a class="nav-link" href="/corpus/data/view/1">
+              @endif
+                <span data-feather="edit"></span>
+                データ管理
+              </a>
+            </li>
+            <li class="nav-item">
+              @if (Request::is('corpus/test/1'))
+              <a class="nav-link active" href="/corpus/test/1">
+              @else
+              <a class="nav-link" href="/corpus/test/1">
+              @endif
+                <span data-feather="check-circle"></span>
+                精度検証
+              </a>
+            </li>
+            <li class="nav-item">
+              @if (Request::is('corpus/deploy/1'))
+              <a class="nav-link active" href="/corpus/deploy/1">
+              @else
+              <a class="nav-link" href="/corpus/deploy/1">
+              @endif
+                <span data-feather="refresh-ccw"></span>
+                本番切替
+              </a>
+            </li>
+            <li class="nav-item">
+              @if (Request::is('corpus/connect/1'))
+              <a class="nav-link active" href="/corpus/connect/1">
+              @else
+              <a class="nav-link" href="/corpus/connect/1">
+              @endif
+                <span data-feather="zap"></span>
+                API接続情報
+              </a>
+            </li>
+            <li class="nav-item">
+              @if (Request::is('corpus/stop/1'))
+              <a class="nav-link active" href="/corpus/stop/1">
+              @else
+              <a class="nav-link" href="/corpus/stop/1">
+              @endif
+                <span data-feather="zap-off"></span>
+                停止
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {{--  コンテンツ  --}}
+      @yield('content')
+    </div>
+  </div>
+
+  <script>
+      feather.replace();
+  </script>
+</body>
+</html>

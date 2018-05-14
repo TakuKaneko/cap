@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function() {
-  return view('dashboard');
+  return view('dashboard.top');
 });
 
 Route::get('/acount', function() {
-  return view('acount-list');
+  return view('dashboard.acount-list');
 });
 
 Route::post('/acount', function() {
@@ -25,18 +25,21 @@ Route::post('/acount', function() {
 });
 
 Route::get('/acount/edit/1', function() {
-  return view('acount-edit');
+  return view('dashboard.acount-edit');
 });
 
 Route::post('/acount/confirm/1', function() {
-  return view('acount-confirm');
+  return view('dashboard.acount-confirm');
 });
 
 Route::get('/corpus', function() {
-  return view('corpus');
+  return view('dashboard.corpus');
 });
 
-Route::match(['get', 'post'], '/corpus/edit/1', function() {
-  return view('corpus-edit');
+Route::match(['get', 'post'], '/corpus/view/1', function() {
+  return view('corpus-admin.ca-detail');
 });
 
+Route::get('/corpus/data/view/1', function() {
+  return view('corpus-admin.ca-data-view');
+});
