@@ -2,11 +2,7 @@
 
 @section('content')
       <!--  コンテンツ  -->
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">基本情報</h1>
-        </div>
-
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
         <h5>コーパス概要</h5>
         <div class="table-responsive">
           <table class="table mb-0">
@@ -47,9 +43,9 @@
           </div>
         </div>
 
-        <h5 class="mt-5 mb-3">稼動状況</h5>
-        <div class="row">
+        <h5 id="opeStatus" class="mt-5 mb-3">稼動状況</h5>
 
+        <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card bg-light mb-3">
               <div class="card-header">本番適用
@@ -146,16 +142,16 @@
                 <h5 class="card-title">APIコール数</h5>
                 <canvas class="my-4 w-100" id="apiCallChart" width="560" height="200"></canvas>
 
-                <h5 class="card-title">回答確信度</h5>
+                <h5 class="card-title">回答確信度<small>（全体平均）</small></h5>
                 <canvas class="my-4 w-100" id="resConfidenceChart" width="560" height="200"></canvas>
               </div>
             </div>
           </div>
 
-          <!-- データセット -->
+          <!-- 登録データ比率 -->
           <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="card bg-light mb-3">
-              <div class="card-header">データセット</div>
+              <div class="card-header">登録データ比率</div>
               <div class="card-body">
                 <h5 class="card-title">学習データ</h5>
                 <canvas id="prodDataChart" width="590" height="230"></canvas>
@@ -177,12 +173,14 @@
           data: {
             labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             datasets: [{
+              fillColor: "rgba(220,220,220,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
               data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-              lineTension: 0,
-              backgroundColor: 'transparent',
-              borderColor: '#007bff',
-              borderWidth: 4,
-              pointBackgroundColor: '#007bff'
+              borderWidth: 3
             }]
           },
           options: {
@@ -205,12 +203,10 @@
           data: {
             labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             datasets: [{
+              backgroundColor:"rgba(75,192,192,0.4)",
+              borderColor:"rgba(75,192,192,1)",            
               data: [93.9, 92.2, 91.1, 90.4, 93.0, 85.4, 88.1],
-              lineTension: 0,
-              backgroundColor: 'transparent',
-              borderColor: '#007bff',
-              borderWidth: 4,
-              pointBackgroundColor: '#007bff'
+              borderWidth: 3
             }]
           },
           options: {
@@ -263,6 +259,12 @@
               data: [200, 550, 400, 100, 150, 100]
             }]
           }
+        });
+        $(function() {
+          $('#scrollBtn').on('click', function(e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top}, 500, 'linear');
+          });
         });
       </script>
 @endsection

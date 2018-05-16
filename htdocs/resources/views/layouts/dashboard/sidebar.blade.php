@@ -1,9 +1,8 @@
-
 <div class="sidebar" data-color="azure" data-background-color="white">
   <div class="logo">
-    <a href="{{ url('/') }}" class="simple-text logo-normal">
-      <img src="{{ asset('img/cap-icon.png') }}" alt="cap_logo" width="50px" height="45px">
-      <img src="{{ asset('img/cap-char-logo.png') }}" alt="cap_char" width="70px" height="45px">
+    <a href="/" class="simple-text logo-normal">
+      <img src="img/cap-icon.png" alt="cap_logo" width="50px" height="45px">
+      <img src="img/cap-char-logo.png" alt="cap_char" width="70px" height="45px">
     </a>
   </div>
   <div class="sidebar-wrapper">
@@ -13,7 +12,7 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="{{ url('/') }}">
+        <a class="nav-link" href="/">
           <i class="material-icons">dashboard</i>
           <p>ダッシュボード</p>
         </a>
@@ -24,7 +23,7 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="{{ url('/acount') }}">
+        <a class="nav-link" href="/acount">
           <i class="material-icons">person</i>
           <p>管理アカウント</p>
         </a>
@@ -34,19 +33,9 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="{{ url('/corpus') }}">
-          <i class="material-icons">person</i>
-          <p>AIコーパス管理</p>
-        </a>
-      </li>
-      @if (Request::is('training'))
-        <li class="nav-item active">
-      @else
-        <li class="nav-item">
-      @endif
-        <a class="nav-link" href="{{ url('/training') }}">
+        <a class="nav-link" href="/corpus">
           <i class="material-icons">school</i>
-          <p>AIトレーニング</p>
+          <p>AIコーパス管理</p>
         </a>
       </li>
       @if (Request::is('settings'))
@@ -54,7 +43,7 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="{{ url('/settings') }}">
+        <a class="nav-link" href="/settings">
           <i class="material-icons">settings</i>
           <p>各種設定</p>
         </a>
@@ -64,9 +53,19 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="{{ url('/download') }}">
+        <a class="nav-link" href="/download">
           <i class="material-icons">cloud_download</i>
           <p>ダウンロード</p>
+        </a>
+      </li>
+      @if (Request::is('help'))
+        <li class="nav-item active">
+      @else
+        <li class="nav-item">
+      @endif
+        <a class="nav-link" href="/help">
+          <i class="material-icons">help_outline</i>
+          <p>ヘルプ</p>
         </a>
       </li>
     </ul>

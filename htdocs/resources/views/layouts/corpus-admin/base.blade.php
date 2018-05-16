@@ -5,11 +5,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/cap-icon.png">
-  <title>CAPコーパス管理画面</title>
+  <title>CAP -薬機法&景表法分類-</title>
 
   <!-- Core CSS -->
   <link href="/css/bootstrap.css" rel="stylesheet">
   <style>
+    body, html {
+      font-family: "SF Pro JP","SF Pro Display","SF Pro Icons","Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","メイリオ","Meiryo","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif;
+    }
     .feather {
       width: 24px;
       height: 24px;
@@ -62,18 +65,28 @@
               @else
               <a class="nav-link" href="/corpus/data/view/1">
               @endif
-                <span data-feather="edit"></span>
+                <span data-feather="database"></span>
                 データ管理
               </a>
             </li>
-            <li class="nav-item">
-              @if (Request::is('corpus/test/1'))
-              <a class="nav-link active" href="/corpus/test/1">
+            {{-- <li class="nav-item">
+              @if (Request::is('corpus/training/setting'))
+              <a class="nav-link active" href="/corpus/training/setting">
               @else
-              <a class="nav-link" href="/corpus/test/1">
+              <a class="nav-link" href="/corpus/training/setting">
               @endif
-                <span data-feather="check-circle"></span>
-                精度検証
+                <span data-feather="settings"></span>
+                学習設定
+              </a>
+            </li> --}}
+            <li class="nav-item">
+              @if (Request::is('corpus/training'))
+              <a class="nav-link active" href="/corpus/training">
+              @else
+              <a class="nav-link" href="/corpus/training">
+              @endif
+                <span data-feather="edit"></span>
+                学習管理
               </a>
             </li>
             <li class="nav-item">

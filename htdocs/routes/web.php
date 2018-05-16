@@ -43,3 +43,8 @@ Route::match(['get', 'post'], '/corpus/view/1', function() {
 Route::get('/corpus/data/view/1', function() {
   return view('corpus-admin.ca-data-view');
 });
+
+Route::get('/corpus/training', function() {
+  return view('corpus-admin.ca-training');
+});
+
