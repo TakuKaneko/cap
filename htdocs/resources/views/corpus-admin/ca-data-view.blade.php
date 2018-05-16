@@ -2,35 +2,23 @@
 
 @section('content')
       <style>
-        ::-webkit-scrollbar{
-          width: 10px;
-        }
-        ::-webkit-scrollbar-track{
-          background: #fff;
-          border-left: solid 1px #ececec;
-        }
-        ::-webkit-scrollbar-thumb{
-          background: #ccc;
-          border-radius: 10px;
-          box-shadow: inset 0 0 0 2px #fff;
-        }
         .btn-outline-brand:not(:disabled):not(.disabled).active:focus, 
         .btn-outline-brand:not(:disabled):not(.disabled):active:focus, 
         .show > .btn-outline-brand.dropdown-toggle:focus {
-          box-shadow: 0 0 0 0.2rem rgba(156,39,176,.5);
+          box-shadow: 0 0 0 0.2rem rgba(0, 163, 212,.5);
         }
         .btn-outline-brand:not(:disabled):not(.disabled).active, 
         .btn-outline-brand:not(:disabled):not(.disabled):active, 
         .show > .btn-outline-brand.dropdown-toggle {
           color: #fff;
-          background-color: #9C27B0;
-          border-color: #9C27B0;
+          background-color: #00A1EA;
+          border-color: #00A1EA;
         }
         .btn-outline-brand {
-          color: #9C27B0;
+          color: #00A1EA;
           background-color: transparent;
           background-image: none;
-          border-color: #9C27B0;
+          border-color: #00A1EA;
         }
         .feather {
           vertical-align: text-bottom;
@@ -89,7 +77,7 @@
         }
         .nav-pills-brand .nav-link.active, .nav-pills-brand .show>.nav-link {
           color: #fff;
-          background-color: #9C27B0;
+          background-color: #00A1EA;
        }
       </style>
       {{--  コンテンツ  --}}
@@ -98,7 +86,7 @@
           <div class="col-3">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item">
-                <a class="btn btn-outline-brand nav-link active mr-1" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="true">学習済みデータ</a>
+                <a class="btn btn-outline-brand nav-link active mr-1" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="true">学習データ</a>
               </li>
               <li class="nav-item">
                 <a class="btn btn-outline-info nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">検証データ</a>
@@ -127,7 +115,7 @@
 
         <section id="addCreativeContents" class="m-3 mt-4 mb-2">
           <div class="row">
-            <div class="col-5">
+            <div class="col-8">
               <div id="crAddBox">
                 <div id="crAddBoxText">
                   <a href="#" class="callModal" data-toggle="modal" data-target="#corpusAddTextModal">
@@ -137,10 +125,10 @@
                 </div>
               </div>
             </div>
-            {{-- <div class="col-7 text-right">
+            <div class="col-4 text-right">
               <span>2016/10/20 10:53時点の学習データで稼働中</span>
-              <button type="button" class="btn btn-danger ml-1">学習開始</button>
-            </div> --}}
+              <button type="button" class="btn btn-link ml-1">学習管理ページに移動</button>
+            </div>
           </div>
         </section>
 

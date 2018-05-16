@@ -17,6 +17,21 @@
       width: 24px;
       height: 24px;
     }
+    ::-webkit-scrollbar{
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track{
+      background: #fff;
+      border-left: solid 1px #ececec;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #ccc;
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+    .nav-brand {
+      box-shadow: inset -1px 0 0 rgba(0, 0, 0, .12);
+    }
   </style>
 
   <!-- Core JavaScript -->
@@ -28,11 +43,16 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #9c27b0;">
-      <a class="navbar-brand text-center" href="#" style="width:180px;">CAP AIコーパス管理画面</a>
+    <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color:#00A1EA;">
+      <div>
+        <a class="navbar-brand text-center" href="/corpus/view/1" style="padding:10px 20px 10px 10px;">
+          <img src="/img/cap-icon.png" alt="cap_logo" width="25px" height="20px">
+          CAP コーパス管理画面
+        </a>
+      </div>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#"><span> - </span>薬機法&景表法分類<span> - コーパス</span></a>
+          <a class="nav-link" href="#" style="color:white;font-weight:bold;font-size:1rem;"><span> - </span>薬機法&景表法分類<span> - コーパス</span></a>
         </li>
       </ul>
       <ul class="navbar-nav px-3">
@@ -46,7 +66,7 @@
   <div class="container-fluid">
     <div class="row">
       {{--  サイドナビ  --}}
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="font-size:1rem;">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">

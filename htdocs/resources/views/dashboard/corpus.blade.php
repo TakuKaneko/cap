@@ -55,7 +55,7 @@
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                           <input type="hidden" name="_token" value="{{csrf_token()}}">
-                          <input type="submit" class="btn btn-primary" value="作成" onclick="this.form.target='_blank'">
+                          <input type="submit" class="btn btn-brand" value="作成" onclick="this.form.target='_blank'">
                           </form>
                         </div>
                       </div>
@@ -82,7 +82,7 @@
                             </div>
                           </div>
                           <p class="card-text" style="clear:both;margin-bottom:10px;">クリエイティブが薬機法もしくは景表法に抵触する可能性の有無を分類する。</p>
-                          <a href="/corpus/view/1" class="btn btn-sm btn-primary" target="_blank">詳細表示</a>
+                          <a href="/corpus/view/1" class="btn btn-sm btn-brand" target="_blank">詳細表示</a>
                         </div>
                         <div class="card-footer" style="padding-top:0;">
                           <div class="stats">
@@ -110,7 +110,7 @@
                             </div>
                           </div>
                           <p class="card-text" style="clear:both;margin-bottom:10px;">未使用のため無効化中。</p>
-                          <a href="#" class="btn btn-sm btn-primary">詳細表示</a>
+                          <a href="#" class="btn btn-sm btn-brand">詳細表示</a>
                         </div>
                         <div class="card-footer" style="padding-top:0;">
                           <div class="stats">
