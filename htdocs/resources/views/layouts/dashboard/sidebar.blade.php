@@ -17,17 +17,6 @@
           <p>ダッシュボード</p>
         </a>
       </li>
-      {{--  @if (Request::is('acount') or Request::is('acount/edit/1'))  --}}
-      @if (Request::is('acount', 'acount/edit/1', 'acount/confirm/1'))
-        <li class="nav-item active">
-      @else
-        <li class="nav-item">
-      @endif
-        <a class="nav-link" href="/acount">
-          <i class="material-icons">person</i>
-          <p>管理アカウント</p>
-        </a>
-      </li>
       @if (Request::is('corpus'))
         <li class="nav-item active">
       @else
@@ -35,9 +24,20 @@
       @endif
         <a class="nav-link" href="/corpus">
           <i class="material-icons">school</i>
-          <p>AIコーパス管理</p>
+          <p>コーパス管理</p>
         </a>
       </li>
+      @if (Request::is('api-info'))
+        <li class="nav-item active">
+      @else
+        <li class="nav-item">
+      @endif
+        <a class="nav-link" href="/api-info">
+          <i class="material-icons">compare_arrows</i>
+          <p>API管理</p>
+        </a>
+      </li>
+
       @if (Request::is('settings'))
         <li class="nav-item active">
       @else
@@ -45,19 +45,10 @@
       @endif
         <a class="nav-link" href="/settings">
           <i class="material-icons">settings</i>
-          <p>各種設定</p>
+          <p>サービス管理</p>
         </a>
       </li>
-      @if (Request::is('download'))
-        <li class="nav-item active">
-      @else
-        <li class="nav-item">
-      @endif
-        <a class="nav-link" href="/download">
-          <i class="material-icons">cloud_download</i>
-          <p>ダウンロード</p>
-        </a>
-      </li>
+
       @if (Request::is('help'))
         <li class="nav-item active">
       @else

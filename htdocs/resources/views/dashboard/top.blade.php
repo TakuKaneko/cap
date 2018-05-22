@@ -79,12 +79,12 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-md-12 col-lg-6">
               <div class="card" style="margin-top: 25px;">
                 <div class="card-header card-header-tabs card-header-default">
                   <div class="nav-tabs-navigation">
                     <div class="nav-tabs-wrapper">
-                      <span class="nav-tabs-title">AI判定確信度遷移:</span>
+                      <span class="nav-tabs-title">APIコール数推移:</span>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           60日
@@ -100,115 +100,103 @@
                   </div>
                 </div>
                 <div class="card-body" style="padding:0;">
-                  <div class="tab-content">
-                    <div id="chart_ai" style="width: 90%; height: 300px;"></div>
+                  <div class="container" style="width:100%;height:100%;">
+                    <canvas id="classifyChart" style="width:100%;height:300px;"></canvas>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="col-md-12 col-lg-6">
+              <div class="card" style="margin-top: 25px;">
+                <div class="card-header card-header-tabs card-header-default">
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <span class="nav-tabs-title">AIレスポンス確信度遷移:</span>
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          60日
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">3日</a>
+                          <a class="dropdown-item" href="#">10日</a>
+                          <a class="dropdown-item" href="#">30日</a>
+                          <a class="dropdown-item" href="#">60日</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="padding:0;">
+                  <div class="container" style="width:100%;height:100%;">
+                    <canvas id="apiCallChart" style="width:100%;height:300px;"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>            
           </div>
         </div>
       </div>
-      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-      <script type="text/javascript">
-        google.load('visualization', '1', { packages : [ 'corechart' ]});
-        google.setOnLoadCallback(drawChart);
-        
-        function drawChart(){
-          // 表示するデータの設定
-          var data = new google.visualization.DataTable({
-            "cols": [
-              {"type": "string", "label": "日"},
-              {"type": "number", "label": "AI学習数"},
-              {"type": "number", "label": "AI判定平均確信度"}
-            ],
-            "rows": [
-              {"c": [{"v": "1月8日"}, {"v": 2}, {"v": 79}]},
-              {"c": [{"v": "1月9日"}, {"v": 0}, {"v": 69}]},
-              {"c": [{"v": "1月10日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "1月11日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "1月12日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "1月13日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "1月14日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "1月15日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "1月16日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "1月17日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "1月18日"},{"v": 5}, {"v": 93}]},
-              {"c": [{"v": "1月19日"}, {"v": 2}, {"v": 79}]},
-              {"c": [{"v": "1月20日"}, {"v": 0}, {"v": 69}]},
-              {"c": [{"v": "1月21日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "1月22日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "1月23日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "1月24日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "1月25日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "1月26日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "1月27日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "1月28日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "1月29日"},{"v": 5}, {"v": 93}]},
-              {"c": [{"v": "1月30日"}, {"v": 2}, {"v": 79}]},
-              {"c": [{"v": "1月31日"}, {"v": 0}, {"v": 69}]},
-              {"c": [{"v": "2月1日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "2月2日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "2月3日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "2月4日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "2月5日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "2月5日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "2月6日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "2月7日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "2月8日"},{"v": 5}, {"v": 93}]},
-              {"c": [{"v": "2月9日"}, {"v": 2}, {"v": 79}]},
-              {"c": [{"v": "2月10日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "2月11日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "2月12日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "2月13日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "2月14日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "2月15日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "2月16日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "2月17日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "2月18日"},{"v": 5}, {"v": 93}]},
-              {"c": [{"v": "2月19日"}, {"v": 2}, {"v": 79}]},
-              {"c": [{"v": "2月20日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "2月21日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "2月22日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "2月23日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "2月24日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "2月25日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "2月26日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "2月27日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "2月28日"},{"v": 5}, {"v": 93}]},
-              {"c": [{"v": "3月1日"},{"v": 3}, {"v": 75}]},
-              {"c": [{"v": "3月2日"},{"v": 5}, {"v": 61}]},
-              {"c": [{"v": "3月3日"},{"v": 0}, {"v": 89}]},
-              {"c": [{"v": "3月4日"},{"v": 0}, {"v": 93}]},
-              {"c": [{"v": "3月5日"},{"v": 3}, {"v": 90}]},
-              {"c": [{"v": "3月5日"},{"v": 1}, {"v": 97}]},
-              {"c": [{"v": "3月6日"},{"v": 2}, {"v": 89}]},
-              {"c": [{"v": "3月7日"},{"v": 2}, {"v": 83}]},
-              {"c": [{"v": "3月8日"},{"v": 5}, {"v": 93}]}
-            ]});
-        
-          // グラフの設定
-          var option = {
-              width: '100%',
-              height: '100%',
-              focusTarget: 'category',
-              series: [
-                  { type: 'bars', targetAxisIndex: 0 },
-                  { type: 'line', targetAxisIndex: 1 },
-                  { type: 'area', targetAxisIndex: 2 }
-              ],
-              vAxes: [
-                { title: 'AIトレーニング数 [回]' },
-                { title: 'AI判定平均確信度 [%/日]' },
-                { title: '日' }
-              ]
-          };
-        
-          var chart = new google.visualization.ComboChart(document.getElementById('chart_ai'));
-          chart.draw(data, option);
-        }
-        $(window).resize(function(){
-          chart.draw(data, option);
+
+      <!-- Graphs -->
+      <script src="/js/chart.js"></script>
+      <script>
+        var ctx = document.getElementById("apiCallChart");
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [
+              {
+                label: "APIコール数[回]",
+                backgroundColor:"rgba(169,169,169,0.4)",
+                borderColor:"rgba(169,169,169,1)",
+                data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+                borderWidth: 3
+              }
+            ]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: false
+                }
+              }]
+            },
+            legend: {
+              display: true,
+            }
+          }
+        });
+
+        var ctx2 = document.getElementById("classifyChart");
+        var myChart2 = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [
+              {
+                type: 'bar',
+                label: "平均レスポンス確信度[%]",
+                backgroundColor:"rgba(30,200,200,0.4)",
+                borderColor:"rgba(30,200,200,1)",
+                data: [89, 81, 91, 85, 89, 92, 85],
+                borderWidth: 3
+              },
+            ]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: false
+                }
+              }]
+            },
+            legend: {
+              display: true,
+            }
+          }
         });
       </script>
 @endsection

@@ -48,3 +48,6 @@ Route::get('/corpus/training', function() {
   return view('corpus-admin.ca-training');
 });
 
+Route::get('/api-info', function() {
+  return view('dashboard.api-info');
+});

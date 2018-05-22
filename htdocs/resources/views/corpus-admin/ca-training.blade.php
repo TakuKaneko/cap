@@ -256,10 +256,10 @@
                         <div class="row">
                           <div class="col-7">
                             <h4 class="step-list__heading">
-                              AI学習結果の検証
+                              本番反映
                             </h4>
                             <p class="step-list__text">
-                              検証用データを基に、学習結果を検証できます。
+                              学習済みコーパスを本番で運用開始します。
                             </p>
                           </div>
                           <div class="col-2" style="margin-top:10px;">
@@ -267,7 +267,7 @@
                           </div>
                           <div class="col-3">
                             <p class="step-list__text">
-                              <button type="button" class="btn btn-danger btn-lg">結果の確認</button>
+                              <button type="button" class="btn btn-link btn-lg">結果の確認</button>
                             </p>
                           </div>
                         </div>

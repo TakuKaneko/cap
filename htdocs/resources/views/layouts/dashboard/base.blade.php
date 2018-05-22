@@ -59,14 +59,9 @@
 <body>
   <div class="wrapper">
     @include('layouts.dashboard.sidebar')
-
     <div class="main-panel">
       @include('layouts.dashboard.nav')
-
       @yield('content')
-
-      @include('layouts.dashboard.footer')
-      
     </div>
   </div>
 </body>
