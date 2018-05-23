@@ -9,7 +9,7 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="#pablo">
-            <i class="material-icons">dashboard</i>
+            <i class="material-icons">search</i>
             <p>
               <span class="d-lg-none d-md-block">Stats</span>
             </p>

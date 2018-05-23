@@ -88,7 +88,7 @@
                   <div class="row">
                     <!-- カード１ -->
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                      <div class="card detail-card" style="margin:10px 0;">
+                      <div class="card detail-card" style="margin:10px 0;" onclick="window.open('http://127.0.0.1:8000/corpus/view/1','_blank')">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
                           <h4 class="card-title" style="width:95%;float:left;font-weight:600;">薬機法＆景表法の文言チェック</h4>
                           <div class="nav-item dropdown" style="width:5%;float:right;">
@@ -116,8 +116,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- カード2 -->
+                    <!-- カード -->
                     <div class="col-lg-4 col-md-4 col-sm-6">
                       <div class="card detail-card" style="margin:10px 0;">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
@@ -147,8 +146,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- カード2 -->
+                    <!-- カード -->
                     <div class="col-lg-4 col-md-4 col-sm-6">
                       <div class="card detail-card" style="margin:10px 0;">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
@@ -178,8 +176,7 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- カード2 -->
+                    <!-- カード -->
                     <div class="col-lg-4 col-md-4 col-sm-6">
                       <div class="card detail-card" style="margin:10px 0;">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
@@ -209,7 +206,6 @@
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
               </div>

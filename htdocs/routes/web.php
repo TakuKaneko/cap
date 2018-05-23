@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function() {
   return view('dashboard.top');
@@ -50,4 +51,10 @@ Route::get('/corpus/training', function() {
 
 Route::get('/api-info', function() {
   return view('dashboard.api-info');
+});
+
+Route::get('/settings', function() {
+
+  Log::info("アクセスsaretayo.");
+  return view('dashboard.settings');
 });

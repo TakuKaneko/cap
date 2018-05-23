@@ -116,7 +116,7 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="card bg-light mb-3">
-                    <div class="card-header">学習データ量
+                    <div class="card-header">教師データ量
                       <button type="button" class="btn btn-warning rounded-circle p-0 font-weight-bold text-white float-right" style="width:1.5rem;height:1.5rem;" data-toggle="modal" data-target="#trDataModal">?</button>
                       <div class="modal fade" id="trDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -137,7 +137,10 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title font-weight-bold">3200<small> 件</small></h5>
+                      <h5 class="card-title font-weight-bold">
+                        <span data-feather="circle" class="text-danger font-weight-bold"></span>
+                        <span class="h5 font-weight-bold">3200<small> 件</small>
+                      </h5>
                       <p class="card-text">充分な量の学習データが登録されています。データの編集は<a href="/corpus/training/view/1">データ管理</a>で行ってください。</p>
                     </div>
                   </div>
@@ -145,27 +148,62 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="card bg-light mb-3">
-                    <div class="card-header">確信度の閾値
+                    <div class="card-header">教師データの件数割合評価
                       <button type="button" class="btn btn-warning rounded-circle p-0 font-weight-bold text-white float-right" style="width:1.5rem;height:1.5rem;" data-toggle="modal" data-target="#aiThreadModal">?</button>
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title font-weight-bold">85.0<small> %</small></h5>
-                      <p class="card-text">上記の閾値に基づいて、AIは判定結果を決定しています。閾値を編集したい場合は、<a href="/corpus/training">学習管理</a>をご確認ください。</p>
+                      <h5 class="card-title">
+                        <span data-feather="alert-triangle" class="text-warning font-weight-bold"></span>
+                        <span class="h5 font-weight-bold"><small>良い / </small>要確認<small> / 要調整</small></span>
+                      </h5>
+                      <p class="card-text">クラスごとのデータ件数がばらついているため、学習精度が低下している可能性があります。データの編集は、<a href="/corpus/training">データ管理</a>をご確認ください。</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row">
-                <!--  日時推移  -->
+                {{--  クラス別閾値  --}}
                 <div class="col-lg-6 col-md-12 col-sm-12">
                   <div class="card bg-light mb-3">
-                    <div class="card-header">日時推移</div>
+                    <div class="card-header">クラス別閾値</div>
                     <div class="card-body">
-                      <h5 class="card-title">APIコール数</h5>
-                      <canvas class="my-4 w-100" id="apiCallChart" width="560" height="200"></canvas>
-
-                      <h5 class="card-title">回答確信度<small>（全体平均）</small></h5>
-                      <canvas class="my-4 w-100" id="resConfidenceChart" width="560" height="200"></canvas>
+                      <p>登録されている各クラスの判定閾値を表示しています。APIレスポンスでトップクラスの確信度がこの値を下回る場合、その判定は無効になります。</p>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">クラス名</th>
+                            <th scope="col">データ件数[件]</th>
+                            <th scope="col">閾値[%]</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>薬機法NG</td>
+                            <td>100</td>
+                            <td>90</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -192,58 +230,6 @@
       <!-- Graphs -->
       <script src="/js/chart.js"></script>
       <script>
-        var ctx = document.getElementById("apiCallChart");
-        var myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            datasets: [{
-              backgroundColor:"rgba(169,169,169,0.4)",
-              borderColor:"rgba(169,169,169,1)",
-              data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-              borderWidth: 3
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: false
-                }
-              }]
-            },
-            legend: {
-              display: false,
-            }
-          }
-        });
-
-        var ctx2 = document.getElementById("resConfidenceChart");
-        var myChart2 = new Chart(ctx2, {
-          type: 'line',
-          data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            datasets: [{
-              backgroundColor:"rgba(75,192,192,0.4)",
-              borderColor:"rgba(75,192,192,1)",
-              data: [93.9, 92.2, 91.1, 90.4, 93.0, 85.4, 88.1],
-              borderWidth: 3
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: false
-                }
-              }]
-            },
-            legend: {
-              display: false,
-            }
-          }
-        });
-
         var ctx3 = document.getElementById("prodDataChart").getContext('2d');
         var myChart3 = new Chart(ctx3, {
           type: 'pie',

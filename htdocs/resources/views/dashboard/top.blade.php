@@ -84,7 +84,7 @@
                 <div class="card-header card-header-tabs card-header-default">
                   <div class="nav-tabs-navigation">
                     <div class="nav-tabs-wrapper">
-                      <span class="nav-tabs-title">APIコール数推移:</span>
+                      <span class="nav-tabs-title">API応答確信度推移:</span>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           60日
@@ -111,7 +111,7 @@
                 <div class="card-header card-header-tabs card-header-default">
                   <div class="nav-tabs-navigation">
                     <div class="nav-tabs-wrapper">
-                      <span class="nav-tabs-title">AIレスポンス確信度遷移:</span>
+                      <span class="nav-tabs-title">APIコール数推移:</span>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           60日
@@ -147,12 +147,19 @@
             labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             datasets: [
               {
-                label: "APIコール数[回]",
-                backgroundColor:"rgba(169,169,169,0.4)",
-                borderColor:"rgba(169,169,169,1)",
+                label: "景表法&薬機法の抵触リスクチェックAPI",
+                backgroundColor:"rgba(255,127,80,0.4)",
+                borderColor:"rgba(255,127,80,1)",
+                data: [17876, 19345, 20483, 18003, 19489, 18092, 15034],
+                borderWidth: 3
+              },
+              {
+                label: "メディア画像内の文言チェック",
+                backgroundColor:"rgba(30,200,200,0.4)",
+                borderColor:"rgba(30,200,200,1)",
                 data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
                 borderWidth: 3
-              }
+              },
             ]
           },
           options: {
@@ -176,13 +183,19 @@
             labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             datasets: [
               {
-                type: 'bar',
-                label: "平均レスポンス確信度[%]",
+                label: "景表法&薬機法の抵触リスクチェックAPI",
+                backgroundColor:"rgba(255,127,80,0.4)",
+                borderColor:"rgba(255,127,80,1)",
+                data: [93, 94, 91, 95, 90, 90, 93],
+                borderWidth: 3
+              },
+              {
+                label: "メディア画像内の文言チェック",
                 backgroundColor:"rgba(30,200,200,0.4)",
                 borderColor:"rgba(30,200,200,1)",
                 data: [89, 81, 91, 85, 89, 92, 85],
                 borderWidth: 3
-              },
+              }
             ]
           },
           options: {
