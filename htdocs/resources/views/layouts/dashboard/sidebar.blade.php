@@ -33,7 +33,7 @@
         <li class="nav-item">
       @endif
         <a class="nav-link" href="/api-info">
-          <i class="material-icons">compare_arrows</i>
+          <i class="material-icons">play_for_work</i>
           <p>API管理</p>
         </a>
       </li>

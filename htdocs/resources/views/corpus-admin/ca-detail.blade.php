@@ -1,6 +1,26 @@
 @extends('layouts.corpus-admin.base')
 
 @section('content')
+<style>
+  .table-striped button {
+    padding: 3px;
+  }
+  .btnbox {
+    width: 10%
+  }
+  .feather {
+    width: 20px;
+    height: 20px;
+  }
+  .table-striped th {
+    text-align: center;
+  }
+  .table-striped td {
+    padding: .35rem;
+    vertical-align: middle;
+    text-align: center;
+  }
+</style>
       <!--  コンテンツ  -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
         <div class="panel-group mt-1">
@@ -22,7 +42,7 @@
                   <tbody>
                     <tr>
                       <th scope="row">コーパス名</th>
-                      <td>薬機法＆景表法分類</td>
+                      <td>薬機法＆景表法の文言チェック</td>
                     </tr>
                     <tr>
                       <th scope="row">コーパス説明</th>
@@ -107,7 +127,7 @@
                     <div class="card-body">
                       <h5 class="card-title">
                         <span data-feather="circle" class="text-danger font-weight-bold"></span>
-                        <span class="h5 font-weight-bold">本番反映 <small>/ 学習中 / 未学習</small></span>
+                        <span class="h5 font-weight-bold">完了 <small>/ 学習中 / 未学習</small></span>
                       </h5>
                       <p class="card-text">現在、ご利用可能な状態です。<br>ご利用方法は、<a href="/corpus/api-reference/1">API接続情報</a>をご確認ください。</p>
                     </div>
@@ -161,6 +181,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 {{--  クラス別閾値  --}}
                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -173,17 +194,17 @@
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">クラス名</th>
-                            <th scope="col">データ件数[件]</th>
-                            <th scope="col">閾値[%]</th>
-                            <th></th>
+                            <th scope="col">データ件数</th>
+                            <th scope="col">閾値</th>
+                            <th class="btnbox"></th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <th scope="row">1</th>
                             <td>薬機法NG</td>
-                            <td>100</td>
-                            <td>90</td>
+                            <td>500</td>
+                            <td>0.8</td>
                             <td>
                               <button type="button" class="btn btn-secondary">
                                 <span data-feather="edit-2" class="font-weight-bold"></span>
@@ -192,15 +213,58 @@
                           </tr>
                           <tr>
                             <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
+                            <td>景表法NG</td>
+                            <td>450</td>
+                            <td>0.8</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
                           </tr>
                           <tr>
                             <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
+                            <td>その他NG</td>
+                            <td>300</td>
+                            <td>0.8</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>薬機法OK</td>
+                            <td>500</td>
+                            <td>0.8</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>景表法OK</td>
+                            <td>50</td>
+                            <td>0.8</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">6</th>
+                            <td>その他OK</td>
+                            <td>100</td>
+                            <td>0.8</td>
+                            <td>
+                              <button type="button" class="btn btn-secondary">
+                                <span data-feather="edit-2" class="font-weight-bold"></span>
+                              </button>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -214,9 +278,7 @@
                     <div class="card-header">クラス別登録データ比率</div>
                     <div class="card-body">
                       <h5 class="card-title">学習データ</h5>
-                      <canvas id="prodDataChart" width="590" height="230"></canvas>
-                      <h5 class="card-title mt-4">検証データ</h5>
-                      <canvas id="testDataChart" width="590" height="230"></canvas>
+                      <canvas id="prodDataChart" width="500" height="300"></canvas>
                     </div>
                   </div>
                 </div>
@@ -249,23 +311,5 @@
           }
         });
 
-        var ctx4 = document.getElementById("testDataChart").getContext('2d');
-        var myChart4 = new Chart(ctx4, {
-          type: 'pie',
-          data: {
-            labels: ["薬機法NG", "景表法NG", "その他NG", "薬機法OK", "景表法OK", "その他OK"],
-            datasets: [{
-              backgroundColor: [
-                "#2ecc71",
-                "#3498db",
-                "#95a5a6",
-                "#9b59b6",
-                "#f1c40f",
-                "#e74c3c"
-              ],
-              data: [200, 550, 400, 100, 150, 100]
-            }]
-          }
-        });
       </script>
 @endsection

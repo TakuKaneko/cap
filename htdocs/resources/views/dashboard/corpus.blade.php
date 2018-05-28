@@ -10,8 +10,20 @@
       <style>
         .detail-card:hover {
           transition: 0.1s ;
-          background-color:aliceblue;
+          background-color:lightblue;
           box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+        }
+        .dropdown-menu .dropdown-item:hover, 
+        .dropdown-menu .dropdown-item:focus, 
+        .dropdown-menu a:hover, 
+        .dropdown-menu a:focus, 
+        .dropdown-menu a:active {
+          background-color: #00A1EA;
+          -webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(176, 196, 222, 0.4);
+          box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(176, 196, 222, 0.4);
+        }
+        .dropdown a, a:hover, a:focus {
+          color: #00A1EA;
         }
       </style>
 
@@ -88,7 +100,7 @@
                   <div class="row">
                     <!-- カード１ -->
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                      <div class="card detail-card" style="margin:10px 0;" onclick="window.open('http://127.0.0.1:8000/corpus/view/1','_blank')">
+                      <div class="card detail-card" style="margin:10px 0;" onclick="window.open('/corpus/view/1','_blank')">
                         <div class="card-body" style="padding: 15px 15px 10px 15px;">
                           <h4 class="card-title" style="width:95%;float:left;font-weight:600;">薬機法＆景表法の文言チェック</h4>
                           <div class="nav-item dropdown" style="width:5%;float:right;">

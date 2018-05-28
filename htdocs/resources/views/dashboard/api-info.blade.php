@@ -8,9 +8,11 @@
 
 @section('content')
       <style>
-        .tab-content {
-          border-top: solid 1px lightgray;
-          margin-top: 5px;
+        .nav-border {
+          border-top: solid 1px lightgray;          
+          border-bottom: solid 1px lightgray;
+          padding: 3px;
+          margin-bottom: 5px;
         }
         .doc-content {
           background: #d1d9e1;
@@ -96,7 +98,9 @@
             <div class="col-12">
               <div class="card mt-0">
                 <div class="card-body">
-                  <ul class="nav nav-pills nav-pills-icons nav-pills-info" role="tablist">
+                  <p class="blockquote-footer mb-0">004a12x110-3450</p>
+                  <h5 class="text-info mt-0">景表法と薬機法の抵触リスクチェック</h5>
+                  <ul class="nav nav-pills nav-pills-icons nav-pills-info nav-border" role="tablist">
                     <li class="nav-item">
                       <a class="nav-link active" href="#api-resex" role="tab" data-toggle="tab">
                         レスポンス例
@@ -121,17 +125,29 @@
   "api_id": "00000-0000",
   "url": "https://cap.net/api/00000-0000",
   "status": "avairable",
-  "request_text": "今日はいい天気ですね。",
-  "response_top_class": "天気",
-  "response_top_class_confidence": 0.95012345678912345
-  "result": [
+  "text": "今日はいい天気ですね。",
+  "passed_classes": [
+    "天気",
+    "日時"
+  ],
+  "results": [
     {
       "class_name": "天気",
-      "confidence": 0.95012345678912345
+      "confidence": 0.95012345678912345,
+      "threshold": 0.8,
+      "result": 1
     },
     {
       "class_name": "気温",
-      "confidence": 0.05987654321987654
+      "confidence": 0.05987654321987654,
+      "threshold": 0.8,
+      "result": 0
+    },
+    {
+      "class_name": "日時",
+      "confidence": 0.8596534321983653,
+      "threshold": 0.8,
+      "result": 1
     }
   ]
 }</code></pre>

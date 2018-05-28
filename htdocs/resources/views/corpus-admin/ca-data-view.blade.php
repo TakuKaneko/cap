@@ -55,13 +55,18 @@
           clear: both;
           background-color: #fff;
           border-radius: 8px;
-          box-shadow: 0 0 5px rgba(0,0,0,.2);
+          border: solid 1px lightgray;
           padding: 10px 10px;
           position: relative;
           margin-bottom: 5px;
           width: 300px;
           height: 40px;
           font-size: 1rem;
+        }
+        #crAddBox:hover {
+          -webkit-box-shadow: 1px 2px 5px 2px rgba(0, 0, 0, 0.2);
+          box-shadow: 1px 2px 5px 2px rgba(0, 0, 0, 0.2);
+          transition: 150ms;
         }
         #crAddBoxText > a {
           color: #000;
@@ -120,7 +125,7 @@
                 <div id="crAddBoxText">
                   <a href="#" class="callModal" data-toggle="modal" data-target="#corpusAddTextModal">
                     <span class="text-muted" data-feather="plus-circle" style="width:20px;height:20px;"></span>
-                    <span style="vertical-align:middle;"> 新しいテキスト/クラスを登録</span>
+                    <span style="vertical-align:middle;"> 新しいクラス/テキストを登録</span>
                   </a>
                 </div>
               </div>
@@ -136,27 +141,27 @@
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;">
               <div class="row" style="width:100%;height:30px;margin:0;">
-                <div class="h5 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
-                <div class="h5 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
+                <div class="h6 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
+                <div class="h6 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
               </div>
               <div class="row" style="width:100%;height:450px;margin:0;">
                 <div class="col-3 border" style="height:470px;padding:5px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active h6" id="v-pills-tab1" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">
                       <span>景表法NG</span>
-                      <span class="badge badge-pill badge-light ml-1">150</span>
+                      <span class="badge badge-pill badge-light ml-1">500</span>
                     </a>
                     <a class="nav-link h6" id="v-pills-tab2" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">
                       <span>薬機法NG</span>
-                      <span class="badge badge-pill badge-light ml-1">170</span>
+                      <span class="badge badge-pill badge-light ml-1">450</span>
                     </a>
                     <a class="nav-link h6" id="v-pills-tab3" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">
                       <span>その他NG</span>
-                      <span class="badge badge-pill badge-light ml-1">90</span>
+                      <span class="badge badge-pill badge-light ml-1">300</span>
                     </a>
                     <a class="nav-link h6" id="v-pills-tab4" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">
                       <span>景表法OK</span>
-                      <span class="badge badge-pill badge-light ml-1">100</span>
+                      <span class="badge badge-pill badge-light ml-1">500</span>
                     </a>
                     <a class="nav-link h6" id="v-pills-tab5" data-toggle="pill" href="#v-pills-5" role="tab" aria-controls="v-pills-5" aria-selected="false">
                       <span>薬機法OK</span>
@@ -164,7 +169,7 @@
                     </a>
                     <a class="nav-link h6" id="v-pills-tab6" data-toggle="pill" href="#v-pills-6" role="tab" aria-controls="v-pills-6" aria-selected="false">
                       <span>その他OK</span>
-                      <span class="badge badge-pill badge-light ml-1">0</span>
+                      <span class="badge badge-pill badge-light ml-1">100</span>
                     </a>
                   </div>
                 </div>
@@ -244,7 +249,7 @@
               </div>
             </div>
             <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
-              test
+              （同様に検証用の学習データを表示）
             </div>
           </div>
 
@@ -253,7 +258,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">テキストの追加</h5>
+                  <h5 class="modal-title" id="exampleModalLongTitle">クラス/テキストの追加</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -270,6 +275,7 @@
                       <option value="4">景表法OK</option>
                       <option value="5">薬機法OK</option>
                       <option value="3">その他OK</option>
+                      <option value="3">＋クラスを追加</option>
                     </select>
                   </p>
                 </div>

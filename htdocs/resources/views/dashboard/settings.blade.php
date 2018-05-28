@@ -7,6 +7,14 @@
 @endsection
 
 @section('content')
+<style>
+  .setting-table .btnbox {
+    width: 20%;
+  }
+  .setting-table button {
+    padding: 5px;
+  }
+</style>
       <div class="content">
         <div class="container-fluid">
           @if (session('msg'))
@@ -39,12 +47,12 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table setting-table">
                       <thead class=" text-info">
                         <th>氏名</th>
                         <th>登録メール</th>
                         <th>ステータス</th>
-                        <th></th>
+                        <th class="btnbox"></th>
                       </thead>
                       <tbody>
                         <tr>
@@ -109,11 +117,11 @@
                 </div>
                 <div class="card-body">
                   <div class="limit-contents">
-                    <table class="table">
+                    <table class="table setting-table">
                       <thead class=" text-info">
                         <th>サービス</th>
                         <th>上限回数</th>
-                        <th></th>
+                        <th class="btnbox"></th>
                       </thead>
                       <tbody>
                         <tr>
@@ -191,7 +199,7 @@
                           <td>2018-06-01 12:00:00</td>
                           <td>テスト太郎</td>
                           <td>情報</td>
-                          <td>ログインしました。</td>
+                          <td>ログインしました。[GET / HTTP/1.1 Chrome/66.0.3359.181 10.171.2.123:38981]</td>
                         </tr>
                       </tbody>
                     </table>

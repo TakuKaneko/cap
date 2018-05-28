@@ -52,7 +52,7 @@
       </div>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#" style="color:white;font-weight:bold;font-size:1rem;"><span> - </span>薬機法&景表法分類<span> - コーパス</span></a>
+          <a class="nav-link" href="#" style="color:white;font-weight:bold;font-size:1rem;"><span> - </span>薬機法&景表法分類の文言チェック<span> - コーパス</span></a>
         </li>
       </ul>
       <ul class="navbar-nav px-3">
@@ -119,7 +119,7 @@
                 本番切替
               </a>
             </li>
-            <li class="nav-item">
+            {{--  <li class="nav-item">
               @if (Request::is('corpus/connect/1'))
               <a class="nav-link active" href="/corpus/connect/1">
               @else
@@ -128,7 +128,7 @@
                 <span data-feather="zap"></span>
                 API接続情報
               </a>
-            </li>
+            </li>  --}}
             <li class="nav-item">
               @if (Request::is('corpus/stop/1'))
               <a class="nav-link active" href="/corpus/stop/1">
