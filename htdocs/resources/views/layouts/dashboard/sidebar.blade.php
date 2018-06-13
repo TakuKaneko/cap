@@ -1,6 +1,6 @@
 <div class="sidebar" data-color="azure" data-background-color="white">
   <div class="logo">
-    <a href="/" class="simple-text logo-normal">
+    <a href="{{ route('home') }}" class="simple-text logo-normal">
       <img src="img/cap-icon.png" alt="cap_logo" width="50px" height="45px">
       <img src="img/cap-char-logo.png" alt="cap_char" width="70px" height="45px">
     </a>
@@ -12,7 +12,7 @@
       @else
         <li class="nav-item">
       @endif
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
           <p>ダッシュボード</p>
         </a>

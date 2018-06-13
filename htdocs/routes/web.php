@@ -12,8 +12,9 @@
 */
 use Illuminate\Support\Facades\Log;
 
-Route::get('/', function() {
-  return view('dashboard.top');
+Route::namespace('Dashboard')->group(function (){
+  Route::get('/', 'DashboardController@getIndex')->name('home');
+  Route::get('/corpus', 'CorpusManagementController@getIndex')->name('corpus.management');
 });
 
 Route::get('/acount', function() {
@@ -33,9 +34,7 @@ Route::post('/acount/confirm/1', function() {
   return view('dashboard.acount-confirm');
 });
 
-Route::get('/corpus', function() {
-  return view('dashboard.corpus');
-});
+
 
 Route::match(['get', 'post'], '/corpus/view/1', function() {
   return view('corpus-admin.ca-detail');
