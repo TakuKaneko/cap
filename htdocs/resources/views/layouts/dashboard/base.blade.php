@@ -11,49 +11,10 @@
     CAP Dashboard
   </title>
   <!--   Fonts and icons   -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css" href="{{ mix('/css/common.css') }}" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="/css/material-dashboard.css">
-  <style>
-    .sidebar[data-color="azure"] li.active > a {
-      background-color: #00A1EA;
-      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 163, 212, 0.4);
-      -webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 163, 212, 0.4);
-    }
-    .btn.btn-brand {
-      color: #fff;
-      background-color: #00A1EA;
-      border-color: #00A1EA;
-      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 163, 212, 0.14), 0 3px 1px -2px rgba(0, 163, 212, 0.2), 0 1px 5px 0 rgba(0, 163, 212, 0.12);
-              box-shadow: 0 2px 2px 0 rgba(0, 163, 212, 0.14), 0 3px 1px -2px rgba(0, 163, 212, 0.2), 0 1px 5px 0 rgba(0, 163, 212, 0.12);
-    }
-    .btn.btn-brand:hover {
-      color: #fff;
-      background-color: #43A1D4;
-      border-color: #43A1D4;
-    }
-    .btn.btn-brand:focus,
-    .btn.btn-brand.focus,
-    .btn.btn-brand:hover {
-      color: #fff;
-      background-color: #43A1D4;
-      border-color: #43A1D4;
-    }
-    .btn.btn-brand:active,
-    .btn.btn-brand.active,
-    .open > .btn.btn-brand.dropdown-toggle,
-    .show > .btn.btn-brand.dropdown-toggle {
-      color: #fff;
-      background-color: #43A1D4;
-      border-color: #43A1D4;
-      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 163, 212, 0.14), 0 3px 1px -2px rgba(0, 163, 212, 0.2), 0 1px 5px 0 rgba(0, 163, 212, 0.12);
-              box-shadow: 0 2px 2px 0 rgba(0, 163, 212, 0.14), 0 3px 1px -2px rgba(0, 163, 212, 0.2), 0 1px 5px 0 rgba(0, 163, 212, 0.12);
-    }
-  </style>
-  <!-- Documentation extras -->
-
   <!--   Core JS Files   -->
-  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ mix('/js/app.js') }}"></script>
 </head>
 
 <body>
