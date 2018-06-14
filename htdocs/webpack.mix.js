@@ -19,16 +19,17 @@ mix.scripts([
   'resources/assets/js/plugins/arrive.min.js', 
   'resources/assets/js/plugins/bootstrap-notify.js', 
   'resources/assets/js/plugins/demo.js',
-  'resources/assets/js/bootstrap-material-design.min.js',
-  'resources/assets/js/material-dashboard.js'
-], 'public/js/app.js')
+  'resources/assets/js/plugins/bootstrap-material-design.min.js',
+  'resources/assets/js/plugins/material-dashboard.js'
+], 'public/js/dashboard-common.js')
 .scripts([
-  'resources/assets/js/jquery-3.3.1.slim.min.js',
-  'resources/assets/js/popper.min.js', 
-  'resources/assets/js/bootstrap.min.js',
-  'resources/assets/js/jquery.circliful.min.js'
+  'resources/assets/js/plugins/jquery-3.3.1.slim.min.js',
+  'resources/assets/js/plugins/popper.min.js', 
+  'resources/assets/js/plugins/bootstrap.min.js',
+  'resources/assets/js/plugins/jquery.circliful.min.js'
 ], 'public/js/corpus-admin-core.js')
-.js('resources/assets/js/Chart.min.js', 'public/js/chart.js')
+.js('resources/assets/js/plugins/Chart.min.js', 'public/js/chart.js')
+.js('resources/assets/js/app.js', 'public/js/')
 .sass('resources/assets/scss/common-dashboard.scss', 'public/css/common.css')
 .styles([
   'resources/assets/scss/bootstrap/bootstrap.min.css', 

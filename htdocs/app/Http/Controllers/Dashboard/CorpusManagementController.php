@@ -12,12 +12,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
+use App\Corpus;
 use App\Http\Controllers\Controller;
 
 class CorpusManagementController extends Controller
 {
     // コーパス管理画面の表示
-    public function getIndex() {
-        return view('dashboard.corpus');
+    public function index() {
+        return Corpus::all();
     }
 }

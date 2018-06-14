@@ -18,6 +18,6 @@ class DashboardController extends Controller
 {
     // ダッシュボードトップの表示
     public function getIndex() {
-        return view('dashboard.top');
+        // return view('dashboard.top');
     }
 }
