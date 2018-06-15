@@ -19,6 +19,6 @@ class CorpusManagementController extends Controller
 {
     // コーパス管理画面の表示
     public function index() {
-        return Corpus::all();
+        return view('dashboard.corpus', ['corpuses' => Corpus::all()]);
     }
 }

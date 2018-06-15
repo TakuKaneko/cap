@@ -13,8 +13,10 @@
   <!--   Fonts and icons   -->
   <link rel="stylesheet" type="text/css" href="{{ mix('/css/common.css') }}" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+  @yield('page-css')
+
   <!--   Core JS Files   -->
-  <script src="{{ mix('/js/app.js') }}"></script>
+  <script src="{{ mix('/js/dashboard-common.js') }}"></script>
 </head>
 
 <body>
@@ -25,5 +27,6 @@
       @yield('content')
     </div>
   </div>
+  @yield('page-js')
 </body>
 </html>

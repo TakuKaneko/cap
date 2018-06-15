@@ -29,7 +29,7 @@ mix.scripts([
   'resources/assets/js/plugins/jquery.circliful.min.js'
 ], 'public/js/corpus-admin-core.js')
 .js('resources/assets/js/plugins/Chart.min.js', 'public/js/chart.js')
-.js('resources/assets/js/app.js', 'public/js/')
+// .js('resources/assets/js/app.js', 'public/js/')
 .sass('resources/assets/scss/common-dashboard.scss', 'public/css/common.css')
 .styles([
   'resources/assets/scss/bootstrap/bootstrap.min.css', 

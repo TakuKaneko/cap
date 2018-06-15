@@ -12,9 +12,9 @@ class CorpusesTableSeeder extends Seeder
     public function run()
     {
         DB::table('corpuses')->insert([
-            'corpus_name' => 'サンプルシードコーパス',
+            'name' => 'サンプルシードコーパス',
             'company_id' => 0,
-            'description' => 'これはLaravelが自動生成した初期コーパスです。',
+            'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
             'classifire_id' => str_random(10),
             'is_active' => false,
         ]);

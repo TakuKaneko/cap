@@ -17,7 +17,7 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     // ダッシュボードトップの表示
-    public function getIndex() {
-        // return view('dashboard.top');
+    public function index() {
+        return view('dashboard.top');
     }
 }

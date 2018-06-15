@@ -4,10 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit89b27026e02afec8702c9039cd26186c
+class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -44,6 +45,7 @@ class ComposerStaticInit89b27026e02afec8702c9039cd26186c
             'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Translation\\' => 30,
@@ -152,6 +154,10 @@ class ComposerStaticInit89b27026e02afec8702c9039cd26186c
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -886,11 +892,11 @@ class ComposerStaticInit89b27026e02afec8702c9039cd26186c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit89b27026e02afec8702c9039cd26186c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit89b27026e02afec8702c9039cd26186c::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit89b27026e02afec8702c9039cd26186c::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit89b27026e02afec8702c9039cd26186c::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit89b27026e02afec8702c9039cd26186c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$classMap;
 
         }, null, ClassLoader::class);
     }
