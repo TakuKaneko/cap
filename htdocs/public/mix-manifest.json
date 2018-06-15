@@ -1,7 +1,8 @@
 {
-    "/js/chart.js": "/js/chart.js?id=ab8ccc5837d18d9f00e2",
+    "/js/app.js": "/js/app.js?id=65d9fbd1e12316488d71",
+    "/js/chart.js": "/js/chart.js?id=faa83a009e56f14115cc",
     "/css/common.css": "/css/common.css?id=df249f159968a0885d07",
-    "/js/app.js": "/js/app.js?id=4b3464ec63c889f2eb65",
+    "/js/dashboard-common.js": "/js/dashboard-common.js?id=4b3464ec63c889f2eb65",
     "/js/corpus-admin-core.js": "/js/corpus-admin-core.js?id=dcecc8a3373131b1a0b9",
     "/css/bootstrap.css": "/css/bootstrap.css?id=10c00acd1158140db843"
 }

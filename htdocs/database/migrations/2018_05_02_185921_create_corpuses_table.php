@@ -15,10 +15,12 @@ class CreateCorpusesTable extends Migration
     {
         Schema::create('corpuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('company_id')->nullable(false);
-            $table->string('name')->nullable(false);
+            $table->string('corpus_name')->nullable(false);
+            $table->string('company_id');
+            $table->string('description');
             $table->string('classifire_id');
             $table->boolean('is_active')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
