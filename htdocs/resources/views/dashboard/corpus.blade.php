@@ -7,31 +7,14 @@
 @endsection
 
 @section('page-css')
-  <style>
-    .detail-card:hover {
-      transition: 0.1s ;
-      background-color:lightblue;
-      box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
-    }
-    .dropdown-menu .dropdown-item:hover, 
-    .dropdown-menu .dropdown-item:focus, 
-    .dropdown-menu a:hover, 
-    .dropdown-menu a:focus, 
-    .dropdown-menu a:active {
-      background-color: #00A1EA;
-      -webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(176, 196, 222, 0.4);
-      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(176, 196, 222, 0.4);
-    }
-    .dropdown a, a:hover, a:focus {
-      color: #00A1EA;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="{{ mix('/css/main/dashboard/corpus.css') }}" />
 @endsection
 
 @php
 //***************************************
 // 日時の差を計算
 //  - 最大は3ヶ月とし、それ以上は3ヶ月以上として丸める
+//  - コーパスの更新日時の表示に利用
 //***************************************
 use Carbon\Carbon;
 function time_diff($update_time) 
@@ -129,7 +112,7 @@ function time_diff($update_time)
 
                 <!-- カード -->
                 @forelse ($corpuses as $corpus)
-                  {{ $corpus }}
+                  {{-- $corpus --}}
                   <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="card detail-card" style="margin:10px 0;" onclick="window.open('/corpus/view/{{ $corpus->id }}','_blank')">
                       <div class="card-body" style="padding: 15px 15px 10px 15px;">
@@ -151,7 +134,16 @@ function time_diff($update_time)
                       </div>
                       <div class="card-footer" style="padding-top:2px;border-top: 1px solid #eee;">
                         <div class="stats pull-right">
-                          自然言語
+                          関連API:「景表法と薬機法の抵触リスクチェック」
+                        </div>
+                      </div>
+                      <div class="card-footer" style="padding-top:2px;border-top: 1px solid #eee;">
+                        <div class="stats pull-right">
+                          @if ($corpus->type === 1)
+                            自然言語
+                          @elseif ($corpus->type === 2)
+                            画像
+                          @endif
                         </div>
                         <div class="stats pull-left">
                           <i class="material-icons">update</i> 最終更新日：{{ time_diff($corpus->updated_at) }}

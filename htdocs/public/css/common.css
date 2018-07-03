@@ -22380,6 +22380,12 @@ Copyright (c) 2015 Daniel Eden
   background-color: #999;
 }
 
+/*!
+ =========================================================
+ * 各ページで呼び出す共通SCSS - v0.0.1
+ =========================================================
+ */
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;

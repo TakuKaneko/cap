@@ -16,6 +16,9 @@
           padding-right: 10px;
           vertical-align: top;
         }
+        .step-list__cell .row {
+          max-height: 70px;
+        }        
         .step-list__down--blue .step-list__rect {
           background-color: #3498db;
         }
@@ -98,30 +101,12 @@
               <div class="card bg-light mb-3">
                 <div class="card-body">
                   <table class="step-list">
-                    <tr class="step-list__line">
+
+                    <tr class="step-list__line"><!-- 01教師データ登録 -->
                       <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.45;">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.35;">
                           <div class="step-list__rect">
                             01
-                          </div>
-                          <div class="step-list__tri"></div>
-                        </div>
-                      </td>
-                      <td class="step-list__cell">
-                        <h4 class="step-list__heading">
-                          教師データの準備
-                        </h4>
-                        <p class="step-list__text">
-                          AIコーパスの学習に必要な教師データ（学習用、検証用）を準備します。
-                        </p>              
-                      </td>
-                    </tr>
-
-                    <tr class="step-list__line">
-                      <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.55;">
-                          <div class="step-list__rect">
-                            02
                           </div>
                           <div class="step-list__tri"></div>
                         </div>
@@ -148,9 +133,41 @@
                       </td>
                     </tr>
 
-                    <tr class="step-list__line">
+                    <tr class="step-list__line"><!-- 02学習実行 -->
                       <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.65;">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.45;">
+                          <div class="step-list__rect">
+                            02
+                          </div>
+                          <div class="step-list__tri"></div>
+                        </div>
+                      </td>
+                      <td class="step-list__cell">
+                        <div class="row">
+                          <div class="col-7">
+                            <h4 class="step-list__heading">
+                              AI学習の実行
+                            </h4>
+                            <p class="step-list__text">
+                              登録された教師データを基にAI学習を行います。
+                            </p>
+                          </div>
+                          <div class="col-2" style="margin-top:10px;">
+                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
+                          </div>
+                          <div class="col-3">
+                            <p class="step-list__text">
+                              <small class="mt-15">実行可能</small><br>
+                              <button type="button" class="btn btn-danger">学習実行</button>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="step-list__line"><!-- 03レポート -->
+                      <td class="step-list__cell">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.55;">
                           <div class="step-list__rect">
                             03
                           </div>
@@ -161,7 +178,100 @@
                         <div class="row">
                           <div class="col-7">
                             <h4 class="step-list__heading">
-                              確信度の閾値設定
+                              AI学習結果の検証レポート<small>（任意）</small>
+                            </h4>
+                            <p class="step-list__text">
+                              検証データを基に品質検証を行い精度レポートを確認します。
+                            </p>
+                          </div>
+                          <div class="col-2" style="margin-top:10px;">
+                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
+                          </div>
+                          <div class="col-3">
+                            <p class="step-list__text">
+                              <button type="button" class="btn btn-danger mt-15">検証実行</button>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="step-list__line"><!-- 04テスト実行 -->
+                      <td class="step-list__cell">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.65;">
+                          <div class="step-list__rect">
+                            04
+                          </div>
+                          <div class="step-list__tri"></div>
+                        </div>
+                      </td>
+                      <td class="step-list__cell">
+                        <div class="row">
+                          <div class="col-7">
+                            <h4 class="step-list__heading">
+                              AIのテスト実行<small>（任意）</small>
+                            </h4>
+                            <p class="step-list__text">
+                              試験したいデータを入力し、応答を確認します。
+                            </p>
+                          </div>
+                          <div class="col-2" style="margin-top:10px;">
+                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
+                          </div>
+                          <div class="col-3">
+                            <p class="step-list__text">
+                              <button type="button" class="btn btn-danger mt-15">テスト実行</button>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="step-list__line"><!-- 05教師データ修正 -->
+                      <td class="step-list__cell">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.75;">
+                          <div class="step-list__rect">
+                            05
+                          </div>
+                          <div class="step-list__tri"></div>
+                        </div>
+                      </td>
+                      <td class="step-list__cell">
+                        <div class="row">
+                          <div class="col-7">
+                            <h4 class="step-list__heading">
+                              教師データの修正<small>（任意）</small>
+                            </h4>
+                            <p class="step-list__text">
+                              教師データを修正し再学習することで精度を向上できます。
+                            </p>
+                          </div>
+                          <div class="col-2" style="margin-top:10px;">
+                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
+                          </div>
+                          <div class="col-3">
+                            <p class="step-list__text">
+                              <button type="button" class="btn btn-outline-info mt-15">データ登録</button>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="step-list__line"><!-- 06閾値設定 -->
+                      <td class="step-list__cell">
+                        <div class="step-list__down step-list__down--blue" style="opacity: 0.85;">
+                          <div class="step-list__rect">
+                            06
+                          </div>
+                          <div class="step-list__tri"></div>
+                        </div>
+                      </td>
+                      <td class="step-list__cell">
+                        <div class="row">
+                          <div class="col-7">
+                            <h4 class="step-list__heading">
+                              AI確信度の閾値設定<small>（任意）</small>
                             </h4>
                             <p class="step-list__text">
                               AI判定の基準となる確信度の閾値を設定します。
@@ -226,101 +336,7 @@
                       </td>
                     </tr>
 
-                    <tr class="step-list__line">
-                      <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.75;">
-                          <div class="step-list__rect">
-                            04
-                          </div>
-                          <div class="step-list__tri"></div>
-                        </div>
-                      </td>
-                      <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI学習の実行
-                            </h4>
-                            <p class="step-list__text">
-                              登録された教師データを基にAI学習を行います。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <small class="mt-15">実行可能</small><br>
-                              <button type="button" class="btn btn-danger">学習実行</button>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr class="step-list__line">
-                      <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.85;">
-                          <div class="step-list__rect">
-                            05
-                          </div>
-                          <div class="step-list__tri"></div>
-                        </div>
-                      </td>
-                      <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI学習結果の検証
-                            </h4>
-                            <p class="step-list__text">
-                              検証用データを基に、学習結果を検証できます。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-danger mt-15">検証実行</button>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr class="step-list__line">
-                      <td class="step-list__cell">
-                        <div class="step-list__down step-list__down--blue" style="opacity: 0.90;">
-                          <div class="step-list__rect">
-                            06
-                          </div>
-                          <div class="step-list__tri"></div>
-                        </div>
-                      </td>
-                      <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              教師データの修正（任意）
-                            </h4>
-                            <p class="step-list__text">
-                              検証精度が低かった場合、教師データをメンテナンスすることで精度を向上できます。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-outline-info mt-15">データ登録</button>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <tr class="step-list__line">
+                    <tr class="step-list__line"><!-- 07本番反映 -->
                       <td class="step-list__cell">
                         <div class="step-list__down step-list__down--blue" style="opacity: 1;">
                           <div class="step-list__rect">

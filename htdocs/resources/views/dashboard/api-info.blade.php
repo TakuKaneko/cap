@@ -76,16 +76,16 @@
                           <td><input type="radio" name="description-disp-check" checked>表示</td>
                           <td>004a12x110-3450</td>
                           <td>景表法と薬機法の抵触リスクチェック</td>
-                          <td>可</td>
-                          <td>-</td>
+                          <td>不可</td>
+                          <td>エラー1101（教師データの学習が行われていません）</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                           <td><input type="radio" name="description-disp-check">表示</td>
                           <td>004a12x110-3451</td>
                           <td>メディア画像内の文言チェック</td>
                           <td>不可</td>
                           <td>エラー1101（学習が行われていません）</td>
-                        </tr>  
+                        </tr>   --}}
                       </tbody>
                     </table>
                   </div>

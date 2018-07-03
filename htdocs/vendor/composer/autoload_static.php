@@ -341,9 +341,17 @@ class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
     );
 
     public static $classMap = array (
+        'ApiCorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ApiCorpusesTableSeeder.php',
+        'ApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ApisTableSeeder.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
+        'CompaniesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompaniesTableSeeder.php',
+        'CompanyApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompanyApisTableSeeder.php',
         'CorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusesTableSeeder.php',
+        'CreateApiCorpusesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_111842_create_api_corpuses_table.php',
+        'CreateApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_092320_create_apis_table.php',
+        'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_135558_create_companies_table.php',
+        'CreateCompanyApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_141711_create_company_apis_table.php',
         'CreateCorpusesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_02_185921_create_corpuses_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
@@ -804,6 +812,7 @@ class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
+        'Refresh' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_150039_refresh.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',

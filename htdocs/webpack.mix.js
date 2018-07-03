@@ -29,11 +29,14 @@ mix.scripts([
   'resources/assets/js/plugins/jquery.circliful.min.js'
 ], 'public/js/corpus-admin-core.js')
 .js('resources/assets/js/plugins/Chart.min.js', 'public/js/chart.js')
-// .js('resources/assets/js/app.js', 'public/js/')
+.js('resources/assets/js/main/dashboard/context-menu.js', 'public/js/main/dashboard')
 .sass('resources/assets/scss/common-dashboard.scss', 'public/css/common.css')
+.sass('resources/assets/scss/main/dashboard/corpus.scss', 'public/css/main/dashboard')
 .styles([
   'resources/assets/scss/bootstrap/bootstrap.min.css', 
   'resources/assets/scss/bootstrap/bootstrap-dashboard.css',
   'resources/assets/scss/jquery.circliful.css'
 ], 'public/css/bootstrap.css')
 .version();
+
+mix.disableNotifications();

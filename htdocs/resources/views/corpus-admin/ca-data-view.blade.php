@@ -297,7 +297,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p>追加するテキストを入力してください。</p>
+                  <p>テキスト/クラスを編集したら保存ボタンをクリックしてください。</p>
                   <textarea name="classifyName" cols="60" rows="3">成功率92％！超お手軽ダイエットの秘密は毎日◯◯◯するだけ！？</textarea>
                   <p>
                     <label for="classifySelect">関連させるクラスを選択してください。：</label>
@@ -312,6 +312,7 @@
                   </p>
                 </div>
                 <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary">削除</button>
                   <button type="button" class="btn btn-primary">保存</button>
                 </div>
               </div>

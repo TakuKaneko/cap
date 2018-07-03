@@ -112,8 +112,10 @@
             <div class="col-md-12 col-lg-6">
               <div class="card">
                 <div class="card-header card-header-default">
-                  <h4 class="card-title">サービス上限設定</h4>
-                  <p class="card-category">各種サービスの上限実行回数です。</p>
+                  <h4 class="card-title">月間APIコール上限設定</h4>
+                  <p class="card-category">
+                    
+                  </p>
                 </div>
                 <div class="card-body">
                   <div class="limit-contents">

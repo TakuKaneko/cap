@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCorpusesTable extends Migration
+class CreateApisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,10 @@ class CreateCorpusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('corpuses', function (Blueprint $table) {
+        Schema::create('apis', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable(false);
             $table->string('description');
-            $table->string('service_url');
-            $table->string('service_username');
-            $table->string('service_hidden_password');
-            $table->string('service_identify_id');
-            $table->enum('status',['available','training','empty','disable']);
-            $table->integer('type');
-            $table->boolean('is_production')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +29,6 @@ class CreateCorpusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('corpuses');
+        Schema::dropIfExists('apis');
     }
 }
