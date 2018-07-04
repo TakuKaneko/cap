@@ -3681,12 +3681,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ "./resources/assets/scss/main/dashboard/login.scss":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./resources/assets/js/plugins/Chart.min.js");
 __webpack_require__("./resources/assets/scss/common-dashboard.scss");
-module.exports = __webpack_require__("./resources/assets/scss/main/dashboard/corpus.scss");
+__webpack_require__("./resources/assets/scss/main/dashboard/corpus.scss");
+module.exports = __webpack_require__("./resources/assets/scss/main/dashboard/login.scss");
 
 
 /***/ })

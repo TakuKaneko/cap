@@ -1,9 +1,10 @@
 {
-    "/js/chart.js": "/js/chart.js?id=385ff8778d00e05d2791",
-    "/css/common.css": "/css/common.css?id=4d8c530aba821a499bb5",
-    "/css/main/dashboard/corpus.css": "/css/main/dashboard/corpus.css?id=577704815e525b004167",
-    "/js/main/dashboard/context-menu.js": "/js/main/dashboard/context-menu.js?id=b8f1faba9e7a4797a3d1",
-    "/js/dashboard-common.js": "/js/dashboard-common.js?id=93c536dd22e58cf284c6",
-    "/js/corpus-admin-core.js": "/js/corpus-admin-core.js?id=dcecc8a3373131b1a0b9",
-    "/css/bootstrap.css": "/css/bootstrap.css?id=8d7cae9c3f57b98f2b76"
+    "/js/chart.js": "/js/chart.js?id=468f7bc5cdc6be236e51",
+    "/css/common.css": "/css/common.css?id=dbbad38349bf6eb11f7a",
+    "/css/main/dashboard/corpus.css": "/css/main/dashboard/corpus.css?id=7178681e2f5fbe712aae",
+    "/css/main/dashboard/login.css": "/css/main/dashboard/login.css?id=94310786f07a81ea872b",
+    "/js/main/dashboard/context-menu.js": "/js/main/dashboard/context-menu.js?id=99173ad1377046ac18c3",
+    "/js/dashboard-common.js": "/js/dashboard-common.js?id=9d18bb06bd7a15d13fd3",
+    "/js/corpus-admin-core.js": "/js/corpus-admin-core.js?id=f8e284fb6bbb9a52db3f",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=f7136bfa9002c298cfb0"
 }

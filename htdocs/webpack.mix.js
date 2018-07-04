@@ -32,6 +32,7 @@ mix.scripts([
 .js('resources/assets/js/main/dashboard/context-menu.js', 'public/js/main/dashboard')
 .sass('resources/assets/scss/common-dashboard.scss', 'public/css/common.css')
 .sass('resources/assets/scss/main/dashboard/corpus.scss', 'public/css/main/dashboard')
+.sass('resources/assets/scss/main/dashboard/login.scss', 'public/css/main/dashboard')
 .styles([
   'resources/assets/scss/bootstrap/bootstrap.min.css', 
   'resources/assets/scss/bootstrap/bootstrap-dashboard.css',

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
+class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -812,7 +812,6 @@ class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
-        'Refresh' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_150039_refresh.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',
@@ -896,16 +895,17 @@ class ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
+        'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit488bef2ddcf65f322f1c6f9a363011c7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$classMap;
 
         }, null, ClassLoader::class);
     }
