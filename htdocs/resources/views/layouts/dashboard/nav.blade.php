@@ -32,7 +32,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
             <a class="dropdown-item" href="#">アカウント情報の確認</a>
-            <a class="dropdown-item" href="#">ログアウト</a>
+            <a class="dropdown-item" href="/logout">ログアウト</a>
           </div>
         </li>
       </ul>

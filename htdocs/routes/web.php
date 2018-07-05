@@ -35,7 +35,7 @@ Route::post('/acount/confirm/1', function() {
 });
 
 
-
+/* CMS */
 Route::match(['get', 'post'], '/corpus/view/1', function() {
   return view('corpus-admin.ca-detail');
 });
@@ -53,7 +53,6 @@ Route::get('/api-info', function() {
 });
 
 Route::get('/settings', function() {
-
   Log::info("アクセスsaretayo.");
   return view('dashboard.settings');
 });
@@ -75,3 +74,4 @@ Auth::routes();
     $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 */
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );

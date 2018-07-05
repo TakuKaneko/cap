@@ -11,7 +11,7 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <link rel="icon" href="/img/cap-icon.png">
   <title>CAP ログイン</title>
-</head>
+</headP>
 <body>
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
@@ -20,11 +20,12 @@
         <img src="img/cap-icon.png" alt="cap_logo" width="70px" height="60px">
         <p>Cognitive AD-Check Platform</p>
       </div>
-      <form role="form">
+      <form role="form" action="{{ route('login') }}" method="POST">
+        {{ csrf_field() }}
         <div class="divider-form"></div>
         <div class="form-group">
           <label for="inputEmail">メールアドレス</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="メールアドレスを入力してください。">
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="メールアドレスを入力してください。">
           @if ($errors->has('email'))
           <span class="invalid-feedback">
             <strong>{{ $errors->first('email') }}</strong>
@@ -34,7 +35,7 @@
         <div class="divider-form"></div>
         <div class="form-group">
           <label for="inputPassword">パスワード</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="パスワードを入力してください。">
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="パスワードを入力してください。">
           @if ($errors->has('password'))
           <span class="invalid-feedback">
             <strong>{{ $errors->first('password') }}</strong>
@@ -44,7 +45,7 @@
         <div class="divider-form"></div>
         <div class="checkbox">
           <label>
-          <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+          <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> ログインを記憶する
           </label>
         </div>
         <button type="submit" class="btn-block btn btn-lg btn-primary">サインイン</button>

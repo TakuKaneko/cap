@@ -16,6 +16,11 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     // ダッシュボードトップの表示
     public function index() {
         return view('dashboard.top');
