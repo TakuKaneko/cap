@@ -17,6 +17,7 @@ class CreateApisTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable(false);
             $table->string('description');
+            $table->string('nlc_id');
             $table->softDeletes();
             $table->timestamps();
         });
