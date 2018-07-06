@@ -74,4 +74,5 @@ Auth::routes();
     $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 */
+
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
