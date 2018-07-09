@@ -17,6 +17,8 @@ return array(
     'CreateApisTable' => $baseDir . '/database/migrations/2018_06_19_092320_create_apis_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2018_06_19_135558_create_companies_table.php',
     'CreateCompanyApisTable' => $baseDir . '/database/migrations/2018_06_19_141711_create_company_apis_table.php',
+    'CreateCorpusClassesTable' => $baseDir . '/database/migrations/2018_07_09_113227_create_corpus_classes_table.php',
+    'CreateCorpusCreativesTable' => $baseDir . '/database/migrations/2018_07_09_113302_create_corpus_creatives_table.php',
     'CreateCorpusesTable' => $baseDir . '/database/migrations/2018_05_02_185921_create_corpuses_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',

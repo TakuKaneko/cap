@@ -352,6 +352,8 @@ class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
         'CreateApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_092320_create_apis_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_135558_create_companies_table.php',
         'CreateCompanyApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_141711_create_company_apis_table.php',
+        'CreateCorpusClassesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_113227_create_corpus_classes_table.php',
+        'CreateCorpusCreativesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_113302_create_corpus_creatives_table.php',
         'CreateCorpusesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_02_185921_create_corpuses_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
