@@ -40,8 +40,8 @@ Route::match(['get', 'post'], '/corpus/view/1', function() {
   return view('corpus-admin.ca-detail');
 });
 
-Route::get('/corpus/data/view/1', function() {
-  return view('corpus-admin.ca-data-view');
+Route::get('/corpus/data/view/{id}', function() {
+  return view('corpus-admin.ca-data-view', ['corpus_id' => $id]);
 });
 
 Route::get('/corpus/training', function() {
