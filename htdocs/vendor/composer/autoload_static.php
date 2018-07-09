@@ -355,14 +355,14 @@ class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
     );
 
     public static $classMap = array (
-        'ApiCorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ApiCorpusesTableSeeder.php',
+        'ApiCorpusTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ApiCorpusTableSeeder.php',
         'ApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ApisTableSeeder.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'CompaniesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompaniesTableSeeder.php',
         'CompanyApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompanyApisTableSeeder.php',
         'CorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusesTableSeeder.php',
-        'CreateApiCorpusesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_111842_create_api_corpuses_table.php',
+        'CreateApiCorpusTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
         'CreateApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_092320_create_apis_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_135558_create_companies_table.php',
         'CreateCompanyApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_141711_create_company_apis_table.php',

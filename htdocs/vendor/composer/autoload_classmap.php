@@ -6,14 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ApiCorpusesTableSeeder' => $baseDir . '/database/seeds/ApiCorpusesTableSeeder.php',
+    'ApiCorpusTableSeeder' => $baseDir . '/database/seeds/ApiCorpusTableSeeder.php',
     'ApisTableSeeder' => $baseDir . '/database/seeds/ApisTableSeeder.php',
     'ArithmeticError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
     'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
     'CompaniesTableSeeder' => $baseDir . '/database/seeds/CompaniesTableSeeder.php',
     'CompanyApisTableSeeder' => $baseDir . '/database/seeds/CompanyApisTableSeeder.php',
     'CorpusesTableSeeder' => $baseDir . '/database/seeds/CorpusesTableSeeder.php',
-    'CreateApiCorpusesTable' => $baseDir . '/database/migrations/2018_06_19_111842_create_api_corpuses_table.php',
+    'CreateApiCorpusTable' => $baseDir . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
     'CreateApisTable' => $baseDir . '/database/migrations/2018_06_19_092320_create_apis_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2018_06_19_135558_create_companies_table.php',
     'CreateCompanyApisTable' => $baseDir . '/database/migrations/2018_06_19_141711_create_company_apis_table.php',

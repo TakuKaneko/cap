@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ApiCorpusesTableSeeder extends Seeder
+class ApiCorpusTableSeeder extends Seeder
 {
   /**
    * Run the database seeds.
@@ -11,7 +11,7 @@ class ApiCorpusesTableSeeder extends Seeder
    */
   public function run()
   {
-    DB::table('api_corpuses')->insert([
+    DB::table('api_corpus')->insert([
       [
         'api_id' => 1,
         'corpus_id' => 100,

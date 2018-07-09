@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApiCorpusesTable extends Migration
+class CreateApiCorpusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateApiCorpusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('api_corpuses', function (Blueprint $table) {
+        Schema::create('api_corpus', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('api_id');
-            $table->string('corpus_id');
+            $table->unsignedInteger('api_id');
+            $table->unsignedInteger('corpus_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateApiCorpusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('api_corpuses');
+        Schema::dropIfExists('api_corpus');
     }
 }
