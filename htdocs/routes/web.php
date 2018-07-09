@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 Route::namespace('Dashboard')->group(function (){
   Route::get('/', 'DashboardController@index')->name('home');
-  Route::get('/corpus', 'CorpusManagementController@index')->name('corpus.management');
+  Route::get('/corpus', 'CorpusController@index')->name('corpus.management');
 });
 
 Route::get('/acount', function() {

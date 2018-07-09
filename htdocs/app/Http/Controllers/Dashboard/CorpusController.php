@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\Corpus;
 use App\Http\Controllers\Controller;
 
-class CorpusManagementController extends Controller
+class CorpusController extends Controller
 {
     // コーパス管理画面の表示
     public function index() {
