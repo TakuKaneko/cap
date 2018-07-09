@@ -9,7 +9,7 @@
  * reproduced or used in any manner whatsoever.
  */
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Corpus;
