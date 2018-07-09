@@ -12,10 +12,9 @@
 */
 use Illuminate\Support\Facades\Log;
 
-// Route::namespace('Dashboard')->group(function (){
-  Route::get('/', 'DashboardController@index')->name('home');
-  Route::get('/corpus', 'CorpusController@index')->name('corpus.management');
-// });
+Route::get('/', 'DashboardController@index')->name('home');
+Route::get('/corpus', 'CorpusController@index')->name('corpus');
+Route::get('/api-info', 'ApiInfoController@index')->name('api-info');
 
 Route::get('/acount', function() {
   return view('dashboard.acount-list');
@@ -48,9 +47,6 @@ Route::get('/corpus/training', function() {
   return view('corpus-admin.ca-training');
 });
 
-Route::get('/api-info', function() {
-  return view('dashboard.api-info');
-});
 
 Route::get('/settings', function() {
   Log::info("アクセスsaretayo.");
