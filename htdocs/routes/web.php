@@ -12,10 +12,10 @@
 */
 use Illuminate\Support\Facades\Log;
 
-Route::namespace('Dashboard')->group(function (){
+// Route::namespace('Dashboard')->group(function (){
   Route::get('/', 'DashboardController@index')->name('home');
   Route::get('/corpus', 'CorpusController@index')->name('corpus.management');
-});
+// });
 
 Route::get('/acount', function() {
   return view('dashboard.acount-list');
