@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Enums\CorpusStateType;
 
 class CorpusesTableSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class CorpusesTableSeeder extends Seeder
                 'service_username' => str_random(10),
                 'service_hidden_password' => str_random(10),
                 'service_identify_id' => str_random(10),
-                'status' => 'available',
+                'status' => CorpusStateType::Available,
                 'type' => '1',
                 'is_production' => true,
                 'created_at' => '2018-04-01 12:00:00',
@@ -34,7 +35,7 @@ class CorpusesTableSeeder extends Seeder
                 'service_username' => str_random(10),
                 'service_hidden_password' => str_random(10),
                 'service_identify_id' => str_random(10),
-                'status' => 'available',
+                'status' => CorpusStateType::Unavailable,
                 'type' => '2',
                 'is_production' => true,
                 'created_at' => '2018-04-02 09:00:00',

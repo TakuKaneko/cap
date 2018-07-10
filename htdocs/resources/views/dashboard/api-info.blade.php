@@ -31,6 +31,18 @@
         .active-api-table tbody tr:hover {
           background-color: whitesmoke;
         }
+        .hljs-attr {
+          color: #795da3;
+        }
+        .hljs-number {
+          color: #333;
+        }
+        .hljs-string {
+          color: #df5000;
+        }
+        .bold {
+          font-weight: bold;
+        }
       </style>
       <div class="content">
         <div class="container-fluid">
@@ -103,7 +115,7 @@
                   <ul class="nav nav-pills nav-pills-icons nav-pills-info nav-border" role="tablist">
                     <li class="nav-item">
                       <a class="nav-link active" href="#api-resex" role="tab" data-toggle="tab">
-                        レスポンス例
+                        API利用例
                       </a>
                     </li>
                     <li class="nav-item">
@@ -113,19 +125,30 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#api-use" role="tab" data-toggle="tab">
-                        利用方法
+                        認証について
                       </a>
                     </li>
                   </ul>
                   <div class="tab-content tab-space">
                     <div class="tab-pane active" id="api-resex">
                       <div class="highlight">
+                        <h5 class="bold">リクエストサンプル</h5>
+                        <div>
+                          以下のフォーマットにて、審査リクエストを送る必要があります。</br>
+                          認証用のIDとパスワードは、「認証情報」タブにてご確認ください。
+                        </div>
+                        <p>※注意：審査するテキストは1024文字以内です。上限を超えた場合、エラーとなりエラーコードがレスポンスされます。</p>
+                        <pre class="doc-content"><code>curl -X GET 
+    -u "<span class="bold">認証ID</span>":"<span class="bold">認証パスワード</span>"
+    -d "creative: <span class="bold">審査したいテキスト</span>" "https://cap.net/api/<span class="bold">:api_id</span>"</code></pre>
+
                         <p>レスポンスには、API-ID と 入力したテキスト 、 その識別結果が含まれています。以下に例を示します。</p>
-<pre class="doc-content"><code class="language-html" data-lang="html">{
-  "api_id": "00000-0000",
-  "url": "https://cap.net/api/00000-0000",
+<pre class="doc-content">
+  <code class="hljs json">{
+  <span class="hljs-attr">"api_id"</span> : <span class="hljs-string">"00000-cap-0000"</span>,
+  "url": "https://cap.net/api/00000-cap-0000",
   "status": "avairable",
-  "text": "今日はいい天気ですね。",
+  "text": (リクエストされたテキスト),
   "passed_classes": [
     "天気",
     "日時"
@@ -150,7 +173,8 @@
       "result": 1
     }
   ]
-}</code></pre>
+}
+</code></pre>
                       </div>
                     </div>
                     <div class="tab-pane" id="api-auth">
