@@ -104,16 +104,20 @@
             {{-- </form> --}}
           </div>
           <div class="col-5">
-            <button type="button" class="btn btn-light">
+          <button type="button" class="btn btn-light" data-toggle="modal" data-target="#SelectCsvModal">
               <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
               <span>CSVアップロード</span>
             </button>
-            <button type="button" class="btn btn-light">
+            <!-- <button type="button" class="btn btn-light" href="/corpus/csv/download/{{ $corpus_id }}">
               <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
               <span>CSVダウンロード</span>
-            </button>
+            </button> -->
+            <a href="/corpus/csv/download/{{ $corpus_id }}" class="btn btn-light" role="button" aria-pressed="true">
+              <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
+              <span>CSVダウンロード</span>
+            </a>
             <button type="button" class="btn btn-link">
-              <span>サンプル</span>  
+              <span><a href="/files/corpus-admin/training_data_sample.csv">サンプル</a></span>
             </button>
           </div>
         </div>
@@ -318,6 +322,28 @@
               </div>
             </div>
           </div>
+
+          <!-- TrainingDataアップロード -->
+          <div class="modal fade" id="SelectCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">教師データのアップロード</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                  <button type="button" class="btn btn-primary">アップロードする</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /#SelectCsvModal -->
 
         </section>
       </main>

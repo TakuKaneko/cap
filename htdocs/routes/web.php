@@ -43,6 +43,8 @@ Route::get('/corpus/data/view/{id}', function($id) {
   return view('corpus-admin.ca-data-view', ['corpus_id' => $id]);
 });
 
+Route::get('/corpus/csv/download/{id}', 'CorpusController@trainingDataDownload');
+
 Route::get('/corpus/training', function() {
   return view('corpus-admin.ca-training');
 });
