@@ -11,7 +11,8 @@
         "laravel/tinker": "~1.0",
         "ext-mysqli": "*",
         "tymon/jwt-auth": "dev-develop",
-        "barryvdh/laravel-debugbar": "^3.1"
+        "barryvdh/laravel-debugbar": "^3.1",
+        "bensampo/laravel-enum": "^1.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

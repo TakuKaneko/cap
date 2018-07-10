@@ -13,4 +13,5 @@ class Corpus extends Model
     {
         return $this->belongsToMany('Api');
     }
+
 }

@@ -21,7 +21,7 @@ class CreateCorpusesTable extends Migration
             $table->string('service_username');
             $table->string('service_hidden_password');
             $table->string('service_identify_id');
-            $table->enum('status',['available','training','empty','disable']);
+            $table->string('status');
             $table->integer('type');
             $table->boolean('is_production')->default(false);
             $table->softDeletes();

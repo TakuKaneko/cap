@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Api;
+use App\Enums\CorpusStateType;
 
 class ApiInfoController extends Controller
 {
@@ -17,11 +18,14 @@ class ApiInfoController extends Controller
         $company_id = $user->company_id;
 
         // 該当企業コードで登録されているAPIの一覧を取得
-        $api_list = Api::where('company_id', $company_id)->get();
-        foreach ($api_list as $api) {
-            echo $api->corpuses;
-        }exit;
-        // $api_list = Api::where('company_id', $company_id)->get();
+        $api_list_get = Api::where('company_id', $company_id)->get();
+        $api_list = array();
+        // foreach ($api_list as $api) {
+        //     return $api->name; //->corpus_id;
+        //     foreach ($corpuses as $corpus) {
+        //         return $corpus->pivot;
+        //     }
+        // }exit;
 
         // APIの一覧をViewに返す
         return view('dashboard.api-info');

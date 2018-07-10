@@ -11,7 +11,7 @@ class Api extends Model
      */
     public function corpuses()
     {
-        return $this->belongsToMany('App\Models\Corpus');
+        return $this->belongsToMany('App\Models\Corpus')->withTimeStamps();
     }
 
 }
