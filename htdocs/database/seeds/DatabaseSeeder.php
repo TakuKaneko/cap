@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             ApisTableSeeder::class,
             CorpusesTableSeeder::class,
             ApiCorpusTableSeeder::class,
-            UsersTableSeeder::class
+            UsersTableSeeder::class,
+            CorpusClassesTableSeeder::class,
+            CorpusCreativesTableSeeder::class
         ]);
     }
 }
