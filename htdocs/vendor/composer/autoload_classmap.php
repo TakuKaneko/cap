@@ -12,6 +12,8 @@ return array(
     'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
     'CompaniesTableSeeder' => $baseDir . '/database/seeds/CompaniesTableSeeder.php',
     'CompanyApisTableSeeder' => $baseDir . '/database/seeds/CompanyApisTableSeeder.php',
+    'CorpusClassesTableSeeder' => $baseDir . '/database/seeds/CorpusClassesTableSeeder.php',
+    'CorpusCreativesTableSeeder' => $baseDir . '/database/seeds/CorpusCreativesTableSeeder.php',
     'CorpusesTableSeeder' => $baseDir . '/database/seeds/CorpusesTableSeeder.php',
     'CreateApiCorpusTable' => $baseDir . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
     'CreateApisTable' => $baseDir . '/database/migrations/2018_06_19_092320_create_apis_table.php',

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
+class ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -361,6 +361,8 @@ class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'CompaniesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompaniesTableSeeder.php',
         'CompanyApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompanyApisTableSeeder.php',
+        'CorpusClassesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusClassesTableSeeder.php',
+        'CorpusCreativesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusCreativesTableSeeder.php',
         'CorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusesTableSeeder.php',
         'CreateApiCorpusTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
         'CreateApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_092320_create_apis_table.php',
@@ -917,11 +919,11 @@ class ComposerStaticInit657cd8b9ba37282207b257088e2bb3be
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit657cd8b9ba37282207b257088e2bb3be::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb5f23beefa1f3df08b7cde6cec07c34b::$classMap;
 
         }, null, ClassLoader::class);
     }
