@@ -12,6 +12,14 @@
  =========================================================
  */
 
+.text-brand {
+  color: #00A1EA !important;
+}
+
+.text-default {
+  color: #999999;
+}
+
 .detail-card:hover {
   -webkit-transition: 0.1s;
   transition: 0.1s;

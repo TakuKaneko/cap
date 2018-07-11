@@ -1,0 +1,66 @@
+/*!
+ =========================================================
+ * API管理画面専用のSCSS - v0.0.1
+ =========================================================
+ */
+
+//-- common variable --//
+@import "./include";
+
+.nav-border {
+  border-top: solid 1px lightgray;          
+  border-bottom: solid 1px lightgray;
+  padding: 3px;
+  margin-bottom: 5px;
+}
+.doc-content {
+  background: #d1d9e1;
+  color: #2d2d2d;
+  padding: 1em;
+}
+.api-auth-table th {
+  width: 30%;
+}
+.manual-title {
+  border-left: solid 5px cornflowerblue;
+  padding-left: 7px;
+  line-height: 2.5rem;
+  margin-bottom: 10px;
+}
+.active-api-table tbody tr:hover {
+  background-color: whitesmoke;
+}
+.hljs-attr {
+  color: #795da3;
+}
+.hljs-number {
+  color: #333;
+}
+.hljs-string {
+  color: #df5000;
+}
+.bold {
+  font-weight: bold;
+}
+.parameter_table {
+  margin-bottom: 1rem;
+  border-radius: 0;
+  /* width: unset; */
+  width: 100%;
+}
+.parameter_table th {
+  border: 1px solid lightgray;
+  background-color: #00A1EA;
+  color: #fff;
+  padding-left: 5px;
+  padding-right: 7px;
+}
+.parameter_table td {
+  border: 1px solid lightgray;
+  border-collapse: collapse;
+  padding-left: 5px;
+  padding-right: 7px;
+}
+.parameter_table .table_title {
+  width: 120px;
+}

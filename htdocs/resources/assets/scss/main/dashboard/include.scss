@@ -7,3 +7,11 @@
 // サイトブランドカラー
 $BRAND_COLOR  : #00A1EA;
 $BRAND_BTN_HOVER_COLOR  : #43A1D4;
+
+// テーブルレイアウト
+.text-brand {
+  color: $BRAND_COLOR !important;
+}
+.text-default {
+  color: #999999;
+}

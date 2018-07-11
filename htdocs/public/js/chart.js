@@ -3674,6 +3674,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ "./resources/assets/scss/main/dashboard/api-info.scss":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/assets/scss/main/dashboard/corpus.scss":
 /***/ (function(module, exports) {
 
@@ -3693,8 +3700,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 __webpack_require__("./resources/assets/js/plugins/Chart.min.js");
 __webpack_require__("./resources/assets/scss/common-dashboard.scss");
+__webpack_require__("./resources/assets/scss/main/dashboard/login.scss");
 __webpack_require__("./resources/assets/scss/main/dashboard/corpus.scss");
-module.exports = __webpack_require__("./resources/assets/scss/main/dashboard/login.scss");
+module.exports = __webpack_require__("./resources/assets/scss/main/dashboard/api-info.scss");
 
 
 /***/ })

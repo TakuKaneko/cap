@@ -1,7 +1,6 @@
 htdocs/node_modules
 htdocs/public/hot
 htdocs/public/storage
-htdocs/storage/*.key
 htdocs/vendor
 htdocs/package-lock.json
 htdocs/composer.lock

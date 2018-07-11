@@ -181,6 +181,8 @@ return [
         // JWT-Auth
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
+        Laravel\Passport\PassportServiceProvider::class,
+
     ],
 
     /*
