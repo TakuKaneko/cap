@@ -44,6 +44,7 @@ Route::get('/corpus/data/view/{id}', function($id) {
 });
 
 Route::get('/corpus/csv/download/{id}', 'CorpusController@trainingDataDownload');
+Route::post('/corpus/csv/upload/{corpus_id}/{type}', 'CorpusController@trainingDataUplocad');
 
 Route::get('/corpus/training', function() {
   return view('corpus-admin.ca-training');

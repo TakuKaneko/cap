@@ -142,6 +142,18 @@
         </section>
 
         <section class="viewCreativeContents mt-3" style="width:100%;">
+          @if(Session::has('success_msg'))
+          <div class="alert alert-primary" role="alert">
+            {{ session('success_msg') }}
+          </div>
+          @endif
+
+          @if(Session::has('error_msg'))
+          <div class="alert alert-danger" role="alert">
+            {{ session('error_msg') }}
+          </div>
+          @endif
+
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;">
               <div class="row" style="width:100%;height:30px;margin:0;">
@@ -325,21 +337,27 @@
 
           <!-- TrainingDataアップロード -->
           <div class="modal fade" id="SelectCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">教師データのアップロード</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                  <button type="button" class="btn btn-primary">アップロードする</button>
-                </div>
+                <form action="/corpus/csv/upload/{{ $corpus_id }}/training" method="post" enctype="multipart/form-data" id="csvUpload">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">教師データのアップロード</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!-- /.modal-header -->
+                  <div class="modal-body">
+                    <input type="file" value="ファイルを選択" name="csv_file">
+                    {{ csrf_field() }}
+                  </div>
+                  <!-- /.modal-body -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-primary">アップロードする</button>
+                  </div>
+                  <!-- /.modal-footer -->
+                </form>
               </div>
             </div>
           </div>
