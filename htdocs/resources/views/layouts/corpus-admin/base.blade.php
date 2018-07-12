@@ -151,5 +151,6 @@
   <script>
       feather.replace();
   </script>
+  <script src="/js/main/corpus/data-view.js"></script>
 </body>
 </html>
