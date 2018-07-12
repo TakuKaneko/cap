@@ -19,7 +19,7 @@ class CorpusClassesTableSeeder extends Seeder
                 'corpus_id' => '100',
                 'threshold' => null,
                 'data_count' => 3,
-                'data_type' => 'production',
+                'data_type' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -29,17 +29,37 @@ class CorpusClassesTableSeeder extends Seeder
                 'corpus_id' => '100',
                 'threshold' => null,
                 'data_count' => 2,
-                'data_type' => 'production',
+                'data_type' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
             [
                 'id' => 3,
                 'name' => 'クラスC',
+                'corpus_id' => '100',
+                'threshold' => null,
+                'data_count' => 2,
+                'data_type' => 0,
+                'created_at' => NOW(),
+                'updated_at' => NOW()
+            ],
+            [
+                'id' => 4,
+                'name' => 'クラスD',
                 'corpus_id' => '101',
                 'threshold' => null,
                 'data_count' => 2,
-                'data_type' => 'production',
+                'data_type' => 1,
+                'created_at' => NOW(),
+                'updated_at' => NOW()
+            ],
+            [
+                'id' => 5,
+                'name' => 'クラスE',
+                'corpus_id' => '101',
+                'threshold' => null,
+                'data_count' => 2,
+                'data_type' => 0,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],

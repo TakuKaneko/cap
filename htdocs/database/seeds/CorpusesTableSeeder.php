@@ -14,6 +14,20 @@ class CorpusesTableSeeder extends Seeder
     {
         DB::table('corpuses')->insert([
             [
+                'id' => 1,
+                'name' => 'サンプル自然言語コーパス',
+                'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
+                'service_url' => 'https://www.test.co.jp',
+                'service_username' => str_random(10),
+                'service_hidden_password' => str_random(10),
+                'service_identify_id' => str_random(10),
+                'status' => CorpusStateType::Available,
+                'type' => '1',
+                'is_production' => true,
+                'created_at' => '2018-04-01 12:00:00',
+                'updated_at' => NOW()
+            ],
+            [
                 'id' => 100,
                 'name' => 'サンプル自然言語コーパス',
                 'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
