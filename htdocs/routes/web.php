@@ -41,7 +41,9 @@ Route::match(['get', 'post'], '/corpus/view/1', function() {
 
 /** コーパス管理画面 データ管理 */
 Route::get('/corpus/data/view/{corpus_id}', 'CorpusController@corpusDataView');
-// Route::post('/corpus/csv/view/{corpus_id}/{data_type}/{class_id?}', 'CorpusController@create');
+Route::post('/corpus/data/create/{corpus_id}', 'CorpusController@createCreative');
+Route::post('/corpus/data/edit/{corpus_id}', 'CorpusController@editCreative');
+Route::post('/corpus/data/delete/{corpus_id}', 'CorpusController@deleteCreative');
 
 Route::get('/corpus/csv/download/{corpus_id}', 'CorpusController@trainingDataDownload');
 Route::post('/corpus/csv/upload/{corpus_id}/{upload_data_type}', 'CorpusController@trainingDataUplocad');

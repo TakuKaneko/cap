@@ -39,11 +39,11 @@ class CorpusController extends Controller
       $test_crative_list = [];
 
       foreach($training_classes as $class) {
-        $training_crative_list[$class->id] = CorpusCreative::where('corpus_class_id', $class->id)->get();
+        $training_crative_list[$class->id] = CorpusCreative::where('corpus_class_id', $class->id)->orderBy('updated_at', 'desc')->get();
       }
 
       foreach($test_classes as $class) {
-        $test_crative_list[$class->id] = CorpusCreative::where('corpus_class_id', $class->id)->get();
+        $test_crative_list[$class->id] = CorpusCreative::where('corpus_class_id', $class->id)->orderBy('updated_at', 'desc')->get();
       }
 
       return view('corpus-admin.ca-data-view', [
@@ -53,6 +53,235 @@ class CorpusController extends Controller
         'test_classes' => $test_classes, 
         'test_creatives' => $test_crative_list
       ]);
+
+    }
+
+
+    /**
+     * クリエイティブの新規作成
+     */
+    public function createCreative($corpus_id, Request $request) {
+      $form = $request->all();
+
+      if($corpus_id === null) {
+        throw new \Exception('パラメータが不正です...');
+      }
+
+      $get_data_type = (int)$form['data_type'];
+      if($get_data_type !== CorpusDataType::Training && $get_data_type !== CorpusDataType::Test) {
+        throw new \Exception('パラメータが不正です...');
+      }
+
+
+      // 新規のクラス追加があるかどうか
+      $add_class_flag = false;
+      if($form['corpus_class_id'] === null) {
+        // 
+        $add_class_rule = [
+          'add_class_name' => 'required'
+        ];
+        $this->validate($request, $add_class_rule);
+
+        $add_class_flag = true; 
+      }
+
+
+      // バリデーション
+      $creative_rule = [
+        'content' => 'required|between:1,1000'
+      ];
+      $this->validate($request, $creative_rule);
+
+
+      // 登録処理
+      DB::beginTransaction();
+
+      try {
+        $corpus_class_id = $form['corpus_class_id'];
+
+        if($add_class_flag) {
+          // クラス登録
+          $class = new CorpusClass;
+          $class->name = $form['add_class_name'];
+          $class->corpus_id = $corpus_id;
+          $class->threshold = null;
+          $class->data_count = 0;
+          $class->data_type = $get_data_type;
+          $class->save();
+
+          $corpus_class_id = $class->id;
+
+        }
+
+
+        // 登録
+        $creative = new CorpusCreative;
+        $creative->corpus_class_id = $corpus_class_id;
+        $creative->content = $form['content'];
+        $creative->save();
+
+
+        // クラスのデータ件数の更新
+        $update_class = CorpusClass::find($corpus_class_id);
+        $count = $update_class->data_count;
+        $count++;
+        $update_class->data_count = $count;
+        $update_class->save();
+
+        DB::commit();
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', 'データベースへの登録に失敗しました...');
+
+      } catch(\Exception $e) {
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', $e->getMessage());
+      }
+
+
+      $success_msg = '登録が完了しました';
+      return redirect('/corpus/data/view/' . $corpus_id)
+        ->with('success_msg', $success_msg);
+      
+    }
+
+
+    /**
+     * クリエイティブの編集
+     */
+    public function editCreative($corpus_id, Request $request) {
+      $form = $request->all();
+      var_dump($form);
+
+
+      if($corpus_id === null) {
+        throw new \Exception('パラメータが不正です...');
+      }
+
+      $get_data_type = (int)$form['data_type'];
+      if($get_data_type !== CorpusDataType::Training && $get_data_type !== CorpusDataType::Test) {
+        throw new \Exception('パラメータが不正です...');
+      }
+      
+
+      $valid_rule = [
+        'content' => 'required|between:1,1000',
+        'corpus_class_id' => 'required'
+      ];
+      $this->validate($request, $valid_rule);
+
+
+      // 更新処理
+      DB::beginTransaction();
+
+      try {
+        $edit_class_id = $form['corpus_class_id'];
+
+        // 更新
+        $creative = CorpusCreative::find($form['creative_id']);
+        $current_class_id = $creative->corpus_class_id;         // 所属するクラスに変更があったかどうか判断する用
+
+        $creative->corpus_class_id = $edit_class_id;
+        $creative->content = $form['content'];
+        $creative->save();
+
+
+        // クラスのデータ件数の更新
+        // クラスが変更されている場合
+        if($edit_class_id !== $current_class_id) {
+          // 編集されたクラスは+1
+          $update_class = CorpusClass::find($edit_class_id);
+          $count = $update_class->data_count;
+          $count++;
+          $update_class->data_count = $count;
+          $update_class->save();
+
+          $current_class = CorpusClass::find($current_class_id);
+          $count = $current_class->data_count;
+          $count--;
+          $current_class->data_count = $count;
+          $current_class->save();
+        }
+
+        DB::commit();
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', 'データベースへの登録に失敗しました...');
+
+      } catch(\Exception $e) {
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', $e->getMessage());
+      }
+
+
+      $success_msg = '編集が完了しました';
+      return redirect('/corpus/data/view/' . $corpus_id)
+        ->with('success_msg', $success_msg);
+
+    }
+
+
+    /**
+     * クリエイティブの削除
+     */
+    public function deleteCreative($corpus_id, Request $request) {
+      $form = $request->all();
+      $this->logInfo($form);
+
+      if($corpus_id === null) {
+        throw new \Exception('パラメータが不正です...');
+      }
+
+      $valid_rule = [
+        'creative_id' => 'required'
+      ];
+      $this->validate($request, $valid_rule);
+
+      // 削除処理
+      DB::beginTransaction();
+
+      try {
+        // 削除
+        $creative = CorpusCreative::find($form['creative_id']);
+        $relate_class_id = $creative->corpus_class_id;
+        $creative->delete();
+
+        // データ件数更新
+        $class = CorpusClass::find($relate_class_id);
+        $count = $class->data_count;
+        $count--;
+        $class->data_count = $count;
+        $class->save();
+
+        DB::commit();
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', 'データベースでの削除処理に失敗しました...');
+
+      } catch(\Exception $e) {
+        DB::rollBack();
+
+        return redirect('/corpus/data/view/' . $corpus_id)
+          ->with('error_msg', $e->getMessage());
+      }
+
+
+      $success_msg = 'テキストを削除しました';
+      return redirect('/corpus/data/view/' . $corpus_id)
+        ->with('success_msg', $success_msg);
 
     }
 
@@ -275,7 +504,8 @@ class CorpusController extends Controller
     private $debug = true;
     private function logInfo($msg) {
       if($this->debug) {
-        echo $msg . '<br>';
+        var_dump($msg);
+        echo '<br>';
       }
         
     }
