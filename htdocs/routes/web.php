@@ -39,12 +39,12 @@ Route::match(['get', 'post'], '/corpus/view/1', function() {
   return view('corpus-admin.ca-detail');
 });
 
-Route::get('/corpus/data/view/{id}', function($id) {
-  return view('corpus-admin.ca-data-view', ['corpus_id' => $id]);
-});
+/** コーパス管理画面 データ管理 */
+Route::get('/corpus/data/view/{corpus_id}', 'CorpusController@corpusDataView');
+// Route::post('/corpus/csv/view/{corpus_id}/{data_type}/{class_id?}', 'CorpusController@create');
 
-Route::get('/corpus/csv/download/{id}', 'CorpusController@trainingDataDownload');
-Route::post('/corpus/csv/upload/{corpus_id}/{type}', 'CorpusController@trainingDataUplocad');
+Route::get('/corpus/csv/download/{corpus_id}', 'CorpusController@trainingDataDownload');
+Route::post('/corpus/csv/upload/{corpus_id}/{upload_data_type}', 'CorpusController@trainingDataUplocad');
 
 Route::get('/corpus/training', function() {
   return view('corpus-admin.ca-training');

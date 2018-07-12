@@ -103,15 +103,11 @@
             <input class="form-control form-control-dark w-100 border-bottom" type="text" placeholder="キーワード検索" aria-label="キーワード検索">
             {{-- </form> --}}
           </div>
-          <div class="col-5">
-          <button type="button" class="btn btn-light" data-toggle="modal" data-target="#SelectCsvModal">
+          <!-- <div class="col-5">
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#SelectCsvModal">
               <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
               <span>CSVアップロード</span>
             </button>
-            <!-- <button type="button" class="btn btn-light" href="/corpus/csv/download/{{ $corpus_id }}">
-              <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
-              <span>CSVダウンロード</span>
-            </button> -->
             <a href="/corpus/csv/download/{{ $corpus_id }}" class="btn btn-light" role="button" aria-pressed="true">
               <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
               <span>CSVダウンロード</span>
@@ -119,15 +115,21 @@
             <button type="button" class="btn btn-link">
               <span><a href="/files/corpus-admin/training_data_sample.csv">サンプル</a></span>
             </button>
+          </div> -->
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <p>2016/10/20 10:53時点の学習データで稼働中<br><a href="/corpus/training">学習管理ページに移動</a></p>
           </div>
         </div>
 
-        <section id="addCreativeContents" class="m-3 mt-4 mb-2">
+        <!-- <section id="addCreativeContents" class="m-3 mt-4 mb-2">
           <div class="row">
             <div class="col-8">
               <div id="crAddBox">
                 <div id="crAddBoxText">
-                  <a href="#" class="callModal" data-toggle="modal" data-target="#corpusAddTextModal">
+                  <a href="#" class="callModal" data-toggle="modal" data-target="#addTrainingDataModal">
                     <span class="text-muted" data-feather="plus-circle" style="width:20px;height:20px;"></span>
                     <span style="vertical-align:middle;"> 新しいクラス/テキストを登録</span>
                   </a>
@@ -139,122 +141,93 @@
               <button type="button" class="btn btn-link ml-1">学習管理ページに移動</button>
             </div>
           </div>
-        </section>
+        </section> -->
+
+
+        @if(Session::has('success_msg'))
+        <div class="alert alert-primary" role="alert">
+          {{ session('success_msg') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif
+
+        @if(Session::has('error_msg'))
+        <div class="alert alert-danger" role="alert">
+          {{ session('error_msg') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif
 
         <section class="viewCreativeContents mt-3" style="width:100%;">
-          @if(Session::has('success_msg'))
-          <div class="alert alert-primary" role="alert">
-            {{ session('success_msg') }}
-          </div>
-          @endif
-
-          @if(Session::has('error_msg'))
-          <div class="alert alert-danger" role="alert">
-            {{ session('error_msg') }}
-          </div>
-          @endif
-
           <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;">
-              <div class="row" style="width:100%;height:30px;margin:0;">
+            <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;"> 
+
+              <div class="row">
+                <div class="col-auto mr-auto">
+                  <button type="button" class="btn btn-outline-brand" data-toggle="modal" data-target="#addTrainingDataModal">
+                    <span data-feather="plus" style="width:20px;height:20px;"></span>
+                    <span>新しいクラス/テキストを登録</span>
+                  </button>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target="#SelectTrainingCsvModal">
+                    <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
+                    <span>CSVアップロード</span>
+                  </button>
+                  <a href="/corpus/csv/download/{{ $corpus_id }}" class="btn btn-light" role="button" aria-pressed="true">
+                    <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
+                    <span>CSVダウンロード</span>
+                  </a>
+                  <button type="button" class="btn btn-link">
+                    <span><a href="/files/corpus-admin/training_data_sample.csv">サンプル</a></span>
+                  </button>
+                </div>
+              </div>
+
+              @if(count($training_classes) === 0)
+              <div class="alert alert-secondary mt-2" role="alert">
+                登録されているテストデータはありません。
+              </div>
+
+              @else
+              <div class="row mt-2" style="width:100%;height:30px;margin:0;">
                 <div class="h6 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
                 <div class="h6 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
               </div>
               <div class="row" style="width:100%;height:450px;margin:0;">
                 <div class="col-3 border" style="height:470px;padding:5px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active h6" id="v-pills-tab1" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">
-                      <span>景表法NG</span>
-                      <span class="badge badge-pill badge-light ml-1">500</span>
+                  @foreach($training_classes as $index => $val)
+                    @if($index === 0)
+                      <a class="nav-link active h6" id="v-pills-tab{{ $index }}" data-toggle="pill" href="#v-pills-{{ $index }}" role="tab" aria-controls="v-pills-{{ $index }}" aria-selected="true">
+                    @else
+                    <a class="nav-link h6" id="v-pills-tab{{ $index }}" data-toggle="pill" href="#v-pills-{{ $index }}" role="tab" aria-controls="v-pills-{{ $index }}" aria-selected="true">
+                    @endif
+                      <span>{{ $val->name }}</span>
+                      <span class="badge badge-pill badge-light ml-1">{{ $val->data_count }}</span>
                     </a>
-                    <a class="nav-link h6" id="v-pills-tab2" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">
-                      <span>薬機法NG</span>
-                      <span class="badge badge-pill badge-light ml-1">450</span>
-                    </a>
-                    <a class="nav-link h6" id="v-pills-tab3" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">
-                      <span>その他NG</span>
-                      <span class="badge badge-pill badge-light ml-1">300</span>
-                    </a>
-                    <a class="nav-link h6" id="v-pills-tab4" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">
-                      <span>景表法OK</span>
-                      <span class="badge badge-pill badge-light ml-1">500</span>
-                    </a>
-                    <a class="nav-link h6" id="v-pills-tab5" data-toggle="pill" href="#v-pills-5" role="tab" aria-controls="v-pills-5" aria-selected="false">
-                      <span>薬機法OK</span>
-                      <span class="badge badge-pill badge-light ml-1">50</span>
-                    </a>
-                    <a class="nav-link h6" id="v-pills-tab6" data-toggle="pill" href="#v-pills-6" role="tab" aria-controls="v-pills-6" aria-selected="false">
-                      <span>その他OK</span>
-                      <span class="badge badge-pill badge-light ml-1">100</span>
-                    </a>
+                  @endforeach
                   </div>
                 </div>
                 <div class="col-9 border" style="padding:5px;height:470px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active list-group" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-tab1" style="">
+                  @foreach($training_classes as $index => $val)
+                    @if($index === 0)
+                    <div class="tab-pane fade show active list-group" id="v-pills-{{ $index }}" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}" style="">
+                    @else
+                    <div class="tab-pane fade show list-group" id="v-pills-{{ $index }}" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}" style="">
+                    @endif
                       <ul class="corpusTextList">
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1日たった5分で？帰国子女並みにペラペラなる方法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1日5分で英語レベル0子供がペラペラになった方法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">NHKの人気番組で特集されたビタミンCの美容法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1日たった5分で？帰国子女並みの英語が話せる！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">毛穴救世主?!1月でごつごつ岩肌がもっちりプリン</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">何日に何が起こるか分かる？これ当たりすぎてヤバイ</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">リボ払いの残高が全然減らない！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">絶対あなたの金運はあがる！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">ホンマでっか？簡単な借金減額が話題になり業界騒然</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">ホンマでっか！？借金、この方法で完済しました！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">成功率92％！超お手軽ダイエットの秘密は毎日◯◯◯するだけ！？</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">毎日５分！ニキビ・くすみ・毛穴の汚れがスッキリ綺麗になる美容法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">ほぼ10割の人が痩せた方法がアラフォーに大ウケ</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">93％が実感した食べるコラーゲンがすご！え、10歳も若く見える？</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">アラフォーでもどんどん脚が痩せる！痩せすぎて大炎上注意して！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">寝るときに履くだけでセルライト除去！？効果が凄すぎて大炎上</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">殺菌率100%＆お肌に優しいワキガ対策1位は？</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">お肌が200%うるおう、効率のいい保湿テクとは</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1日5分で英語レベル0子供がペラペラになった方法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1日5分、スマホだけ！英語がスラスラ話せる！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">パウダリー史上最高　本気のカバー効果！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">顔のシミ、レーザーでないと取れないは嘘！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">保湿命だと思ってた！美容業界で一番注目の美容液</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">ここだけ！たった５問で化粧品を最安でゲット♪</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">残りわずか！１分アンケートでアスタリフトをゲット</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">【数量限定】今だけ980円で気になる口臭が爽やかに！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">プロテイン20杯分の破壊力！初月限定500円！</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">3秒に1個売れてるミネラルファンデ</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">お肌が300%潤うテクニック</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">強制的に理想的な形になるとウワサで注文殺到</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">約1ヵ月で透き通る肌になる方法</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">履くだけで美脚になる</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">これは恐るべき信頼度</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">怖いくらい当たるらしい占い</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">全く痛くない</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">女性必見！肌に優しい完全殺菌</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">完璧なカラダを目指す</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">絶対に安心</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">永久に保証</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">必ず効果がでることをお約束</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">万全のサポートを</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最先端の商品をいち早くお届け</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1ヶ月で簡単に効果が出る秘訣</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">飲むだけで即効</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">劇的に改善する</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">効きすぎて怖くなる</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">芸能人が愛用している</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">こっそり紹介された</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">世界初日本発の商品</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">含有が世界一日本一のもの</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">世界で一番売れている</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">1位を獲得した商品</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最大の効果</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最高の効果</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最安で提供</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最速で手に入れよう</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最小の形状</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">最低料金を約束します</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">30秒に1回売れまくっているファンデ</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">10秒に1個売れているコスメ</a></li>
+                    @for($i = 0; $i < count($training_creatives[$val->id]); $i++)
+                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">{{ $training_creatives[$val->id][$i]->content }}</a></li>
+                    @endfor                        
                       </ul>
                     </div>
+                  @endforeach
                     <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-tab2">2 text</div>
                     <div class="tab-pane fade" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-tab3">3 text</div>
                     <div class="tab-pane fade" id="v-pills-4" role="tabpanel" aria-labelledby="v-pills-tab4">4 text</div>
@@ -263,42 +236,114 @@
                   </div>
                 </div>
               </div>
+              @endif
             </div>
-            <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
-              （同様に検証用の学習データを表示）
-            </div>
-          </div>
+            <!-- /.tab-page  -->
 
-          <!-- テキスト追加Modal -->
-          <div class="modal fade" id="corpusAddTextModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">クラス/テキストの追加</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
+              <div class="row">
+                <div class="col-auto mr-auto">
+                  <button type="button" class="btn btn-outline-info">
+                    <span data-feather="plus" style="width:20px;height:20px;"></span>
+                    <span>新しいクラス/テキストを登録</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  <p>追加するテキストを入力してください。</p>
-                  <textarea name="classifyName" cols="60" rows="3" placeholder="テキスト入力"></textarea>
-                  <p>
-                    <label for="classifySelect">関連させるクラスを選択してください。：</label>
-                    <select id="classifySelect" name="classify">
-                      <option value="1" selected>景表法NG</option>
-                      <option value="2">薬機法NG</option>
-                      <option value="3">その他NG</option>
-                      <option value="4">景表法OK</option>
-                      <option value="5">薬機法OK</option>
-                      <option value="3">その他OK</option>
-                      <option value="3">＋クラスを追加</option>
-                    </select>
-                  </p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">保存</button>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-light" data-toggle="modal" data-target="#SelectTextCsvModal">
+                    <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
+                    <span>CSVアップロード</span>
+                  </button>
                 </div>
               </div>
+
+              @if(count($test_classes) === 0)
+              <div class="alert alert-secondary mt-2" role="alert">
+                登録されているテストデータはありません。
+              </div>
+
+              @else
+              <div class="row mt-2" style="width:100%;height:30px;margin:0;">
+                <div class="h6 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
+                <div class="h6 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
+              </div>
+              <div class="row" style="width:100%;height:450px;margin:0;">
+                <div class="col-3 border" style="height:470px;padding:5px;overflow-y:scroll;background-color:#F8F9FA;">
+                  <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  @foreach($test_classes as $index => $val)
+                    @if($index === 0)
+                      <a class="nav-link active h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
+                    @else
+                    <a class="nav-link h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
+                    @endif
+                      <span>{{ $val->name }}</span>
+                      <span class="badge badge-pill badge-light ml-1">{{ $val->data_count }}</span>
+                    </a>
+                  @endforeach
+                  </div>
+                </div>
+                <div class="col-9 border" style="padding:5px;height:470px;overflow-y:scroll;background-color:#F8F9FA;">
+                  <div class="tab-content" id="v-pills-tabContent">
+                  @foreach($test_classes as $index => $val)
+                    @if($index === 0)
+                    <div class="tab-pane fade show active list-group" id="v-pills-{{ $index }}_2" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}_2" style="">
+                    @else
+                    <div class="tab-pane fade show list-group" id="v-pills-{{ $index }}_2" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}_2" style="">
+                    @endif
+                      <ul class="corpusTextList">
+                    @for($i = 0; $i < count($test_creatives[$val->id]); $i++)
+                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">{{ $test_creatives[$val->id][$i]->content }}</a></li>
+                    @endfor                        
+                      </ul>
+                    </div>
+                  @endforeach
+                  </div>
+                </div>
+              </div>
+              @endif
+            </div>
+            <!-- /.tab-page  -->
+          </div>
+
+
+          <!-- 学習データ追加Modal -->
+          <div class="modal fade" id="addTrainingDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <form action="">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">クラス/テキストの追加</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!-- /.modal-header -->
+                  <div class="modal-body">
+                    <p>追加するテキストを入力してください。</p>
+                    <textarea name="classifyName" rows="3" placeholder="テキスト入力" style="width: 100%;"></textarea>
+                    <p>
+                      <label for="classifySelect">関連させるクラスを選択してください。：</label>
+                      <select id="classifySelect" name="classify">
+                      @foreach($training_classes as $index => $val)
+                        @if($index === 0)
+                        <option value="{{ $val->id }}" selected>{{ $val->name }}</option>
+                        @else
+                        <option value="{{ $val->id }}">{{ $val->name }}</option>
+                        @endif
+
+                      @endforeach
+                        <!-- <option value="add">＋クラスを追加</option> -->
+                      </select>
+                    </p>
+                  </div>
+                  <!-- /.modal-body -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">保存</button>
+                  </div>
+                  <!-- /.modal-footer --> 
+                </form>
+                <!-- /from -->
+              </div>
+              <!-- /.modal-content -->
             </div>
           </div>
 
@@ -335,13 +380,13 @@
             </div>
           </div>
 
-          <!-- TrainingDataアップロード -->
-          <div class="modal fade" id="SelectCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <!-- 学習データアップロード -->
+          <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <form action="/corpus/csv/upload/{{ $corpus_id }}/training" method="post" enctype="multipart/form-data" id="csvUpload">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">教師データのアップロード</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">学習データのアップロード</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -362,6 +407,35 @@
             </div>
           </div>
           <!-- /#SelectCsvModal -->
+
+          <!-- テストデータアップロード -->
+          <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <form action="/corpus/csv/upload/{{ $corpus_id }}/test" method="post" enctype="multipart/form-data" id="csvUpload">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">テストデータのアップロード</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!-- /.modal-header -->
+                  <div class="modal-body">
+                    <input type="file" value="ファイルを選択" name="csv_file">
+                    {{ csrf_field() }}
+                  </div>
+                  <!-- /.modal-body -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-primary">アップロードする</button>
+                  </div>
+                  <!-- /.modal-footer -->
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- /#SelectCsvModal -->
+
 
         </section>
       </main>
