@@ -16,6 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('authroize_token')->unique();
             $table->string('nlc_url');
             $table->string('nlc_username');
             $table->string('nlc_password');

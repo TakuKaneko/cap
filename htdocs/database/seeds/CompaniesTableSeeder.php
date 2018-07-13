@@ -15,6 +15,7 @@ class CompaniesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => '株式会社テストカンパニー',
+                'authroize_token' => str_random(10),
                 'nlc_url' => 'https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/',
                 'nlc_username' => '311e098f-48eb-4496-b56a-1aab90584f14',
                 'nlc_password' => 'MkaPamJNR1JN',
@@ -27,6 +28,7 @@ class CompaniesTableSeeder extends Seeder
             [
                 'id' => 999,
                 'name' => '株式会社パソナテック',
+                'authroize_token' => str_random(10),
                 'nlc_url' => '',
                 'nlc_username' => '',
                 'nlc_password' => '',
