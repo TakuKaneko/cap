@@ -8,15 +8,18 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/color', function (){
-    $colors = array(
-        'colors'=>
-            array('id'=>1, 'fruit'=>'apple1', 'color'=>'red1'),
-            array('id'=>2, 'fruit'=>'apple2', 'color'=>'red2'),
-            array('id'=>3, 'fruit'=>'apple3', 'color'=>'red3')
-    );
-    return $colors;
-})->middleware('client');
+Route::get('/color', "ApiinfoController@test");
+
+// Route::get('/color', function (){
+    // $colors = array(
+    //     'colors'=>
+    //         array('id'=>1, 'fruit'=>'apple1', 'color'=>'red1'),
+    //         array('id'=>2, 'fruit'=>'apple2', 'color'=>'red2'),
+    //         array('id'=>3, 'fruit'=>'apple3', 'color'=>'red3')
+    // );
+    // return $colors;
+    // return $request->header;    
+// });
 
 // Route::middleware('auth:api')->get('/test', function (Request $request) {
 //     $colors = array(

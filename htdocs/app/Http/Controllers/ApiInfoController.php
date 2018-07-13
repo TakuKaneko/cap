@@ -35,4 +35,8 @@ class ApiInfoController extends Controller
         // APIの一覧をViewに返す
         return view('dashboard.api-info');
     }
+
+    public function test(Request $request) {
+        return $request->header();
+    }
 }
