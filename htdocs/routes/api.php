@@ -8,7 +8,9 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/color', "ApiinfoController@test");
+Route::get('/cap', "ApiController@getCapResult");
+Route::get('/list/{company_id?}', "ApiController@getApiList");
+
 
 // Route::get('/color', function (){
     // $colors = array(
