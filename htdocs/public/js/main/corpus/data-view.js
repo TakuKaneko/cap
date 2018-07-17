@@ -85,7 +85,7 @@ function setAddClassTextModal() {
   $modalEl.on('show.bs.modal', function (event) {
     // クリックしたボタン要素を取得して、データ受け渡し
     var $button = $(event.relatedTarget);
-    var dataType = $button.data('datatype');
+    var dataType = parseInt($button.data('datatype'));
     var modalTitle = $button.data('mtitle');
 
     var $modal = $(this);
@@ -93,8 +93,13 @@ function setAddClassTextModal() {
     $modal.find('.add_data_type').val(dataType);
     $modal.find('.modal-title').text(modalTitle);
 
-    $select = $modal.find('#selectClass');
+    if (dataType === 0) {
+      $modal.find('#selectClass option[value=""]').hide();
+    } else {
+      $modal.find('#selectClass option[value=""]').show();
+    }
 
+    $select = $modal.find('#selectClass');
     $select.off('change');
     $select.on('change', function () {
       logInfo('change');
@@ -139,9 +144,11 @@ function seteditClassTextModal() {
 
     // 各種値をセット
     $modal.find('#addContent').val(content);
-    $modal.find('.modal-title').text(modalTitle);
-    $modal.find('.add_data_type').val(dataType);
+    $modal.find('#edit-content .modal-title').text(modalTitle);
+    $modal.find('.current_data_type').val(dataType);
     $modal.find('.creative_id').val(creativeId);
+
+    logInfo('data-type: ' + dataType);
 
     // セレクトボックス値チェック
     $select = $modal.find('#selectClass');

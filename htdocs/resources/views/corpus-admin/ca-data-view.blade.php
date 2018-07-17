@@ -30,7 +30,7 @@
           background-color: rgba(0, 0, 0, .25);
           box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
         }
-        .form-control {
+        /* .form-control {
           padding: .75rem 1rem;
           border-width: 0;
           border-radius: 0;
@@ -50,7 +50,7 @@
         }
         .border-bottom {
           border-bottom: 1px solid #e5e5e5;
-        }
+        } */
         #crAddBox {
           clear: both;
           background-color: #fff;
@@ -87,14 +87,30 @@
       </style>
       {{--  コンテンツ  --}}
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
-        <div class="row">
+
+        @if($corpus_info->is_production === true) 
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="alert alert-info" role="alert">
+              2016/10/20 10:53時点の学習データで稼働中<a href="/corpus/training" class="ml-3">学習管理ページに移動</a>
+            </div>
+            <!-- <div class="col-12">
+              <p>2016/10/20 10:53時点の学習データで稼働中<br><a href="/corpus/training">学習管理ページに移動</a></p>
+            </div> -->
+          </div>
+        </div>
+        <!-- /.row -->
+        @endif
+
+
+        <div class="row mt-3">
           <div class="col-3">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item">
                 <a class="btn btn-outline-brand nav-link active mr-1" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="true">学習データ</a>
               </li>
               <li class="nav-item">
-                <a class="btn btn-outline-info nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">検証データ</a>
+                <a class="btn btn-outline-info nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">テストデータ</a>
               </li>
             </ul>
           </div>
@@ -105,15 +121,9 @@
           </div>
         </div>
 
-        <div class="row mt-3">
-          <div class="col-12">
-            <p>2016/10/20 10:53時点の学習データで稼働中<br><a href="/corpus/training">学習管理ページに移動</a></p>
-          </div>
-        </div>
-
 
         @if(Session::has('success_msg'))
-        <div class="alert alert-primary" role="alert">
+        <div class="alert alert-success" role="alert">
           {{ session('success_msg') }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -130,6 +140,7 @@
         </div>
         @endif
 
+
         @if(count($errors) > 0)
         <div class="alert alert-danger" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -143,15 +154,16 @@
         </div>
         @endif
 
+
         <section class="viewCreativeContents mt-3" style="width:100%;">
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;"> 
 
               <div class="row">
                 <div class="col-auto mr-auto">
-                <button type="button" class="btn btn-outline-brand" data-toggle="modal" data-target="#addClassTextModal" data-datatype="1" data-mtitle="新しいクラス/テキストの登録">
+                <button type="button" class="btn btn-outline-brand" data-toggle="modal" data-target="#addClassTextModal" data-datatype="1" data-mtitle="クラス/テキスト追加">
                   <span data-feather="plus" style="width:20px;height:20px;"></span>
-                  <span>新しいクラス/テキストを登録</span>
+                  <span>クラス/テキスト追加</span>
                 </button>
                 </div>
                 <div class="col-auto">
@@ -169,7 +181,7 @@
                 </div>
               </div>
 
-              @if(count($training_classes) === 0)
+              @if(count($corpus_classes) === 0)
               <div class="alert alert-secondary mt-2" role="alert">
                 登録されているクラス/テストデータはありません。
               </div>
@@ -179,61 +191,66 @@
                 <div class="h6 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
                 <div class="h6 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
               </div>
+
               <div class="row" style="width:100%;height:450px;margin:0;">
                 <div class="col-3 border" style="height:470px;padding:5px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  @foreach($training_classes as $index => $val)
+                  @foreach($corpus_classes as $index => $class)
                     @if($index === 0)
                       <a class="nav-link active h6" id="v-pills-tab{{ $index }}" data-toggle="pill" href="#v-pills-{{ $index }}" role="tab" aria-controls="v-pills-{{ $index }}" aria-selected="true">
                     @else
                     <a class="nav-link h6" id="v-pills-tab{{ $index }}" data-toggle="pill" href="#v-pills-{{ $index }}" role="tab" aria-controls="v-pills-{{ $index }}" aria-selected="true">
                     @endif
-                      <span>{{ $val->name }}</span>
-                      <span class="badge badge-pill badge-light ml-1">{{ $val->data_count }}</span>
+                      <span>{{ $class->name }}</span>
+                      <span class="badge badge-pill badge-light ml-1">{{ $class->training_data_count }}</span>
                     </a>
                   @endforeach
                   </div>
+                  <!-- /.nav -->
                 </div>
-                <!-- /class -->
+                <!-- /.col-3 -->
+
                 <div class="col-9 border" style="padding:5px;height:470px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="tab-content" id="v-pills-tabContent">
-
-                  @foreach($training_classes as $index => $val)
+                  @foreach($corpus_classes as $index => $class)
                     @if($index === 0)
                     <div class="tab-pane fade show active list-group" id="v-pills-{{ $index }}" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}" style="">
                     @else
                     <div class="tab-pane fade show list-group" id="v-pills-{{ $index }}" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}" style="">
                     @endif
 
-                    @if(count($training_creatives[$val->id]) === 0)
+                    @if(count($training_creatives[$class->id]) === 0)
                     <div class="alert alert-secondary mt-2" role="alert">
                       登録されているテキストはありません
                     </div>
                     @else
                       <ul class="corpusTextList">
-                     @for($i = 0; $i < count($training_creatives[$val->id]); $i++)
+                     @for($i = 0; $i < count($training_creatives[$class->id]); $i++)
                         <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" 
-                          data-target="#editClassTextModal" data-mtitle="テキスト編集" data-classid="{{ $val->id }}" data-content="{{ $training_creatives[$val->id][$i]->content }}" 
-                          data-creativeid="{{ $training_creatives[$val->id][$i]->id }}" data-datatype="1">{{ $training_creatives[$val->id][$i]->content }}</a></li>
+                          data-target="#editClassTextModal" data-mtitle="テキスト編集" data-classid="{{ $class->id }}" data-content="{{ $training_creatives[$class->id][$i]->content }}" 
+                          data-creativeid="{{ $training_creatives[$class->id][$i]->id }}" data-datatype="1">{{ $training_creatives[$class->id][$i]->content }}</a></li>
                       @endfor
                     @endif
                       </ul>
                     </div>
                   @endforeach
                   </div>
+                  <!-- /.tab-content -->
                 </div>
-                <!-- /content -->
+                <!-- /.col -->
               </div>
+              <!-- /.row -->
               @endif
             </div>
-            <!-- /.tab-page  -->
+            <!-- /.tab-pane  -->
 
             <div class="tab-pane fade" id="test" role="tabpanel" aria-labelledby="test-tab">
+              @if(count($corpus_classes) > 0)
               <div class="row">
                 <div class="col-auto mr-auto">
-                  <button type="button" class="btn btn-outline-info">
+                  <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#addClassTextModal" data-datatype="0" data-mtitle="新しいクラス/テキストの登録">
                     <span data-feather="plus" style="width:20px;height:20px;"></span>
-                    <span>新しいクラス/テキストを登録</span>
+                    <span>クラス/テキスト追加</span>
                   </button>
                 </div>
                 <div class="col-auto">
@@ -243,13 +260,8 @@
                   </button>
                 </div>
               </div>
+              <!-- /.row -->
 
-              @if(count($test_classes) === 0)
-              <div class="alert alert-secondary mt-2" role="alert">
-                登録されているクラス/テストデータはありません。
-              </div>
-
-              @else
               <div class="row mt-2" style="width:100%;height:30px;margin:0;">
                 <div class="h6 col-3 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">クラス</div>
                 <div class="h6 col-9 border" style="margin-bottom:0;padding:5px;background-color:#E9ECEF;">関連テキスト</div>
@@ -257,257 +269,269 @@
               <div class="row" style="width:100%;height:450px;margin:0;">
                 <div class="col-3 border" style="height:470px;padding:5px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  @foreach($test_classes as $index => $val)
+                  @foreach($corpus_classes as $index => $class)
                     @if($index === 0)
                       <a class="nav-link active h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
                     @else
                     <a class="nav-link h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
                     @endif
-                      <span>{{ $val->name }}</span>
-                      <span class="badge badge-pill badge-light ml-1">{{ $val->data_count }}</span>
+                      <span>{{ $class->name }}</span>
+                      <span class="badge badge-pill badge-light ml-1">{{ $class->test_data_count }}</span>
                     </a>
                   @endforeach
                   </div>
                 </div>
                 <div class="col-9 border" style="padding:5px;height:470px;overflow-y:scroll;background-color:#F8F9FA;">
                   <div class="tab-content" id="v-pills-tabContent">
-                  @foreach($test_classes as $index => $val)
+                  @foreach($corpus_classes as $index => $class)
                     @if($index === 0)
                     <div class="tab-pane fade show active list-group" id="v-pills-{{ $index }}_2" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}_2" style="">
                     @else
                     <div class="tab-pane fade show list-group" id="v-pills-{{ $index }}_2" role="tabpanel" aria-labelledby="v-pills-tab{{ $index }}_2" style="">
                     @endif
+
+                    @if(count($test_creatives[$class->id]) === 0)                    
+                      <div class="alert alert-secondary mt-2" role="alert">
+                        登録されているテキストはありません
+                      </div>
+                    @else
                       <ul class="corpusTextList">
-                    @for($i = 0; $i < count($test_creatives[$val->id]); $i++)
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#corpusEditTextModal">{{ $test_creatives[$val->id][$i]->content }}</a></li>
-                    @endfor                        
+                        @for($i = 0; $i < count($test_creatives[$class->id]); $i++)
+                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" 
+                          data-target="#editClassTextModal" data-mtitle="テキスト編集" data-classid="{{ $class->id }}" data-content="{{ $test_creatives[$class->id][$i]->content }}" 
+                          data-creativeid="{{ $test_creatives[$class->id][$i]->id }}" data-datatype="0">{{ $test_creatives[$class->id][$i]->content }}</a></li>
+                        @endfor
                       </ul>
+                    @endif
                     </div>
                   @endforeach
                   </div>
                 </div>
               </div>
+              @else
+              <div class="alert alert-secondary mt-2" role="alert">
+                登録されているテストクラス/テストデータはありません。
+              </div>
+              <!-- /.alert -->
               @endif
             </div>
-            <!-- /.tab-page  -->
+            <!-- /.tab-pane  -->
           </div>
-
-
-          <!-- 学習データ追加Modal -->
-          <div class="modal fade" id="addClassTextModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <form action="/corpus/data/create/{{ $corpus_id }}" method="post">
-                  {{ csrf_field() }}
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="alert alert-info" role="alert">
-                      追加するデータを入力してください
-                    </div>
-                    <!-- /.alert -->
-
-                    <div class="default-form-area mt-4">
-                      <div class="form-group">
-                        <label for="addContent">追加するテキスト</label>
-                        <textarea name="content" class="form-control" id="addContent" rows="3" style="border-width: 1px;"></textarea>
-                        <small class="form-text text-muted">1000文字以内で入力してください。</small>
-                      </div>
-                      <!-- /.form-group -->
-                      <div class="form-group">
-                        <label for="selectClass">クラス選択</label>
-                        <select name="corpus_class_id" class="form-control form-control-sm" id="selectClass" style="border-width: 1px;">
-                        @foreach($training_classes as $index => $val)
-                          @if($index === 0)
-                          <option value="{{ $val->id }}" selected>{{ $val->name }}</option>
-                          @else
-                          <option value="{{ $val->id }}">{{ $val->name }}</option>
-                          @endif
-
-                        @endforeach
-                          <option value="">＋クラスを追加</option>
-                        </select>
-                      </div>
-                      <!-- /.form-group -->
-                    </div>
-                    <!-- /.default-form-area -->
-
-                    <div id="add-class-form-area">
-                      <div class="form-group">
-                        <label for="addClass">追加するクラス名</label>
-                        <input type="text" name="add_class_name" class="form-control" id="addClass" style="border-width: 1px;">
-                      </div>
-                      <!-- /.form-group -->
-                    </div>
-                    <!-- /.add-class-form-area -->
-                  </div>
-                  <!-- /.modal-body -->
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">保存する</button>
-                    <input type="hidden" name="data_type" class="add_data_type">
-                  </div>
-                  <!-- /.modal-footer -->
-                </form>
-                <!-- /form -->
-              </div>
-              <!-- /.modal-content -->
-            </div>
-          </div>
-          <!-- /学習データ追加Modal -->
-
-
-          <!-- テキスト編集Modal -->
-          <div class="modal fade" id="editClassTextModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content" id="edit-content">
-                <form action="/corpus/data/edit/{{ $corpus_id }}" method="post">
-                  {{ csrf_field() }}
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="alert alert-info" role="alert">
-                      クラス/テキストを変更できます。
-                    </div>
-                    <!-- /.alert -->
-
-                    <div class="default-form-area mt-4">
-                      <div class="form-group">
-                        <label for="addContent">追加するテキスト</label>
-                        <textarea name="content" class="form-control" id="addContent" rows="3" style="border-width: 1px;"></textarea>
-                        <small class="form-text text-muted">1000文字以内で入力してください。</small>
-                      </div>
-                      <!-- /.form-group -->
-                      <div class="form-group">
-                        <label for="selectClass">クラス選択</label>
-                        <select name="corpus_class_id" class="form-control form-control-sm" id="selectClass" style="border-width: 1px;">
-                        @foreach($training_classes as $index => $val)
-                          @if($index === 0)
-                          <option value="{{ $val->id }}" selected>{{ $val->name }}</option>
-                          @else
-                          <option value="{{ $val->id }}">{{ $val->name }}</option>
-                          @endif
-
-                        @endforeach
-                        </select>
-                      </div>
-                      <!-- /.form-group -->
-                    </div>
-                    <!-- /.default-form-area -->
-                  </div>
-                  <!-- /.modal-body -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="delConflBtn">削除する</button>
-                    <button type="submit" class="btn btn-primary">変更する</button>
-                    <input type="hidden" name="data_type" class="add_data_type">
-                    <input type="hidden" name="creative_id" class="creative_id">
-                  </div>
-                  <!-- /.modal-footer -->
-                </form>
-                <!-- /form -->
-              </div>
-              <!-- /.modal-content -->
-
-              <div class="modal-content" id="del-content" style="display:none;">
-              <form action="/corpus/data/delete/{{ $corpus_id }}" method="post">
-                  {{ csrf_field() }}
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
-                      テキストを削除しようとしています。
-                    </div>
-                    <!-- /.alert -->
-
-                    <div class="default-form-area mt-4">
-                      <p>削除をやめる場合は、キャンセルボタンを押してください。</p>
-                    </div>
-                    <!-- /.default-form-area -->
-                  </div>
-                  <!-- /.modal-body -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="closeBtn">キャンセル</button>
-                    <button type="submit" class="btn btn-danger">削除する</button>
-                    <input type="hidden" name="creative_id" class="creative_id">
-                  </div>
-                  <!-- /.modal-footer -->
-                </form>
-                <!-- /form -->
-              </div>
-              <!-- /.modal-content -->
-            </div>
-          </div>
-          <!-- /テキスト編集モーダル -->
-
-
-          <!-- 学習データアップロード -->
-          <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <form action="/corpus/csv/upload/{{ $corpus_id }}/training" method="post" enctype="multipart/form-data" id="csvUpload">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">学習データのアップロード</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <!-- /.modal-header -->
-                  <div class="modal-body">
-                    <input type="file" value="ファイルを選択" name="csv_file">
-                    {{ csrf_field() }}
-                  </div>
-                  <!-- /.modal-body -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                    <button type="submit" class="btn btn-primary">アップロードする</button>
-                  </div>
-                  <!-- /.modal-footer -->
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- /#SelectCsvModal -->
-
-          <!-- テストデータアップロード -->
-          <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <form action="/corpus/csv/upload/{{ $corpus_id }}/test" method="post" enctype="multipart/form-data" id="csvUpload">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">テストデータのアップロード</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <!-- /.modal-header -->
-                  <div class="modal-body">
-                    <input type="file" value="ファイルを選択" name="csv_file">
-                    {{ csrf_field() }}
-                  </div>
-                  <!-- /.modal-body -->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                    <button type="submit" class="btn btn-primary">アップロードする</button>
-                  </div>
-                  <!-- /.modal-footer -->
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- /#SelectCsvModal -->
-
-
         </section>
+
+        <!-- 学習データ追加Modal -->
+        <div class="modal fade" id="addClassTextModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form action="/corpus/data/create/{{ $corpus_id }}" method="post">
+                {{ csrf_field() }}
+                <div class="modal-header">
+                  <h5 class="modal-title"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-warning" role="alert">
+                    追加するデータを入力してください
+                  </div>
+                  <!-- /.alert -->
+
+                  <div class="default-form-area mt-4">
+                    <div class="form-group">
+                      <label for="addContent">追加するテキスト</label>
+                      <textarea name="content" class="form-control" id="addContent" rows="3">{{ old('content') }}</textarea>
+                      <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                      <label for="selectClass">クラス選択</label>
+                      <select name="corpus_class_id" class="form-control form-control-sm" id="selectClass">
+                      @foreach($corpus_classes as $index => $class)
+                        @if($index === 0)
+                        <option value="{{ $class->id }}" selected>{{ $class->name }}</option>
+                        @else
+                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                        @endif
+                      @endforeach
+                        <option value="">＋クラスを追加</option>
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.default-form-area -->
+
+                  <div id="add-class-form-area">
+                    <div class="form-group">
+                      <label for="addClass">追加するクラス名</label>
+                      <input type="text" name="add_class_name" class="form-control" id="addClass">
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.add-class-form-area -->
+                </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" id="add_content_btn">保存する</button>
+                  <input type="hidden" name="data_type" class="add_data_type">
+                </div>
+                <!-- /.modal-footer -->
+              </form>
+              <!-- /form -->
+            </div>
+            <!-- /.modal-content -->
+          </div>
+        </div>
+        <!-- /学習データ追加Modal -->
+
+
+        <!-- テキスト編集Modal -->
+        <div class="modal fade" id="editClassTextModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" id="edit-content">
+              <form action="/corpus/data/edit/{{ $corpus_id }}" method="post">
+                {{ csrf_field() }}
+                <div class="modal-header">
+                  <h5 class="modal-title"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-warning" role="alert">
+                    クラス/テキストを変更できます。
+                  </div>
+                  <!-- /.alert -->
+
+                  <div class="default-form-area mt-4">
+                    <div class="form-group">
+                      <label for="addContent">テキスト</label>
+                      <textarea name="content" class="form-control" id="addContent" rows="3"></textarea>
+                      <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                      <label for="selectClass">クラス選択</label>
+                      <select name="corpus_class_id" class="form-control form-control-sm" id="selectClass">
+                      @foreach($corpus_classes as $index => $class)
+                        @if($index === 0)
+                        <option value="{{ $class->id }}" selected>{{ $class->name }}</option>
+                        @else
+                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                        @endif
+
+                      @endforeach
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.default-form-area -->
+                </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" id="delConflBtn">削除する</button>
+                  <button type="submit" class="btn btn-primary">変更する</button>
+                  <input type="hidden" name="data_type" class="current_data_type">
+                  <input type="hidden" name="creative_id" class="creative_id">
+                </div>
+                <!-- /.modal-footer -->
+              </form>
+              <!-- /form -->
+            </div>
+            <!-- /.modal-content -->
+
+            <div class="modal-content" id="del-content" style="display:none;">
+            <form action="/corpus/data/delete/{{ $corpus_id }}" method="post">
+                {{ csrf_field() }}
+                <div class="modal-header">
+                  <h5 class="modal-title">テキスト削除</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-danger" role="alert">
+                    テキストを削除しようとしています。
+                  </div>
+                  <!-- /.alert -->
+
+                  <div class="default-form-area mt-4">
+                    <p>削除をやめる場合は、キャンセルボタンを押してください。</p>
+                  </div>
+                  <!-- /.default-form-area -->
+                </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" id="closeBtn">キャンセル</button>
+                  <button type="submit" class="btn btn-danger">削除する</button>
+                  <input type="hidden" name="creative_id" class="creative_id">
+                  <input type="hidden" name="data_type" class="current_data_type">
+                </div>
+                <!-- /.modal-footer -->
+              </form>
+              <!-- /form -->
+            </div>
+            <!-- /.modal-content -->
+          </div>
+        </div>
+        <!-- /テキスト編集モーダル -->
+
+
+        <!-- 学習データアップロード -->
+        <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form action="/corpus/data/csv/upload/training/{{ $corpus_id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">学習データのアップロード</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <!-- /.modal-header -->
+                <div class="modal-body">
+                  <input type="file" value="ファイルを選択" name="csv_file">
+                  {{ csrf_field() }}
+                </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                  <button type="submit" class="btn btn-primary">アップロードする</button>
+                </div>
+                <!-- /.modal-footer -->
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /#SelectCsvModal -->
+
+        <!-- テストデータアップロード -->
+        <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form action="/corpus/data/csv/upload/test/{{ $corpus_id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">テストデータのアップロード</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <!-- /.modal-header -->
+                <div class="modal-body">
+                  <input type="file" value="ファイルを選択" name="csv_file">
+                  {{ csrf_field() }}
+                </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                  <button type="submit" class="btn btn-primary">アップロードする</button>
+                </div>
+                <!-- /.modal-footer -->
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /#SelectCsvModal -->
+
       </main>
 @endsection
