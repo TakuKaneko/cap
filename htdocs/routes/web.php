@@ -29,7 +29,6 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/corpus/data/edit/{corpus_id}', 'CorpusController@editCreative');
   Route::post('/corpus/data/delete/{corpus_id}', 'CorpusController@deleteCreative');
   Route::get('/corpus/csv/download/{corpus_id}', 'CorpusController@trainingDataDownload');
-  // Route::post('/corpus/csv/upload/{corpus_id}/{upload_data_type}', 'CorpusController@trainingDataUplocad');
   Route::post('/corpus/data/csv/upload/training/{corpus_id}', 'CorpusController@trainingDataUplocad');
   Route::post('/corpus/data/csv/upload/test/{corpus_id}', 'CorpusController@testDataUplocad');
   Route::get('/corpus/training', function() {
