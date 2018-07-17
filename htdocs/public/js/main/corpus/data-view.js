@@ -105,6 +105,7 @@ function setAddClassTextModal() {
       logInfo('change');
 
       var $targetEl = $('#add-class-form-area');
+      var $addClassNameField = $('#addClass');
       var idx = this.selectedIndex;
       var value = this.options[idx].value; // 値
 
@@ -112,9 +113,27 @@ function setAddClassTextModal() {
         $targetEl.hide();
       } else {
         $targetEl.show();
+        $addClassNameField.prop('required', true);
       }
     });
 
+    // フォームのバリデーション
+    window.addEventListener('load', function () {
+      var forms = $('#add-content-form');
+
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+
+    // 初期処理
     $select.trigger('change');
   });
 }
@@ -166,6 +185,22 @@ function seteditClassTextModal() {
     $closeBtn.on('click', function () {
       $modal.modal('hide');
     });
+
+    // フォームのバリデーション
+    window.addEventListener('load', function () {
+      var forms = $('#edit-content-form');
+
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
   });
 }
 

@@ -323,7 +323,7 @@
         <div class="modal fade" id="addClassTextModal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/create/{{ $corpus_id }}" method="post">
+              <form action="/corpus/data/create/{{ $corpus_id }}" method="post" class="needs-validation" id="add-content-form">
                 {{ csrf_field() }}
                 <div class="modal-header">
                   <h5 class="modal-title"></h5>
@@ -340,8 +340,11 @@
                   <div class="default-form-area mt-4">
                     <div class="form-group">
                       <label for="addContent">追加するテキスト</label>
-                      <textarea name="content" class="form-control" id="addContent" rows="3">{{ old('content') }}</textarea>
+                      <textarea name="content" class="form-control" id="addContent" rows="3" required>{{ old('content') }}</textarea>
                       <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                      <div class="invalid-feedback">
+                        テキストを入力してください
+                      </div>
                     </div>
                     <!-- /.form-group -->
                     <div class="form-group">
@@ -365,6 +368,9 @@
                     <div class="form-group">
                       <label for="addClass">追加するクラス名</label>
                       <input type="text" name="add_class_name" class="form-control" id="addClass">
+                      <div class="invalid-feedback">
+                        クラス名を入力してください
+                      </div>
                     </div>
                     <!-- /.form-group -->
                   </div>
@@ -389,7 +395,7 @@
         <div class="modal fade" id="editClassTextModal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content" id="edit-content">
-              <form action="/corpus/data/edit/{{ $corpus_id }}" method="post">
+              <form action="/corpus/data/edit/{{ $corpus_id }}" method="post" class="needs-validation" id="edit-content-form">
                 {{ csrf_field() }}
                 <div class="modal-header">
                   <h5 class="modal-title"></h5>
@@ -406,8 +412,11 @@
                   <div class="default-form-area mt-4">
                     <div class="form-group">
                       <label for="addContent">テキスト</label>
-                      <textarea name="content" class="form-control" id="addContent" rows="3"></textarea>
+                      <textarea name="content" class="form-control" id="addContent" rows="3" required></textarea>
                       <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                      <div class="invalid-feedback">
+                        テキストを入力してください
+                      </div>
                     </div>
                     <!-- /.form-group -->
                     <div class="form-group">
