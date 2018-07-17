@@ -23,7 +23,7 @@ class CorpusesTableSeeder extends Seeder
                 'service_identify_id' => str_random(10),
                 'status' => CorpusStateType::Available,
                 'type' => '1',
-                'is_production' => true,
+                'is_production' => false,
                 'created_at' => '2018-04-01 12:00:00',
                 'updated_at' => NOW()
             ],

@@ -18,8 +18,8 @@ class CreateCorpusClassesTable extends Migration
             $table->string('name');
             $table->string('corpus_id');
             $table->string('threshold')->nullable();
-            $table->string('data_count');
-            $table->string('data_type');
+            $table->string('training_data_count');
+            $table->string('test_data_count');
             $table->timestamps();
         });
     }

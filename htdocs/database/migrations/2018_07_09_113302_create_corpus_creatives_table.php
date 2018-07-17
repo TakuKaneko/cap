@@ -16,6 +16,7 @@ class CreateCorpusCreativesTable extends Migration
         Schema::create('corpus_creatives', function (Blueprint $table) {
             $table->increments('id');
             $table->string('corpus_class_id');
+            $table->string('data_type');
             $table->string('content');
             $table->timestamps();
         });

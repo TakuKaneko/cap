@@ -18,8 +18,8 @@ class CorpusClassesTableSeeder extends Seeder
                 'name' => 'クラスA',
                 'corpus_id' => '100',
                 'threshold' => null,
-                'data_count' => 3,
-                'data_type' => 1,
+                'training_data_count' => 2,
+                'test_data_count' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -28,8 +28,8 @@ class CorpusClassesTableSeeder extends Seeder
                 'name' => 'クラスB',
                 'corpus_id' => '100',
                 'threshold' => null,
-                'data_count' => 2,
-                'data_type' => 1,
+                'training_data_count' => 1,
+                'test_data_count' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -38,8 +38,8 @@ class CorpusClassesTableSeeder extends Seeder
                 'name' => 'クラスC',
                 'corpus_id' => '100',
                 'threshold' => null,
-                'data_count' => 2,
-                'data_type' => 0,
+                'training_data_count' => 1,
+                'test_data_count' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -48,8 +48,8 @@ class CorpusClassesTableSeeder extends Seeder
                 'name' => 'クラスD',
                 'corpus_id' => '101',
                 'threshold' => null,
-                'data_count' => 2,
-                'data_type' => 1,
+                'training_data_count' => 1,
+                'test_data_count' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -58,11 +58,21 @@ class CorpusClassesTableSeeder extends Seeder
                 'name' => 'クラスE',
                 'corpus_id' => '101',
                 'threshold' => null,
-                'data_count' => 2,
-                'data_type' => 0,
+                'training_data_count' => 1,
+                'test_data_count' => 1,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
+            [
+                'id' => 6,
+                'name' => 'クラスa',
+                'corpus_id' => '1',
+                'threshold' => null,
+                'training_data_count' => 1,
+                'test_data_count' => 1,
+                'created_at' => NOW(),
+                'updated_at' => NOW()
+            ]
         ]);
     }
 }
