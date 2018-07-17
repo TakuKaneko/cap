@@ -17,9 +17,6 @@ class CreateCorpusesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable(false);
             $table->string('description');
-            $table->string('service_url');
-            $table->string('service_username');
-            $table->string('service_hidden_password');
             $table->string('service_identify_id');
             $table->string('status');
             $table->integer('type');
