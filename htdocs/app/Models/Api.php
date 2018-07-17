@@ -14,4 +14,12 @@ class Api extends Model
         return $this->belongsToMany('App\Models\Corpus')->withTimeStamps();
     }
 
+    /**
+     * APIを所有する企業情報を取得
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Models\Company');
+    }
+
 }
