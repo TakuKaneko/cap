@@ -12,19 +12,122 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\Api;
+use App\Models\CompanyApi;
+use App\Models\ApiCorpus;
 use App\Models\Corpus;
 use App\Models\CorpusClass;
 use App\Models\CorpusCreative;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;          // DBのトランザクション利用
+use Validator;
+
 use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
+use App\Enums\CorpusType;
+use App\Enums\ClassifierLanguage;
 
 class CorpusController extends Controller
 {
     // コーパス管理画面の表示
     public function index() {
-      return view('dashboard.corpusdemo', ['corpuses' => Corpus::all()]);
+
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      $company_id = $user->company_id;
+    
+      // コーパス一覧取得
+      $corpuses = Corpus::where('company_id', $company_id)->orderBy('is_production', 'desc')->orderBy('created_at', 'desc')->get();
+
+      foreach($corpuses as $index => $corpus) {
+        // 関連apiのテキスト追加
+        $related_api_text = "";
+
+        $api_corpus = ApiCorpus::where('corpus_id', $corpus->id)->first();
+        if(!empty($api_corpus)) {
+          $api_id = $api_corpus->api_id;
+
+          $api = Api::find($api_id);
+          if(!empty($api)) {
+            $related_api_text = $api->name;
+          }
+        }
+        $corpuses[$index]['related_api_text'] = $related_api_text;
+      }
+
+      return view('dashboard.corpusdemo', ['corpuses' => $corpuses, 'language_list' => ClassifierLanguage::getList()]);
+    }
+
+
+    /**
+     * コーパス管理画面
+     */
+    public function corpusView($corpus_id) {
+
+      if($corpus_id === null) {
+        throw new \Exception('パラメータが不正です...');
+      }
+
+      // コーパス情報取得
+      $corpus = Corpus::find($corpus_id);
+      return view('corpus-admin.ca-detail', ['corpus' => $corpus]);
+
+    }
+
+
+
+    /**
+     * コーパスの新規作成
+     */
+    public function createCorpus(Request $request) {
+
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // 
+      $validator = Validator::make($request->all(), Corpus::$create_rule, Corpus::$create_error_messages);
+      if($validator->fails()) {
+        return redirect('/corpus')->withErrors($validator)->withInput();
+      }
+      
+      $form = $request->all();
+
+      // 登録処理
+      DB::beginTransaction();
+
+      try {
+        $corpus = new Corpus;
+        $corpus->name = $form['name'];
+        $corpus->description = $form['description'];
+        $corpus->service_identify_id = "";
+        $corpus->status = CorpusStateType::NoTrainingData;
+        $corpus->type = CorpusType::NationalLanguage;
+        $corpus->is_production = false;
+        $corpus->company_id = $user->company_id;
+        $corpus->language = $form['language'];
+        $corpus->save();
+
+        DB::commit();
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+
+        return redirect('corpus')
+          ->with('error_msg', 'コーパスの作成処理に失敗しました...')->withInput();
+      };
+
+      // 処理成功
+      return redirect('corpus')->with('success_msg', 'コーパスの作成に成功しました');
+
     }
 
 
@@ -36,8 +139,8 @@ class CorpusController extends Controller
         throw new \Exception('パラメータが不正です...');
       }
 
-      $corpus_info = Corpus::find($corpus_id);
-      $classes = CorpusClass::where('corpus_id', $corpus_id)->get();
+      $corpus = Corpus::find($corpus_id);
+      $classes = CorpusClass::where('corpus_id', $corpus->id)->get();
       
       $training_crative_list = [];
       $test_crative_list = [];
@@ -66,8 +169,7 @@ class CorpusController extends Controller
       }
 
       return view('corpus-admin.ca-data-view', [
-        'corpus_id' => $corpus_id, 
-        'corpus_info' => $corpus_info,
+        'corpus' => $corpus, 
         'corpus_classes' => $classes,
         'training_creatives' => $training_crative_list,
         'test_creatives' => $test_crative_list
@@ -654,6 +756,14 @@ class CorpusController extends Controller
     
 
     /**
+     * 学習管理画面
+     */
+    public function trainingManage($corpus_id) {
+      return view('corpus-admin.ca-training', ['corpus' => Corpus::find($corpus_id)]);
+    }
+
+
+    /**
      * CSVファイルが正常にアップされたかどうか
      */
     private function getCsvFileStatus($request) {
@@ -672,6 +782,7 @@ class CorpusController extends Controller
       
       return $bool;
     }
+
 
 
     /**
