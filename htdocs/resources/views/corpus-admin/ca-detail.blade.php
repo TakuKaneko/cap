@@ -23,6 +23,39 @@
 </style>
       <!--  コンテンツ  -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
+        @if(Session::has('success_msg'))
+        <div class="alert alert-success" role="alert">
+          {{ session('success_msg') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif
+
+        @if(Session::has('error_msg'))
+        <div class="alert alert-danger" role="alert">
+          {{ session('error_msg') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @endif
+
+
+        @if(count($errors) > 0)
+        <div class="alert alert-danger" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <ul style="margin-bottom: 0;">
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+          </ul>
+        </div>
+        @endif
+
+
         <div class="panel-group mt-1">
           <div class="panel panel-default">
             <div class="panel-heading border-bottom mb-2">
@@ -46,7 +79,7 @@
                     </tr>
                     <tr>
                       <th scope="row">コーパス説明</th>
-                      <td>{{ $corpus->description }}</td>
+                      <td>{!! nl2br(e($corpus->description)) !!}</td>
                     </tr>
                     <tr>
                       <th scope="row">言語</th>
@@ -63,9 +96,9 @@
                   </tbody>
                 </table>
                 <div class="float-right">
-                  <a href="/corpus/basic/edit/1">
+                  <a href="javascript:void(0);">
                     <span class="text-muted" data-feather="settings" style="width:15px;height:15px;"></span>
-                    <span class="text-muted">編集する</span>
+                    <span class="text-muted" data-toggle="modal" data-target="#editCorpusModal">編集する</span>
                   </a>
                 </div>
               </div>
@@ -308,4 +341,72 @@
         });
 
       </script>
+
+
+      <!-- コーパス編集 -->
+      <div class="modal fade" id="editCorpusModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action="/corpus/edit" method="post" class="needs-validation" id="edit-corpus-form">
+              {{ csrf_field() }}
+              <div class="modal-header">
+                <h5 class="modal-title">コーパスの編集</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p><small>コーパスを作成し教師データを学習することで、ユーザから入力されたクリエイティブの意図を分類し、結果をAPIとして提供できます。</small></p>
+
+                <div class="default-form-area mt-4">
+                  <div class="form-group">
+                    <label for="editCorpusName">コーパス名</label>
+                    <input type="text" name="name" value="{{ $corpus->name }}" class="form-control" id="editCorpusName" aria-describedby="nameHelp" required>
+                    <small id="nameHelp" class="form-text text-muted">10字程度の識別しやすい名前を記入してください。</small>
+                    <div class="invalid-feedback">
+                      コーパス名を入力してください
+                    </div>
+                  </div>
+                  <!-- /.form-group -->
+
+                  <div class="form-group">
+                    <label for="editDescription">説明文</label>
+                    <textarea name="description" class="form-control" id="editDescription" rows="3" required>{{ $corpus->description }}</textarea>
+                    <!-- <small class="form-text text-muted">1000文字以内で入力してください。</small> -->
+                    <div class="invalid-feedback">
+                      説明文を入力してください
+                    </div>
+                  </div>
+                  <!-- /.form-group -->
+
+                  <div class="form-group">
+                    <label for="selectClass">言語</label>
+                    <select name="language" class="form-control form-control-sm" id="selectClass">
+                    @foreach($language_list as $index => $language)
+                      @if($corpus->language == $language['value'])
+                      <option value="{{ $language['value'] }}" selected>{{ $language['label'] }}</option>
+                      @else
+                      <option value="{{ $language['value'] }}">{{ $language['label'] }}</option>
+                      @endif
+                    @endforeach
+                    </select>
+                  </div>
+                  <!-- /.form-group -->
+                </div>
+                <!-- /.default-form-area -->
+
+              </div>
+              <!-- /.modal-body -->
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="add_content_btn">編集する</button>
+                <input type="hidden" name="corpus_id" value="{{ $corpus->id }}">
+              </div>
+              <!-- /.modal-footer -->
+            </form>
+            <!-- /form -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+      </div>
+      <!-- /学習データ追加Modal -->
 @endsection

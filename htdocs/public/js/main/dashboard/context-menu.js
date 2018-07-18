@@ -732,30 +732,69 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var contextTargets = document.getElementsByClassName('detail-card');
 
 	var _loop = function _loop(_i) {
-		contextMenuObj = new ContextMenu({
-			element: contextTargets[_i],
-			menuList: [{
-				text: '詳細表示' + _i,
-				// target  : '_blank',
-				action: function action() {
-					console.log(contextTargets[_i]);
-					alert('button 1 click');
-				}
-			}, {
-				text: '複製' + _i,
-				action: function action() {
-					alert('button 2 click');
-				}
-			}, {
-				text: '削除' + _i,
-				action: function action() {
-					alert('button 3 click');
-				}
-			}]
-		});
+		// 削除モーダル用
+		var $el = contextTargets[_i];
+		var corpus_id = $el.getAttribute('data-corpus-id');
+		var corpus_is_production = $el.getAttribute('data-corpus-is-production');
+
+		// 暫定
+		if (corpus_is_production > 0) {
+			contextMenuObj = new ContextMenu({
+				element: contextTargets[_i],
+				menuList: [{
+					text: '詳細表示',
+					// target  : '_blank',
+					action: function action() {
+						console.log(contextTargets[_i]);
+						alert('button 1 click');
+					}
+				}, {
+					text: '複製',
+					action: function action() {
+						alert('button 2 click');
+					}
+				}]
+			});
+		} else {
+			contextMenuObj = new ContextMenu({
+				element: contextTargets[_i],
+				menuList: [{
+					text: '詳細表示',
+					// target  : '_blank',
+					action: function action() {
+						console.log(contextTargets[_i]);
+						alert('button 1 click');
+					}
+				}, {
+					text: '複製',
+					action: function action() {
+						alert('button 2 click');
+					}
+				}, {
+					text: '削除',
+					action: function action() {
+						var $modalEl = $('#deleteCorpusModal');
+						$modalEl.modal();
+						$modalEl.find('#h-corpus-id').val(corpus_id);
+
+						// 削除
+						var $form = $modalEl.find('#corpus_delete_form');
+						var $del_btn = $modalEl.find('#delete-confirm-btn');
+
+						$del_btn.off('click');
+						$del_btn.on('click', function () {
+							if (confirm('コーパスを削除してもよろしいですか？')) {
+								$form.submit();
+							}
+						});
+					}
+				}]
+			});
+		}
 	};
 
 	for (var _i = 0; _i < contextTargets.length; _i++) {
+		var contextMenuObj;
 		var contextMenuObj;
 
 		_loop(_i);

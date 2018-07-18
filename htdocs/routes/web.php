@@ -17,6 +17,8 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/', 'DashboardController@index')->name('home');
   Route::get('/corpus', 'CorpusController@index')->name('corpus');
   Route::post('/corpus/create', 'CorpusController@createCorpus');
+  Route::post('/corpus/edit', 'CorpusController@editCorpus');
+  Route::post('/corpus/delete', 'CorpusController@deleteCorpus');
 
   Route::get('/api-info', 'ApiInfoController@index')->name('api-info');
 

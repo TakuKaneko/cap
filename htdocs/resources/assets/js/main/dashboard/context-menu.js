@@ -656,31 +656,76 @@
    */
 	var contextTargets = document.getElementsByClassName('detail-card');
 	for(let i = 0; i < contextTargets.length; i++) {
-		var contextMenuObj = new ContextMenu({
-			element  : contextTargets[i],
-			menuList : [
-				{
-					text  : '詳細表示' + i,
-					// target  : '_blank',
-					action  : function() {
-						console.log(contextTargets[i]);
-						alert('button 1 click');
+		// 削除モーダル用
+		const $el = contextTargets[i];
+		const corpus_id = $el.getAttribute('data-corpus-id');
+		const corpus_is_production = $el.getAttribute('data-corpus-is-production');
+
+		// 暫定
+		if(corpus_is_production > 0) {
+			var contextMenuObj = new ContextMenu({
+				element  : contextTargets[i],
+				menuList : [
+					{
+						text  : '詳細表示',
+						// target  : '_blank',
+						action  : function() {
+							console.log(contextTargets[i]);
+							alert('button 1 click');
+						}
+					},
+					{
+						text  : '複製',
+						action  : function() {
+							alert('button 2 click');
+						}
 					}
-				},
-				{
-					text  : '複製' + i,
-					action  : function() {
-						alert('button 2 click');
+				]
+			});
+			
+		} else {
+			var contextMenuObj = new ContextMenu({
+				element  : contextTargets[i],
+				menuList : [
+					{
+						text  : '詳細表示',
+						// target  : '_blank',
+						action  : function() {
+							console.log(contextTargets[i]);
+							alert('button 1 click');
+						}
+					},
+					{
+						text  : '複製',
+						action  : function() {
+							alert('button 2 click');
+						}
+					},
+					{
+						text  : '削除',
+						action  : function() {
+							const $modalEl = $('#deleteCorpusModal');
+							$modalEl.modal();
+							$modalEl.find('#h-corpus-id').val(corpus_id);
+	
+							// 削除
+							const $form = $modalEl.find('#corpus_delete_form');
+							const $del_btn = $modalEl.find('#delete-confirm-btn');
+	
+							$del_btn.off('click');
+							$del_btn.on('click', function() {
+								if(confirm('コーパスを削除してもよろしいですか？')) {
+									$form.submit();
+								}
+							});
+	
+						}
 					}
-				},
-				{
-					text  : '削除' + i,
-					action  : function() {
-						alert('button 3 click');
-					}
-				}
-			]
-		});
+				]
+			});
+		}
+				
+	
 	}
 })(this || window);
 

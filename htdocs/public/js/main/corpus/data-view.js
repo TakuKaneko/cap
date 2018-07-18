@@ -76,6 +76,33 @@ function logInfo(msg) {
 }
 
 /**
+ * コーパスの編集
+ */
+function setEditCorpusModal() {
+  var $modalEl = $('#editCorpusModal');
+
+  $modalEl.off('show.bs.modal');
+  $modalEl.on('show.bs.modal', function (event) {
+
+    // フォームのバリデーション
+    window.addEventListener('load', function () {
+      var $forms = $('#edit-corpus-form');
+
+      var validation = Array.prototype.filter.call($forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  });
+}
+
+/**
  * クラス/テキスト追加モーダル
  */
 function setAddClassTextModal() {
@@ -207,6 +234,7 @@ function seteditClassTextModal() {
 function initialize() {
   setAddClassTextModal();
   seteditClassTextModal();
+  setEditCorpusModal();
 }
 
 // 

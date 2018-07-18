@@ -31,7 +31,7 @@ use App\Enums\ClassifierLanguage;
 
 class CorpusController extends Controller
 {
-    // コーパス管理画面の表示
+    // コーパス一覧画面の表示
     public function index() {
 
       // 認証チェック
@@ -66,23 +66,6 @@ class CorpusController extends Controller
 
 
     /**
-     * コーパス管理画面
-     */
-    public function corpusView($corpus_id) {
-
-      if($corpus_id === null) {
-        throw new \Exception('パラメータが不正です...');
-      }
-
-      // コーパス情報取得
-      $corpus = Corpus::find($corpus_id);
-      return view('corpus-admin.ca-detail', ['corpus' => $corpus]);
-
-    }
-
-
-
-    /**
      * コーパスの新規作成
      */
     public function createCorpus(Request $request) {
@@ -93,7 +76,7 @@ class CorpusController extends Controller
         return redirect('login'); // ログアウト
       }
 
-      // 
+      // バリデーション
       $validator = Validator::make($request->all(), Corpus::$create_rule, Corpus::$create_error_messages);
       if($validator->fails()) {
         return redirect('/corpus')->withErrors($validator)->withInput();
@@ -120,13 +103,137 @@ class CorpusController extends Controller
 
       } catch (\PDOException $e){
         DB::rollBack();
+        return redirect('corpus')->with('error_msg', 'コーパスの作成に失敗しました')->withInput();
 
-        return redirect('corpus')
-          ->with('error_msg', 'コーパスの作成処理に失敗しました...')->withInput();
       };
 
       // 処理成功
-      return redirect('corpus')->with('success_msg', 'コーパスの作成に成功しました');
+      return redirect('corpus')->with('success_msg', 'コーパスが作成されました');
+
+    }
+
+
+
+    /**
+     * コーパスの削除
+     */
+    public function deleteCorpus(Request $request) {
+
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // バリデーション
+      $validator = Validator::make($request->all(), Corpus::$delete_rule, Corpus::$delete_error_messages);
+      if($validator->fails()) {
+        return redirect('/corpus')->withErrors($validator);
+      }
+
+
+      $form = $request->all();
+      $corpus_id = $form['corpus_id'];
+
+      // 登録処理
+      DB::beginTransaction();
+
+      try {
+        // コーパスの削除
+        $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id);
+        // $corpus = Corpus::where('id', $corpus_id)->where('company_id', '9999');
+        
+        if(!empty($corpus)) {
+          $corpus->delete();
+
+          // 関連するクラス、クリエイティブの削除
+          $del_classes = CorpusClass::where('corpus_id', $corpus_id);
+  
+          $del_class_id_list = [];
+          foreach($del_classes->get() as $class) {
+            $del_class_id_list[] = $class->id;
+          }
+          $del_creatives = CorpusCreative::whereIn('corpus_class_id', $del_class_id_list);
+  
+          $del_classes->delete();
+          $del_creatives->delete();
+  
+          DB::commit();
+
+        } else {
+          throw new \PDOException();
+        }
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+        return redirect('/corpus')->with('error_msg', 'コーパスの削除に失敗しました');
+
+      };
+
+      // 処理成功
+      return redirect('/corpus')->with('success_msg', 'コーパスの削除が完了しました');
+    }
+
+
+
+    /**
+     * コーパス管理画面
+     */
+    public function corpusView($corpus_id) {
+
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // コーパス情報取得
+      $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
+      return view('corpus-admin.ca-detail', ['corpus' => $corpus,  'language_list' => ClassifierLanguage::getList()]);
+    }
+
+
+
+    /**
+     * コーパスの編集
+     */
+    public function editCorpus(Request $request) {
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // フォーム入力値チェック
+      $validator = Validator::make($request->all(), Corpus::$create_rule, Corpus::$create_error_messages);
+      if($validator->fails()) {
+        return redirect('/corpus/view/'. $corpus_id)->withErrors($validator)->withInput();
+      }
+
+      $form = $request->all();
+      $corpus_id = $form['corpus_id'];
+
+      // 登録処理
+      DB::beginTransaction();
+
+      try {
+        $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
+        $corpus->name = $form['name'];
+        $corpus->description = $form['description'];
+        $corpus->language = $form['language'];
+        $corpus->save();
+
+        DB::commit();
+
+      } catch (\PDOException $e){
+        DB::rollBack();
+
+        return redirect('/corpus/view/'. $corpus_id)
+          ->with('error_msg', 'コーパスの編集に失敗しました')->withInput();
+      };
+
+      // 処理成功
+      return redirect('/corpus/view/'. $corpus_id)->with('success_msg', 'コーパスの編集が完了しました');
 
     }
 
@@ -135,11 +242,15 @@ class CorpusController extends Controller
      * コーパス データ管理画面
      */
     public function corpusDataView($corpus_id) {
-      if($corpus_id === null) {
-        throw new \Exception('パラメータが不正です...');
-      }
 
-      $corpus = Corpus::find($corpus_id);
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+      
+
+      $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
       $classes = CorpusClass::where('corpus_id', $corpus->id)->get();
       
       $training_crative_list = [];
@@ -156,7 +267,6 @@ class CorpusController extends Controller
         foreach($creatives as $creative) {
           $data_type = (int)$creative->data_type;
           
-          
           if($data_type === CorpusDataType::Training) {
             $training_crative_list[$class_id][] = $creative;
 
@@ -169,63 +279,68 @@ class CorpusController extends Controller
       }
 
       return view('corpus-admin.ca-data-view', [
-        'corpus' => $corpus, 
-        'corpus_classes' => $classes,
-        'training_creatives' => $training_crative_list,
-        'test_creatives' => $test_crative_list
+        'corpus' => $corpus, 'corpus_classes' => $classes,
+        'training_creatives' => $training_crative_list, 'test_creatives' => $test_crative_list
       ]);
 
     }
+    
 
 
     /**
      * クリエイティブの新規作成
      */
     public function createCreative($corpus_id, Request $request) {
-      $form = $request->all();
 
-      // 新規のクラス追加があるかどうか
-      $add_class_flag = false;
-
-      if($form['corpus_class_id'] === null) {
-        $add_class_rule = [
-          'add_class_name' => 'required'
-        ];
-        $this->validate($request, $add_class_rule);
-
-        $add_class_flag = true; 
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
       }
 
 
-      // バリデーション
-      $creative_rule = [
-        'content' => 'required|between:1,1000'
-      ];
-      $this->validate($request, $creative_rule);
+      // フォーム入力値チェック
+      $validator = Validator::make($request->all(), CorpusCreative::$create_rule, CorpusCreative::$create_error_messages);
 
+      $validator->sometimes('add_class_name', 'required', function($input) {
+        return $input->corpus_class_id === null;
+      });
+
+      if($validator->fails()) {
+        return redirect('/corpus/data/view/'. $corpus_id)->withErrors($validator);
+      }
+
+      // 
+      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+      if($my_corpus === 0) {
+        throw new \Exception('リクエストパラメータが不正です');
+      }
+
+
+      $form = $request->all();
 
       // 登録処理
       DB::beginTransaction();
-
-      // 処理完了のリダイレクト時にフロント側に情報を渡すためのもの
-      // $with_res = $this->getResponseForJs();
 
       try {
         $get_data_type = (int)$form['data_type'];
         $corpus_class_id = $form['corpus_class_id'];
 
 
-        if($add_class_flag) {
+        if($corpus_class_id === null) {
+          $this->logInfo('新規のクラス登録を実施します');
+
           // 同じ名前のクラス名がないかどうか
           $add_class_name = $form['add_class_name'];
-
           $count = CorpusClass::where('corpus_id', $corpus_id)->where('name', 'like binary', $add_class_name)->count();
           $this->logInfo($count);
 
           if($count > 0) {
-            throw new \Exception('既に同じクラス名が存在しています...');
+            throw new \Exception('既に同じクラス名が存在しています');
 
           } else {
+            $this->logInfo('クラス新規登録');
+
             // クラス登録
             $class = new CorpusClass;
             $class->name = $add_class_name;
@@ -271,39 +386,45 @@ class CorpusController extends Controller
 
       } catch (\PDOException $e){
         DB::rollBack();
-
-        return redirect('/corpus/data/view/' . $corpus_id)
-          ->with('error_msg', 'データベースへの登録に失敗しました...');
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', CorpusDataType::getDescription($get_data_type) . 'の登録に失敗しました');
 
       } catch(\Exception $e) {
         DB::rollBack();
-
-        return redirect('/corpus/data/view/' . $corpus_id)
-         ->with('error_msg', $e->getMessage());
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
 
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)
-        ->with('success_msg', '登録が完了しました');
-      
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type) . 'の登録が完了しました');
     }
+
 
 
     /**
      * クリエイティブの編集
      */
     public function editCreative($corpus_id, Request $request) {
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // フォーム入力値チェック
+      $validator = Validator::make($request->all(), CorpusCreative::$edit_rule, CorpusCreative::$edit_error_messages);
+
+      if($validator->fails()) {
+        return redirect('/corpus/data/view/'. $corpus_id)->withErrors($validator);
+      }
+
+      // 
+      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+      if($my_corpus === 0) {
+        throw new \Exception('リクエストパラメータが不正です');
+      }
+
+
       $form = $request->all();
-
-
-      $valid_rule = [
-        'content' => 'required|between:1,1000',
-        'corpus_class_id' => 'required',
-        'creative_id' => 'required'
-      ];
-      $this->validate($request, $valid_rule);
-
 
       // 更新処理
       DB::beginTransaction();
@@ -312,8 +433,6 @@ class CorpusController extends Controller
         $get_data_type = (int)$form['data_type'];
         $edit_class_id = $form['corpus_class_id'];
 
-        $this->logInfo($get_data_type);
-
         // 更新
         $creative = CorpusCreative::find($form['creative_id']);
         $current_class_id = $creative->corpus_class_id;         // 所属するクラスに変更があったかどうか判断する用
@@ -321,9 +440,6 @@ class CorpusController extends Controller
         $creative->corpus_class_id = $edit_class_id;
         $creative->content = $form['content'];
         $creative->save();
-
-        $this->logInfo($edit_class_id);
-        $this->logInfo($current_class_id);
         
 
         // クラスが変更になっていたらクラスのデータ件数の更新
@@ -364,24 +480,31 @@ class CorpusController extends Controller
             $current_class->test_data_count = $count;
           }
           $current_class->save();
+
+          // 元のクラスが0件になっていたら、削除する
+          if((int)$current_class->training_data_count === 0) {
+            // 関連するクリエイティブも削除
+            $related_creative = CorpusCreative::where('corpus_class_id', $current_class->id);
+            $related_creative->delete();
+
+            // 自分を削除
+            $current_class->delete();
+          }
         }
 
         DB::commit();
 
-
       } catch (\PDOException $e){
         DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データベースへの登録に失敗しました...');
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', CorpusDataType::getDescription($get_data_type) . 'の編集に失敗しました');
 
       } catch(\Exception $e) {
         DB::rollBack();
         return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
-
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', '編集が完了しました');
-
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type) . 'の編集が完了しました');
     }
 
 
@@ -389,13 +512,26 @@ class CorpusController extends Controller
      * クリエイティブの削除
      */
     public function deleteCreative($corpus_id, Request $request) {
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // フォーム入力値チェック
+      $validator = Validator::make($request->all(), CorpusCreative::$delete_rule, CorpusCreative::$delete_error_messages);
+      if($validator->fails()) {
+        return redirect('/corpus/data/view/'. $corpus_id)->withErrors($validator);
+      }
+
+      // 
+      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+      if($my_corpus === 0) {
+        throw new \Exception('リクエストパラメータが不正です');
+      }
+
+
       $form = $request->all();
-
-      $valid_rule = [
-        'creative_id' => 'required'
-      ];
-      $this->validate($request, $valid_rule);
-
 
       // 削除処理
       DB::beginTransaction();
@@ -428,9 +564,6 @@ class CorpusController extends Controller
           $data_count = $class->training_data_count;
           $class_id = $class->id;
 
-          $this->logInfo($data_count);
-          $this->logInfo($class_id);
-
           if($data_count === 0) {
             $relate_creatives = CorpusCreative::where('corpus_class_id', $class_id);
             $relate_creatives->delete();
@@ -441,19 +574,17 @@ class CorpusController extends Controller
 
         DB::commit();
 
-
       } catch (\PDOException $e){
         DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データベースでの削除処理に失敗しました...');
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', CorpusDataType::getDescription($get_data_type) . 'の削除に失敗しました');
 
       } catch(\Exception $e) {
         DB::rollBack();
         return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
-
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', 'テキストを削除しました');
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type). 'の削除が完了しました');
 
     }
 
@@ -462,6 +593,20 @@ class CorpusController extends Controller
      * 学習データのCSVダウンロード
      */
     public function trainingDataDownload($corpus_id) {
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // 
+      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+      if($my_corpus === 0) {
+        throw new \Exception('リクエストパラメータが不正です');
+      }
+
+
+      // ダウンロードヘッダー
       $headers = array(
         "Content-type" => "text/csv",
         "Content-Disposition" => "attachment; filename=training_data.csv",
@@ -503,11 +648,25 @@ class CorpusController extends Controller
       return response()->stream($callback, 200, $headers);
     }
 
+    
 
     /**
      * 学習データCSVアップロード
      */
     public function trainingDataUplocad($corpus_id, Request $request) {
+      // 認証チェック
+      $user = Auth::user();
+      if($user === null) {
+        return redirect('login'); // ログアウト
+      }
+
+      // 
+      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+      if($my_corpus === 0) {
+        throw new \Exception('リクエストパラメータが不正です');
+      }
+
+
       // CSVファイルがアップできたかどうか
       if(!$this->getCsvFileStatus($request)) {
         return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'ファイルのアップロードに失敗しました...');
@@ -517,7 +676,6 @@ class CorpusController extends Controller
       // csvファイル読み込み
       $csv_tmp_file = $request->file('csv_file');
       $csv_file_path = $csv_tmp_file->path();
-
       $file = $this->loadCsvFile($csv_tmp_file);
 
 

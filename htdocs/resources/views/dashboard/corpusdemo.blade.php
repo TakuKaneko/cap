@@ -53,7 +53,7 @@ function time_diff($update_time)
             @if(Session::has('success_msg'))
               <div class="row mt-3">
                 <div class="col-12">
-                  <div class="alert alert-success">
+                  <div class="alert alert-info">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <i class="material-icons">close</i>
                     </button>
@@ -99,7 +99,19 @@ function time_diff($update_time)
 
             <!-- 新規作成ボタン -->
               <div class="row mt-2">
-                <button type="button" class="btn btn-danger" style="margin-left:15px;" data-toggle="modal" data-target="#NlCreateModal">新規作成</button>
+              @if(count($corpuses) < 8) 
+                <button type="button" class="btn btn-danger" style="margin-left:15px;" data-toggle="modal" data-target="#addCorpusModal">新規作成</button>
+              @else
+              <div class="col-12">
+                <div class="alert alert-warning">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <p style="margin-bottom: 0;">作成できるコーパスは8個までです。<br>
+                  新たにコーパスを作成する場合、登録されているコーパスを削除してください。</p>
+                </div>
+              </div>
+              @endif
               </div>
               <!-- /.row -->
 
@@ -109,7 +121,7 @@ function time_diff($update_time)
               @foreach($corpuses as $corpus)
                 <!-- カード -->
                 <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="card detail-card" style="margin:10px 0;" onclick="window.open('/corpus/view/{{ $corpus->id }}','_blank')">
+                  <div class="card detail-card" style="margin:10px 0;" onclick="window.open('/corpus/view/{{ $corpus->id }}','_blank')" data-corpus-id="{{ $corpus->id }}" data-corpus-name="{{ $corpus->name }}" data-corpus-is-production="{{ $corpus->is_production }}">
                   @if($corpus->is_production)
                     <span class="ribbon13-2">本番</span>
                   @else
@@ -171,7 +183,7 @@ function time_diff($update_time)
 
 
   <!-- 新規作成モーダル -->
-  <div class="modal fade" id="NlCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addCorpusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form action="/corpus/create" method="post" name="corpus" id="corpus_create_form">
@@ -214,6 +226,35 @@ function time_diff($update_time)
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="submit" class="btn btn-brand" value="作成">
+          </div>
+          <!-- /.modal-footer -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal -->
+
+  <!-- 削除モーダル -->
+  <div class="modal fade" id="deleteCorpusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="/corpus/delete" method="post" name="corpus" id="corpus_delete_form">
+          <div class="modal-header">
+            <h5 class="modal-title h3" id="exampleModalLabel">コーパスの削除</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- /.modal-header -->
+          <div class="modal-body">
+            <p class="confirm-message">コーパスを削除すると、登録されている教師データが全て削除され、関連しているAPIも応答ができなくなります。</p>
+          </div>
+          <!-- /.modal-body -->
+          <div class="modal-footer text-center">
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button> -->
+            <button type="button" class="btn btn-danger" id="delete-confirm-btn">確認</button>
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
+            <input type="hidden" name="corpus_id" value="" id="h-corpus-id">
           </div>
           <!-- /.modal-footer -->
         </form>
