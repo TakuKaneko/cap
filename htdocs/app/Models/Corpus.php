@@ -24,6 +24,16 @@ class Corpus extends Model
         'language.required' => '言語を指定してください'
     );
 
+    /**
+     * 削除バリデーション
+     */
+    public static $delete_rule = array(
+        'corpus_id' => 'required'
+    );
+
+    public static $delete_error_messages = array(
+        'corpus_id.required' => 'パラメータが不明です...'
+    );
 
 
     /**
