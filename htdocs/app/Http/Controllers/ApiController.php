@@ -36,7 +36,7 @@ class ApiController extends Controller
         $company = Company::find($this->getUserCompanyID($token))->first(); // ->select('nlc_url')
         $nlc = new NLC($company->nlc_url, $company->nlc_username, $company->nlc_password);
 
-        var_dump( $nlc );exit;
+        
     }
 
     /**
