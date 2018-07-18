@@ -36,7 +36,4 @@ class ApiInfoController extends Controller
         return view('dashboard.api-info');
     }
 
-    public function test(Request $request) {
-        return $request->header();
-    }
 }
