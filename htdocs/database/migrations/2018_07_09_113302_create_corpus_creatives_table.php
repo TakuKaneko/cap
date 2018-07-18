@@ -17,7 +17,7 @@ class CreateCorpusCreativesTable extends Migration
             $table->increments('id');
             $table->string('corpus_class_id');
             $table->string('data_type');
-            $table->string('content');
+            $table->text('content');
             $table->timestamps();
         });
     }
