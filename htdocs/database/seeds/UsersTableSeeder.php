@@ -35,6 +35,18 @@ class UsersTableSeeder extends Seeder
         'remember_token' => '',
         'created_at' => NOW(),
         'updated_at' => NOW()
+      ],
+      [
+        'sei_kanji' => 'パソナテック',
+        'sei_kana' => 'ぱそなてっく',
+        'mei_kanji' => '管理者',
+        'mei_kana' => 'かんりしゃ',
+        'email' => 'test3@gmail.com',
+        'password' => bcrypt('sld003'),
+        'company_id' => 2,
+        'remember_token' => '',
+        'created_at' => NOW(),
+        'updated_at' => NOW()
       ]
     ]);
   }

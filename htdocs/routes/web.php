@@ -16,12 +16,17 @@ Route::group(['middleware' => ['auth']], function () {
   /* 全体管理画面 */
   Route::get('/', 'DashboardController@index')->name('home');
   Route::get('/corpus', 'CorpusController@index')->name('corpus');
+  Route::post('/corpus/create', 'CorpusController@createCorpus');
+
   Route::get('/api-info', 'ApiInfoController@index')->name('api-info');
 
   /* CMS */
-  Route::match(['get', 'post'], '/corpus/view/1', function() {
-    return view('corpus-admin.ca-detail');
-  });
+  // Route::match(['get', 'post'], '/corpus/view/1', function() {
+  //   return view('corpus-admin.ca-detail');
+  // });
+
+  /**コーパス管理画面 */
+  Route::get('/corpus/view/{corpus_id}', 'CorpusController@corpusView');
 
   /** コーパス管理画面 データ管理 */
   Route::get('/corpus/data/view/{corpus_id}', 'CorpusController@corpusDataView');
@@ -31,9 +36,13 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/corpus/csv/download/{corpus_id}', 'CorpusController@trainingDataDownload');
   Route::post('/corpus/data/csv/upload/training/{corpus_id}', 'CorpusController@trainingDataUplocad');
   Route::post('/corpus/data/csv/upload/test/{corpus_id}', 'CorpusController@testDataUplocad');
-  Route::get('/corpus/training', function() {
-    return view('corpus-admin.ca-training');
-  });
+  
+  // // Route::get('/corpus/training', function() {
+  //   return view('corpus-admin.ca-training');
+  // });
+  // 暫定
+  Route::get('/corpus/training/{corpus_id}', 'CorpusController@trainingManage');
+
   Route::get('/settings', function() {
     Log::info("アクセスsaretayo.");
     return view('dashboard.settings');
