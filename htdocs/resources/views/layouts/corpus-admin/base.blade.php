@@ -73,7 +73,7 @@
               @if (Request::is('corpus/view/1'))
               <a class="nav-link active" href="/corpus/view/1">
               @else
-              <a class="nav-link" href="/corpus/view/1">
+              <a class="nav-link" href="/corpus/view/{{ $corpus->id }}">
               @endif
                 <span data-feather="file-text"></span>
                 基本情報
@@ -83,7 +83,7 @@
               @if (Request::is('corpus/data/view/1'))
               <a class="nav-link active" href="/corpus/data/view/1">
               @else
-              <a class="nav-link" href="/corpus/data/view/1">
+              <a class="nav-link" href="/corpus/data/view/{{ $corpus->id }}">
               @endif
                 <span data-feather="database"></span>
                 データ管理
@@ -101,9 +101,9 @@
             </li> --}}
             <li class="nav-item">
               @if (Request::is('corpus/training'))
-              <a class="nav-link active" href="/corpus/training">
+              <a class="nav-link active" href="/corpus/training/{{ $corpus->id }}">
               @else
-              <a class="nav-link" href="/corpus/training">
+              <a class="nav-link" href="/corpus/training/{{ $corpus->id }}">
               @endif
                 <span data-feather="edit"></span>
                 学習管理
@@ -111,9 +111,9 @@
             </li>
             <li class="nav-item">
               @if (Request::is('corpus/deploy/1'))
-              <a class="nav-link active" href="/corpus/deploy/1">
+              <a class="nav-link active" href="/corpus/deploy/{{ $corpus->id }}">
               @else
-              <a class="nav-link" href="/corpus/deploy/1">
+              <a class="nav-link" href="/corpus/deploy/{{ $corpus->id }}">
               @endif
                 <span data-feather="refresh-ccw"></span>
                 本番切替
@@ -121,9 +121,9 @@
             </li>
             {{--  <li class="nav-item">
               @if (Request::is('corpus/connect/1'))
-              <a class="nav-link active" href="/corpus/connect/1">
+              <a class="nav-link active" href="/corpus/connect/{{ $corpus->id }}">
               @else
-              <a class="nav-link" href="/corpus/connect/1">
+              <a class="nav-link" href="/corpus/connect/{{ $corpus->id }}">
               @endif
                 <span data-feather="zap"></span>
                 API接続情報
@@ -131,9 +131,9 @@
             </li>  --}}
             <li class="nav-item">
               @if (Request::is('corpus/stop/1'))
-              <a class="nav-link active" href="/corpus/stop/1">
+              <a class="nav-link active" href="/corpus/stop/{{ $corpus->id }}">
               @else
-              <a class="nav-link" href="/corpus/stop/1">
+              <a class="nav-link" href="/corpus/stop/{{ $corpus->id }}">
               @endif
                 <span data-feather="zap-off"></span>
                 停止

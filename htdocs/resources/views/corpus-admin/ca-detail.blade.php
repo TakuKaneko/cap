@@ -42,27 +42,23 @@
                   <tbody>
                     <tr>
                       <th scope="row">コーパス名</th>
-                      <td>薬機法＆景表法の文言チェック</td>
+                      <td>{{ $corpus->name }}</td>
                     </tr>
                     <tr>
                       <th scope="row">コーパス説明</th>
-                      <td>クリエイティブが薬機法もしくは景表法に抵触する可能性の有無を分類する。</td>
+                      <td>{{ $corpus->description }}</td>
                     </tr>
                     <tr>
                       <th scope="row">言語</th>
-                      <td>日本語</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">有効化ステータス</th>
-                      <td>有効</td>
+                      <td>{{\App\Enums\ClassifierLanguage::getJapaneseDescription($corpus->language)}}</td>
                     </tr>
                     <tr>
                       <th scope="row">作成日</th>
-                      <td>2018-06-01 12:00:00</td>
+                      <td>{{ $corpus->created_at }}</td>
                     </tr>
                     <tr>
                       <th scope="row">最終更新日</th>
-                      <td>2018-06-05 09:12:59</td>
+                      <td>{{ $corpus->updated_at }}</td>
                     </tr>
                   </tbody>
                 </table>

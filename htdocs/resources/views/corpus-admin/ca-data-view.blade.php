@@ -88,7 +88,7 @@
       {{--  コンテンツ  --}}
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
 
-        @if($corpus_info->is_production === true) 
+        @if($corpus->is_production) 
         <div class="row mt-3">
           <div class="col-12">
             <div class="alert alert-info" role="alert">
@@ -171,7 +171,7 @@
                     <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
                     <span>CSVアップロード</span>
                   </button>
-                  <a href="/corpus/csv/download/{{ $corpus_id }}" class="btn btn-light" role="button" aria-pressed="true">
+                  <a href="/corpus/csv/download/{{ $corpus->id }}" class="btn btn-light" role="button" aria-pressed="true">
                     <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
                     <span>CSVダウンロード</span>
                   </a>
@@ -323,7 +323,7 @@
         <div class="modal fade" id="addClassTextModal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/create/{{ $corpus_id }}" method="post" class="needs-validation" id="add-content-form">
+              <form action="/corpus/data/create/{{ $corpus->id }}" method="post" class="needs-validation" id="add-content-form">
                 {{ csrf_field() }}
                 <div class="modal-header">
                   <h5 class="modal-title"></h5>
@@ -395,7 +395,7 @@
         <div class="modal fade" id="editClassTextModal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content" id="edit-content">
-              <form action="/corpus/data/edit/{{ $corpus_id }}" method="post" class="needs-validation" id="edit-content-form">
+              <form action="/corpus/data/edit/{{ $corpus->id }}" method="post" class="needs-validation" id="edit-content-form">
                 {{ csrf_field() }}
                 <div class="modal-header">
                   <h5 class="modal-title"></h5>
@@ -450,7 +450,7 @@
             <!-- /.modal-content -->
 
             <div class="modal-content" id="del-content" style="display:none;">
-            <form action="/corpus/data/delete/{{ $corpus_id }}" method="post">
+            <form action="/corpus/data/delete/{{ $corpus->id }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-header">
                   <h5 class="modal-title">テキスト削除</h5>
@@ -490,7 +490,7 @@
         <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/csv/upload/training/{{ $corpus_id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+              <form action="/corpus/data/csv/upload/training/{{ $corpus->id }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">学習データのアップロード</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -518,7 +518,7 @@
         <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/csv/upload/test/{{ $corpus_id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+              <form action="/corpus/data/csv/upload/test/{{ $corpus->id }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">テストデータのアップロード</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
