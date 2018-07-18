@@ -21,6 +21,8 @@ class CreateCorpusesTable extends Migration
             $table->string('status');
             $table->integer('type');
             $table->boolean('is_production')->default(false);
+            $table->string('company_id');
+            $table->string('language');
             $table->softDeletes();
             $table->timestamps();
         });
