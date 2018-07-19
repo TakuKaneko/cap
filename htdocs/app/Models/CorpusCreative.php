@@ -18,6 +18,7 @@ class CorpusCreative extends Model
         'content.between' => 'テキストは1024文字以内で入力してください'
     );
 
+
     /**
      * 編集バリデーション
      */
@@ -34,6 +35,7 @@ class CorpusCreative extends Model
         'creative_id.required' => 'リクエストパラメータが不正です'
     );
 
+
     /**
      * 削除バリデーション
      */
@@ -45,4 +47,16 @@ class CorpusCreative extends Model
         'creative_id.required' => 'リクエストパラメータが不正です'
     );
 
+
+    /**
+     * CSVアップロードバリデーション
+     */
+    public static $csv_upload_rule = array(
+        'content' => 'required|between:0,1024'
+    );
+
+    public static $csv_upload_error_message = array(
+        'content.required' => 'テキストが入力されていないセルが存在します',
+        'content.between' => '1024文字以内でないテキストが存在します'
+    );
 }

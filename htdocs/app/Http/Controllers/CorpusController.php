@@ -23,6 +23,7 @@ use App\Models\CorpusCreative;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;          // DBのトランザクション利用
 use Validator;
+use Carbon\Carbon;
 
 use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
@@ -609,6 +610,7 @@ class CorpusController extends Controller
      * 学習データのCSVダウンロード
      */
     public function trainingDataDownload($corpus_id) {
+
       // 認証チェック
       $user = Auth::user();
       if($user === null) {
@@ -669,39 +671,47 @@ class CorpusController extends Controller
     /**
      * 学習データCSVアップロード
      */
-    public function trainingDataUplocad($corpus_id, Request $request) {
+    public function trainingDataUplocad($corpus_id, $data_type, Request $request) {
+
       // 認証チェック
       $user = Auth::user();
       if($user === null) {
         return redirect('login'); // ログアウト
       }
 
-      // 
-      $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
-      if($my_corpus === 0) {
-        throw new \Exception('リクエストパラメータが不正です');
+
+      // 前処理
+      try {
+        $my_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+
+        $data_type = (int)$data_type;
+        if($my_corpus === 0 || (($data_type !== CorpusDataType::Training && $data_type !== CorpusDataType::Test))) {
+          throw new \Exception('リクエストパラメータが不正です');
+        }
+  
+        // CSVファイルがアップできたかどうか
+        if(!$this->getCsvFileStatus($request)) {
+          throw new \Exception('CSVファイルのアップロードに失敗しました');
+        }
+
+        // csvファイル読み込み
+        $csv_tmp_file = $request->file('csv_file');
+        $csv_file_path = $csv_tmp_file->path();
+        $file = $this->loadCsvFile($csv_tmp_file);
+
+
+        // CSVデータ件数チェック(範囲: 5-15000件)
+        $res = $this->isAllowdCsvRow($file, $corpus_id);
+        if(!$res) {
+          throw new \Exception('アップロード可能なデータ件数は5〜15,000件です');
+        }
+
+      }  catch(\Exception $e) {
+
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
       }
 
-
-      // CSVファイルがアップできたかどうか
-      if(!$this->getCsvFileStatus($request)) {
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'ファイルのアップロードに失敗しました...');
-      }
-
-
-      // csvファイル読み込み
-      $csv_tmp_file = $request->file('csv_file');
-      $csv_file_path = $csv_tmp_file->path();
-      $file = $this->loadCsvFile($csv_tmp_file);
-
-
-      // CSVデータ件数チェック(範囲: 5-15000件)
-      $res = $this->isAllowdCsvRow($file, $corpus_id);
-      if(!$res) {
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データ件数が5-15,000件になっていません...'); 
-      }
-
-
+      
       // データの登録・削除処理
       $transact_result = false;
       DB::beginTransaction();
@@ -716,218 +726,98 @@ class CorpusController extends Controller
         foreach($del_classes->get() as $class) {
           $del_class_id_list[] = $class->id;
         }
-        $del_creatives = CorpusCreative::whereIn('corpus_class_id', $del_class_id_list);
 
-        $del_classes->delete();
+        // 学習 or テスト
+        if($data_type === CorpusDataType::Training) {
+          // 全てのクリエイティブ対象
+          $del_creatives = CorpusCreative::whereIn('corpus_class_id', $del_class_id_list);
+
+        } else {
+          // テストデータのみ対象
+          $del_creatives = CorpusCreative::whereIn('corpus_class_id', $del_class_id_list)->where('data_type', $data_type);
+
+        }
         $del_creatives->delete();
 
+        if($data_type === CorpusDataType::Training) {
+          $del_classes->delete();
+        }
+        
 
         // アップロードデータ登録処理
         $this->logInfo('データ登録処理開始');
 
-        $loaded_csv_data = [];
-        $class_list = [];
+        // 登録データの作成
+        $with_data = [
+          'corpus_id' => $corpus_id,
+          'data_type' => $data_type
+        ];
+
+        $insert_data = $this->createCreativeInsertData($file, $with_data);
+
+        // 登録処理
+        foreach($insert_data as $data) {
+          $creative = new CorpusCreative;
+          $creative->insert($data);
+        }
+
+
+        // クラスの登録件数更新
+        $this->logInfo("クラスの登録件数更新");
+
+        $added_classes = CorpusClass::where('corpus_id', $corpus_id)->get();
+        
         $class_id_list = [];
+        foreach($added_classes as $class) {
+          $added_creative_count = CorpusCreative::where('corpus_class_id', $class->id)->where('data_type', $data_type)->count();
 
+          $class = CorpusClass::find($class->id);
+          if($data_type === CorpusDataType::Training) {
+            $class->training_data_count = $added_creative_count;
 
-        $file->rewind();
-        foreach ($file as $line) {
-          $this->logInfo('現在の行: ' . $file->key());
-
-          // 最初の行をスキップ
-          if($file->key() === 0) {
-            continue;
+          } else {
+            $class->test_data_count = $added_creative_count;
           }
-
-          // 文字コード変更
-          mb_convert_variables('UTF-8', 'SJIS-win', $line);
-          $content = $line[0];
-          $class_name = $line[1];
-
-          $this->logInfo($content . ',' . $class_name);
-
-          if ($content === '' || $class_name === '') {
-            throw new \Exception('CSVで入力されていないカラムが存在します...');
-          }
-
-          // 未登録のクラスの場合、登録する
-          if(!array_key_exists($class_name, $class_list)) {
-            // クラス登録
-            $class = new CorpusClass;
-            $class->name = $class_name;
-            $class->corpus_id = $corpus_id;
-            $class->threshold = null;
-            $class->training_data_count = 0;              // あとで集計して更新する
-            $class->test_data_count = 0;                  // あとで集計して更新する
-            $class->save();
-
-            $class_list[$class_name] = $class->id;
-            $class_id_list[] = $class->id;
-          }
-
-          // クリエイティブの登録
-          $creative = new CorpusCreative;
-          $creative->corpus_class_id = $class_list[$class_name];
-          $creative->data_type = CorpusDataType::Training;
-          $creative->content = $content;
-          $creative->save();
-
-        }
-
-        
-        // クラスの登録件数更新
-        $this->logInfo("クラスの登録件数更新");
-        foreach($class_id_list as $class_id) {
-          // 学習データ件数
-          $training_data_count = CorpusCreative::where('corpus_class_id', $class_id)->where('data_type', CorpusDataType::Training)->count();
-          $training_class = CorpusClass::find($class_id);
-          $training_class->training_data_count = $training_data_count;
-          $training_class->save();
-        }
-
-        // コーパスのステータス更新
-        $this->logInfo("コーパスのステータス更新");
-        $corpus = Corpus::find($corpus_id);
-        $corpus->status = CorpusStateType::Untrained;
-        $corpus->save();
-
-        $this->logInfo("コミット");
-        DB::commit();
-
-      } catch (\PDOException $e){
-        DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データベースへの登録に失敗しました...');
-
-      } catch(\Exception $e) {
-        DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
-
-      }
-
-      $success_msg = 'アップロードに成功しました！';
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg);
-
-    }
-
-
-    /**
-     * テストデータCSVアップロード
-     */
-    public function testDataUplocad($corpus_id, Request $request) {
-
-      // CSVファイルがアップできたかどうか
-      if(!$this->getCsvFileStatus($request)) {
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'ファイルのアップロードに失敗しました...');
-      }
-
-
-      // csvファイル読み込み
-      $csv_tmp_file = $request->file('csv_file');
-      $csv_file_path = $csv_tmp_file->path();
-
-      $file = $this->loadCsvFile($csv_tmp_file);
-
-
-      // CSVデータ件数チェック(範囲: 5-15000件)
-      $res = $this->isAllowdCsvRow($file, $corpus_id);
-      if(!$res) {
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データ件数が5-15,000件になっていません...'); 
-      }
-
-
-      // データの登録・削除処理
-      $transact_result = false;
-      DB::beginTransaction();
-
-      try {
-
-        // 古いデータの削除
-        $this->logInfo('古いデータ削除開始');
-        $current_classes = CorpusClass::where('corpus_id', $corpus_id);
-
-        $current_class_id_list = [];
-        $current_class_list = [];
-        foreach($current_classes->get() as $class) {
-          $current_class_id_list[] = $class->id;
-          $current_class_list[$class->name] = $class->id;
-        }
-
-        $del_creatives = CorpusCreative::whereIn('corpus_class_id', $current_class_id_list)->where('data_type', CorpusDataType::Test);
-        $del_creatives->delete();
-        unset($del_creatives);
-
-
-        $this->logInfo('既存のクラス');
-        $this->logInfo($current_class_list);
-
-        // アップロードデータ登録処理
-        $this->logInfo('データ登録処理開始');
-
-
-        $file->rewind();
-        foreach ($file as $line) {
-          $this->logInfo('現在の行: ' . $file->key());
-
-          // 最初の行をスキップ
-          if($file->key() === 0) {
-            continue;
-          }
-
-          // 文字コード変更
-          mb_convert_variables('UTF-8', 'SJIS-win', $line);
-          $content = $line[0];
-          $class_name = $line[1];
-
-          $this->logInfo($content . ',' . $class_name);
-
-          if ($content === '' || $class_name === '') {
-            throw new \Exception('CSVで入力されていないカラムが存在します...');
-          }
-
-          // 既存のクラスかどうか判定
           
-          if(!array_key_exists($class_name, $current_class_list)) {
-            throw new \Exception('存在しないクラス名が指定されています...');
-          }
-
-          // クリエイティブの登録
-          $creative = new CorpusCreative;
-          $creative->corpus_class_id = $current_class_list[$class_name];
-          $creative->data_type = CorpusDataType::Test;
-          $creative->content = $content;
-          $creative->save();
-
+          $class->save();
         }
-
         
-        // クラスの登録件数更新
-        $this->logInfo("クラスの登録件数更新");
-        foreach($current_class_id_list as $class_id) {
-          // テストデータ件数
-          $test_data_count = CorpusCreative::where('corpus_class_id', $class_id)->where('data_type', CorpusDataType::Test)->count();
-          $test_class = CorpusClass::find($class_id);
-          $test_class->test_data_count = $test_data_count;
-          $test_class->save();
+
+        // // コーパスのステータス更新
+        $this->logInfo("コーパスのステータス更新");
+        if($data_type === CorpusDataType::Training) {
+          $corpus = Corpus::find($corpus_id);
+          $corpus->status = CorpusStateType::Untrained;
+          $corpus->save();
         }
+        
 
         $this->logInfo("コミット");
         DB::commit();
 
+
       } catch (\PDOException $e){
         DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データベースへの登録に失敗しました...');
+        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', 'データベースへの登録に失敗しました');
 
       } catch(\Exception $e) {
         DB::rollBack();
-        return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
+
+        if($e->getCode() === 999) {
+          return redirect('/corpus/data/view/'. $corpus_id)->withErrors($e->getMessage());
+
+        } else {
+
+          return redirect('/corpus/data/view/' . $corpus_id)->with('error_msg', $e->getMessage());
+        }
 
       }
 
-      $success_msg = 'アップロードに成功しました！';
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg);
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', 'CSVアップロードに成功しました');
 
     }
     
+
 
     /**
      * 学習管理画面
@@ -988,6 +878,8 @@ class CorpusController extends Controller
       $max_row_count = 15000;
 
       $this->logInfo('行数チェック開始');
+
+      $file->rewind();
       foreach ($file as $line) {
         // 最初の行をスキップ
         if($file->key() === 0) {
@@ -1005,6 +897,121 @@ class CorpusController extends Controller
 
       return $bool;
     }
+
+
+    /**
+     * クリエイティブ一括登録用データ作成
+     */
+    private function createCreativeInsertData($file, $relate_data) {
+      $created_class_list = [];
+      $insert_creative_data = [];
+
+      $now = Carbon::now();
+      $corpus_id = $relate_data['corpus_id'];
+      $current_data_type = $relate_data['data_type'];
+
+
+      // 既存のクラス
+      $current_class_name_list = [];
+      
+      if($current_data_type === CorpusDataType::Test) {
+        $classes = CorpusClass::where('corpus_id', $corpus_id)->get();
+
+        foreach($classes as $class) {
+          $current_class_name_list[$class->name] = $class->id;
+        }
+      }
+      
+
+      $file->rewind();
+      $key = 0;
+      foreach ($file as $line) {
+        // 最初の行をスキップ
+        if($file->key() === 0) {
+          continue;
+        }
+
+        // 文字コード変更
+        mb_convert_variables('UTF-8', 'SJIS-win', $line);
+        $content = $line[0];
+        $class_name = $line[1];
+
+        // クラス名のバリデーション
+        $validator = Validator::make(array('class_name' => $class_name), CorpusClass::$csv_insert_rule, CorpusClass::$csv_insert_error_message);
+        if($validator->fails()) {
+          // エクセプション投げる
+          throw new \Exception('クラス名が入力されていないセルが存在します');
+        }
+
+        // クリエイティブのバリデーション
+        $validator = Validator::make(array('content' => $content), CorpusCreative::$csv_upload_rule, CorpusCreative::$csv_upload_error_message);
+        if($validator->fails()) {
+          // foreach($validator->errors() as $index => $error) {
+          //   var_dump($index);
+          //   var_dump($error);
+          // }
+          $errors = $validator->errors()->all()[0];
+          // var_dump();
+          // exit;
+          
+          // エクセプション投げる
+          throw new \Exception($errors);
+        }
+
+
+        if($current_data_type === CorpusDataType::Training) {
+          
+          // 未作成のクラス登録
+          if(!array_key_exists($class_name, $created_class_list)) {
+            // クラス登録
+            $class = new CorpusClass;
+            $class->name = $class_name;
+            $class->corpus_id = $corpus_id;
+            $class->threshold = null;
+            $class->training_data_count = 0;              // あとで集計して更新する
+            $class->test_data_count = 0;                  // あとで集計して更新する
+            $class->save();
+  
+            $created_class_list[$class_name] = $class->id;
+          }
+
+        } else {
+
+          // 既存のクラス名が指定されているかどうか
+          if(!array_key_exists($class_name, $current_class_name_list)) {
+            throw new \Exception('学習データに登録されていないクラス名が指定されています');
+          }
+
+        }
+        
+
+        $set_class_id = "";
+        if($current_data_type === CorpusDataType::Training) {
+          $set_class_id = $created_class_list[$class_name];
+
+        } else {
+          $set_class_id = $current_class_name_list[$class_name];
+        }
+
+        
+        $insert_creative_data[$key][]  = [
+          'corpus_class_id' => $set_class_id,
+          'data_type' => $current_data_type,
+          'content' => $content,
+          'created_at' => $now,
+          'updated_at' => $now
+        ];
+
+        if(count($insert_creative_data[$key]) === 1000) {
+          $key++;
+        }
+
+      }
+
+      // dd($insert_creative_data);exit;
+      return $insert_creative_data;
+    }
+
 
 
     /**

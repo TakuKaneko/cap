@@ -341,7 +341,7 @@
                     <div class="form-group">
                       <label for="addContent">追加するテキスト</label>
                       <textarea name="content" class="form-control" id="addContent" rows="3" required>{{ old('content') }}</textarea>
-                      <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                      <small class="form-text text-muted">1024文字以内で入力してください。</small>
                       <div class="invalid-feedback">
                         テキストを入力してください
                       </div>
@@ -413,7 +413,7 @@
                     <div class="form-group">
                       <label for="addContent">テキスト</label>
                       <textarea name="content" class="form-control" id="addContent" rows="3" required></textarea>
-                      <small class="form-text text-muted">1000文字以内で入力してください。</small>
+                      <small class="form-text text-muted">1024文字以内で入力してください。</small>
                       <div class="invalid-feedback">
                         テキストを入力してください
                       </div>
@@ -490,7 +490,7 @@
         <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/csv/upload/training/{{ $corpus->id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+              <form action="/corpus/data/csv/upload/{{ $corpus->id }}/{{ \App\Enums\CorpusDataType::Training }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">学習データのアップロード</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -518,7 +518,7 @@
         <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form action="/corpus/data/csv/upload/test/{{ $corpus->id }}" method="post" enctype="multipart/form-data" id="csvUpload">
+              <form action="/corpus/data/csv/upload/{{ $corpus->id }}/{{ \App\Enums\CorpusDataType::Test }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">テストデータのアップロード</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
