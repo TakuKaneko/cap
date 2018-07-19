@@ -374,6 +374,15 @@ class CorpusController extends Controller
           $count++;
           $update_class->training_data_count = $count;
 
+          // コーパスのステータス更新
+          // 学習データ登録時に教師データなしステータスだったら未学習に更新
+          $corpus = Corpus::find($corpus_id);
+          // dd($corpus->status);
+          if((int)$corpus->status === CorpusStateType::NoTrainingData) {
+            $corpus->status = CorpusStateType::Untrained;
+            $corpus->save();
+          }
+
         } else if($get_data_type === CorpusDataType::Test) {
           $count = $update_class->test_data_count;
           $count++;
@@ -550,6 +559,13 @@ class CorpusController extends Controller
           $count = $class->training_data_count;
           $count--;
           $class->training_data_count = $count;
+
+          // 学習データが0件の時、コーパスステータスを未学習に更新
+          if($count === 0) {
+            $corpus = Corpus::find($corpus_id);
+            $corpus->status = CorpusStateType::NoTrainingData;
+            $corpus->save();
+          }
 
         } else if($get_data_type === CorpusDataType::Test) {
           $count = $class->test_data_count;
