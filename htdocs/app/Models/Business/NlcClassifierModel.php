@@ -171,22 +171,26 @@ class NlcClassifierModel
         // 審査対象テキスト
         $res_array['text'] =  $text;
         // 閾値以上のクラス
-        $class_name_array = array(); // クラス名配列
-        $confidence_array = array(); // 確信度配列
+        $nlc_result_array = array(); // クラス名と確信度を部分抽出した配列
         foreach ($nlc_res['classes'] as $key => $value)
         {
-            $class_name_array[$key] = $value['class_name'];
-            $confidence_array[$key] = $value['confidence'];
-        } 
+            $nlc_result_array[$value['class_name']] = $value['confidence'];
+        }
 
         $target_corpus = Api::where('display_api_id', 'like', $display_api_id)->first()->corpuses->first();
         $target_classes = $target_corpus->corpusClasses;
 
-        $class_threshold = array();
+        $class_threshold_array = array();
         foreach ($target_classes as $class)
         {
-            $class_threshold[$class->name] = $class->threshold;
+            $class_threshold_array[$class->name] = $class->threshold;
         }
+
+        $result_array = array();
+        foreach ($nlc_result_array as $nlc_result_value)
+        {
+            echo $nlc_result_value . " , ";
+        }exit;
 
         var_dump( $class_threshold );exit;
 
