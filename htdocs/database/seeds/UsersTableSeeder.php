@@ -14,9 +14,7 @@ class UsersTableSeeder extends Seeder
     DB::table('users')->insert([
       [
         'sei_kanji' => 'テスト',
-        'sei_kana' => 'てすと',
         'mei_kanji' => '太郎1',
-        'mei_kana' => 'たろう1',
         'email' => 'test@gmail.com',
         'password' => bcrypt('sld001'),
         'company_id' => 1,
@@ -26,9 +24,7 @@ class UsersTableSeeder extends Seeder
       ],
       [
         'sei_kanji' => 'テスト',
-        'sei_kana' => 'てすと',
         'mei_kanji' => '太郎2',
-        'mei_kana' => 'たろう2',
         'email' => 'test2@gmail.com',
         'password' => bcrypt('sld002'),
         'company_id' => 1,
@@ -38,9 +34,7 @@ class UsersTableSeeder extends Seeder
       ],
       [
         'sei_kanji' => 'パソナテック',
-        'sei_kana' => 'ぱそなてっく',
         'mei_kanji' => '管理者',
-        'mei_kana' => 'かんりしゃ',
         'email' => 'test3@gmail.com',
         'password' => bcrypt('sld003'),
         'company_id' => 2,
