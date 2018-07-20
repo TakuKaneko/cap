@@ -17,8 +17,8 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/', 'DashboardController@index')->name('home');
   Route::get('/corpus', 'CorpusController@index')->name('corpus');
   Route::post('/corpus/create', 'CorpusController@createCorpus');
-  Route::post('/corpus/edit', 'CorpusController@editCorpus');
   Route::post('/corpus/delete', 'CorpusController@deleteCorpus');
+  Route::post('/corpus/edit/{corpus_id}', 'CorpusController@editCorpus');
 
   Route::get('/api-info', 'ApiInfoController@index')->name('api-info');
 
@@ -46,10 +46,15 @@ Route::group(['middleware' => ['auth']], function () {
   // 暫定
   Route::get('/corpus/training/{corpus_id}', 'CorpusController@trainingManage');
 
-  Route::get('/settings', function() {
-    Log::info("アクセスsaretayo.");
-    return view('dashboard.settings');
-  });
+  // サービス管理
+  Route::get('/settings', 'ServiceController@index');
+  // Route::post('/settings/user/create', 'Auth\RegisterController@register');
+  Route::post('/settings/user/register', 'ServiceController@registerUser');
+  Route::post('/settings/user/edit', 'ServiceController@editUser');
+  Route::post('/settings/user/delete', 'ServiceController@deleteUser');
+  // Route::post('/settings/user/register', function() {
+  //   echo 'test';
+  // });
 });
 
 // Route::get('/acount', function() {
