@@ -16,10 +16,12 @@ class ApiController extends Controller
     /**
      * AI判定結果のAPIレスポンス
      */
-    public function getCognitiveAdCheckResult(Request $request, $api_id) {
+    public function getCognitiveAdCheckResult(Request $request, $display_api_id) {
         /* API認証の実行 */
         $token = $request->header('X-Pasonatech-Cap-Token');
         $auth_flg = $this->isAuthenticated($token);
+        // 実在するdisplay_api_idであればapi_idを保持、実在しなければFALSE
+        $api_id_flg = $this->changeApiId($display_api_id); 
 
         // エラー処理：認証失敗した場合
         if (!$auth_flg)
@@ -31,7 +33,7 @@ class ApiController extends Controller
             ]);
         } 
         // エラー処理：API-IDが不正な場合
-        elseif (!ctype_digit($api_id))
+        elseif (!$api_id_flg)
         {
             return response()->json([
                 'code' => '404',
@@ -44,7 +46,7 @@ class ApiController extends Controller
         // 認証トークンを元に会社情報を取得
         $company = Company::where('authroize_token', 'like', $token)->first();
         // NLCモデルを生成
-        $classifier_id = Api::find($api_id)->nlc_id;
+        $classifier_id = Api::find($api_id_flg)->nlc_id;
         $nlc = new NLC($company->nlc_url, $company->nlc_username, $company->nlc_password, $classifier_id);
 
         // エラー処理：ステータスが Avairable 以外の場合
@@ -58,19 +60,33 @@ class ApiController extends Controller
         }
 
         // 分析結果を取得
-        $nlc->runClassify($request->input('text'));
+        $nlc->runCognitiveAdCheck($display_api_id, $request->input('text'));
 
-        echo "end";exit;
+        echo "end run";exit;
 
     }
 
     /**
-     * 独自API認証
+     * 認証トークンが正しければtrueを返す
      */
-    public function isAuthenticated($request_token) {
-        // Companiesテーブルの情報と合致（トークン、NLCのURL）するかチェック
-        $res = Company::where('authroize_token', 'like', $request_token)->exists();
-        return $res;
+    protected function isAuthenticated($request_token) {
+        // Companiesテーブルの認証トークンカラムと突合チェック
+        return Company::where('authroize_token', 'like', $request_token)->exists();
+    }
+
+    /**
+     * DISPLAY-API-IDをAPI-IDに変換する
+     */
+    protected function changeApiId($display_api_id) {
+        // Apisテーブルに渡されたdisplay_api_idのデータがあればAPI-IDを返す
+        $api = Api::where('display_api_id', 'like', $display_api_id)->first();
+
+        if ($api)
+        {
+            return $api->id;
+        }
+
+        return false;
     }
 
     /**

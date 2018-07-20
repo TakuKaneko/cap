@@ -47,27 +47,22 @@
                   <div class="table-responsive">
                     <table class="table active-api-table">
                       <thead class="text-brand">
-                        <th>説明表示</th>
+                        <th></th>
                         <th>API-ID</th>
                         <th>API名</th>
                         <th>利用可否</th>
                         <th>ステータス</th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td><input type="radio" name="description-disp-check" checked>表示</td>
-                          <td>004a12x110-3450</td>
-                          <td>景表法と薬機法の抵触リスクチェック</td>
-                          <td>不可</td>
-                          <td>エラー1101（教師データの学習が行われていません）</td>
-                        </tr>
-                        {{-- <tr>
-                          <td><input type="radio" name="description-disp-check">表示</td>
-                          <td>004a12x110-3451</td>
-                          <td>メディア画像内の文言チェック</td>
-                          <td>不可</td>
-                          <td>エラー1101（学習が行われていません）</td>
-                        </tr>   --}}
+                        @foreach ($api_list as $key => $api)
+                          <tr>
+                            <td><label><input type="radio" name="display" checked> 表示</label></td>
+                            <td>{{ $api["display_api_id"] }}</td>
+                            <td>{{ $api["name"] }}</td>
+                            <td>{{ $api["status_availability"] }}</td>
+                            <td>{{ $api["status_description"] }}</td>
+                          </tr>
+                        @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -80,8 +75,8 @@
             <div class="col-12">
               <div class="card mt-0">
                 <div class="card-body">
-                  <p class="blockquote-footer mb-0">004a12x110-3450</p>
-                  <h5 class="text-brand mt-0">景表法と薬機法の抵触リスクチェック</h5>
+                  <p class="blockquote-footer mb-0">{{ $api_list[0]["display_api_id"] }}</p>
+                  <h5 class="text-brand mt-0">{{ $api_list[0]["name"] }}</h5>
                   <ul class="nav nav-pills nav-pills-icons nav-pills-info nav-border" role="tablist">
                     <li class="nav-item">
                       <a class="nav-link active" href="#api-resex" role="tab" data-toggle="tab">
@@ -93,11 +88,11 @@
                         資格情報
                       </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                       <a class="nav-link" href="#api-use" role="tab" data-toggle="tab">
                         認証について
                       </a>
-                    </li>
+                    </li> -->
                   </ul>
                   <div class="tab-content tab-space">
                     <div class="tab-pane active" id="api-resex">
@@ -105,14 +100,14 @@
                         <h5 class="bold text-default">リクエストサンプル</h5>
                         <div>
                           以下のフォーマットにて、審査リクエストを送る必要があります。</br>
-                          認証用のIDとパスワードは、「認証情報」タブにてご確認ください。
+                          認証トークンは「認証情報」タブにてご確認ください。
                         </div>
                         <p>※注意：審査するテキストは1024文字以内です。上限を超えた場合、下記のエラーコードがレスポンスされます。</p>
-                        <pre class="doc-content"><code><span class="bold">GET</span> /api/{api_id}/classify</code></pre>
+                        <pre class="doc-content"><code><span class="bold">GET</span> /api/exec/{api_id}</code></pre>
                         <p>リクエスト例）</p>
-                        <pre class="doc-content"><code>curl -X GET 
-    -u <span class="bold">"{認証ID}"</span>:<span class="bold">"{認証パスワード}"</span>
-    -d "text: <span class="bold">今日は晴れです。</span>" "https://cap.net/api/00abcde-cap-0000/classify"</code></pre>
+                        <pre class="doc-content"><code>curl -G 
+    -H <span class="bold">"X-Pasonatech-Cap-Token:0123abcd"</span> <span style="color:green;"> //<- 認証トークンはHTTPリクエストのヘッダに必ず付加してください。</span>
+    --data-urlencode "text: <span class="bold">今日は晴れです。</span>" "{{ config('app.api_exec_url') }}<span class="bold">001abcd-cap-0000</span>"</code></pre>
 
                         <h5 class="bold text-default">リクエストパラメータ</h5>
                         <table class="parameter_table">
@@ -127,26 +122,26 @@
                             <td>（※必須）API認証トークン</td>
                           </tr>
                           <tr>
-                            <td>api_id</td>
-                            <td>文字列</td>
-                            <td>（※必須）APIのID</td>
-                          </tr>
-                          <tr>
                             <td>text</td>
                             <td>文字列</td>
                             <td>（※必須）審査対象テキスト</td>
+                          </tr>
+                          <tr>
+                            <td>api_id</td>
+                            <td>文字列</td>
+                            <td>（※必須）API-ID</td>
                           </tr>
                         </table>
 
                         <hr>
                         <h5 class="bold text-default">レスポンスサンプル</h5>
-                        <p>レスポンスには、API-ID と 入力したテキスト 、 その審査結果が含まれています。</p>
+                        <div>レスポンスには、API-ID と 入力したテキスト 、 その審査結果が含まれています。</div>
+                        <span>リクエストがエラーになった場合は、以下のエラーレスポンスが返却されます。</span><br/><br />
                         <p>レスポンス例）以下は「今日は晴れです。」という審査テキストに対して、登録済みの各クラス（天気、気温、日時）それぞれの確信度を取得しています。</p>
 <pre class="doc-content">
   <code class="hljs json">{
-  <span class="hljs-attr">"api_id"</span> : <span class="hljs-string">"00000-cap-0000"</span>,
-  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://cap.net/api/00000-cap-0000"</span>,
-  <span class="hljs-attr">"status"</span>: <span class="hljs-string">"avairable"</span>,
+  <span class="hljs-attr">"api_id"</span> : <span class="hljs-string">"001abcd-cap-0000"</span>,
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"{{ config('app.api_exec_url') }}001abcd-cap-0000"</span>,
   <span class="hljs-attr">"text"</span>: <span class="hljs-string">"今日は晴れです。"</span>,
   <span class="hljs-attr">"passed_classes"</span>: [
     <span class="hljs-string">"天気"</span>,
@@ -183,11 +178,6 @@
                             <th>内容</th>
                           </tr>
                           <tr>
-                            <td>status</td>
-                            <td>文字列</td>
-                            <td>ステータスコード（実行可能な場合は"avairable"、その他は下記のエラーコードを返却）</td>
-                          </tr>
-                          <tr>
                             <td>text</td>
                             <td>文字列</td>
                             <td>リクエストされた審査対象テキスト</td>
@@ -195,7 +185,7 @@
                           <tr>
                             <td>passed_classes</td>
                             <td>配列</td>
-                            <td>審査結果の確信度が閾値以上になったクラス</td>
+                            <td>審査結果の確信度が閾値以上になったクラス（※閾値未設定の場合は最大確信度のクラスを返します。）</td>
                           </tr>
                           <tr>
                             <td>results</td>
@@ -224,35 +214,27 @@
                           </tr>
                         </table>
 
-                        <h5 class="bold text-default">ステータスコード一覧</h5>
+                        <h5 class="bold text-default">エラーレスポンス一覧</h5>
                         <table class="parameter_table">
                           <tr>
-                            <th class="table_title">コード表記</th>
+                            <th class="table_title">HTTPコード</th>
+                            <th>メッセージ</th>
                             <th>説明</th>
                           </tr>
                           <tr>
-                            <td>avairable</td>
-                            <td>利用可能</td>
+                            <td>400</td>
+                            <td>Bad request</td>
+                            <td>APIに紐づくコーパスに問題があるか、審査対象のテキストに不備がある可能性があります。</td>
                           </tr>
                           <tr>
-                            <td>NoTrainingData</td>
-                            <td>エラー：教師データなし</td>
+                            <td>401</td>
+                            <td>Unauthorized</td>
+                            <td>API認証に失敗しています。認証トークンに不備がある可能性があります。</td>
                           </tr>
                           <tr>
-                            <td>Untrained</td>
-                            <td>エラー：教師データ未学習</td>
-                          </tr>
-                          <tr>
-                            <td>Training</td>
-                            <td>エラー：教師データ学習中</td>
-                          </tr>
-                          <tr>
-                            <td>StandBy</td>
-                            <td>エラー：コーパス本番反映前</td>
-                          </tr>
-                          <tr>
-                            <td>Unavailable</td>
-                            <td>エラー：利用不可</td>
+                            <td>404</td>
+                            <td>Not found</td>
+                            <td>指定されたAPI-IDが存在していません。API-IDの指定に不備がある可能性があります。</td>
                           </tr>
                         </table>
                       </div>
@@ -262,20 +244,18 @@
                         <table class="table api-auth-table">
                           <thead>
                             <th>URI</th>
-                            <th>username</th>
-                            <th>password</th>
+                            <th>認証トークン</th>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>https://www.cap.net/api</td>
-                              <td>1863db42-14e9-4313-be71-541db048053e</td>
-                              <td>N0iHFHtmGxvQ</td>
+                              <td>{{ config('app.api_exec_url') }}</td>
+                              <td>{{ $api_list[0]["token"] }}</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
-                    <div class="tab-pane" id="api-use">
+                    <!-- <div class="tab-pane" id="api-use">
                       <div class="manual">
                         <h2 class="text-brand">開始</h2>
                         <span>最終更新日: 2017-11-21</span>
@@ -291,7 +271,7 @@
 
 
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>

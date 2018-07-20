@@ -41,7 +41,15 @@ class Corpus extends Model
      */
     public function apis()
     {
-        return $this->belongsToMany('Api');
+        return $this->belongsToMany('App\Models\Api');
+    }
+
+    /**
+     * このコーパスが所有するクラスを取得
+     */
+    public function corpusClasses()
+    {
+        return $this->hasMany('App\Models\CorpusClass');
     }
 
 }

@@ -17,7 +17,7 @@ class CreateCorpusClassesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('corpus_id');
-            $table->string('threshold')->nullable();
+            $table->double('threshold');
             $table->string('training_data_count');
             $table->string('test_data_count');
             $table->timestamps();

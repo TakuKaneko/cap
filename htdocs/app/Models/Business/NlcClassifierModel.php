@@ -2,6 +2,10 @@
 
 namespace App\Models\Business;
 
+use App\Models\Api;
+use App\Models\CorpusClass;
+
+
 /**
  * Watson NLC への接続処理の実装を担当するモデル
  */
@@ -11,7 +15,7 @@ class NlcClassifierModel
     protected $username;
     protected $password;
     protected $classifier_id;  // NLC classfier-id
-    protected $status; // NLCのステータス（avairable, training, unavairable）
+    protected $status; // NLCのステータス（0:avairable, 1:training, 9:unavairable）
     
     /**
      * コンストラクタ
@@ -51,7 +55,6 @@ class NlcClassifierModel
         // テキスト分類のcurl実行
         try {
             $query_param = "/classify?text=" . rawurlencode($text);
-
             $curl = curl_init();
 
             curl_setopt($curl, CURLOPT_URL, $this->nlc_url . $this->classifier_id . $query_param);
@@ -66,15 +69,15 @@ class NlcClassifierModel
             $result_json = json_decode($result, true);
             curl_close($curl);
 
-            var_dump($result_json); exit;
-
             // status をセット
-            $this->status = $result_json["status"];
-            return;
+            $this->status = "Avairable";
+            
+            return $result_json;
         } 
         catch (\Exception $e)
         {
             $this->status = "error: curl exec exception.";
+            echo "exception";exit;
             return;
         }
 
@@ -151,5 +154,51 @@ class NlcClassifierModel
         return false;
     }
 
+    /**
+     * NLC の実行結果を CAP のレスポンス形式にして加工して返す
+     */
+    public function runCognitiveAdCheck($display_api_id, $text)
+    {
+        /* NLC の実行結果を取得 */
+        $nlc_res = $this->runClassify($text);
+
+        $res_array = array();
+
+        // API-ID
+        $res_array['api_id'] = $display_api_id;
+        // API-URL
+        $res_array['url'] = config('app.api_exec_url') . $display_api_id;
+        // 審査対象テキスト
+        $res_array['text'] =  $text;
+        // 閾値以上のクラス
+        $class_name_array = array(); // クラス名配列
+        $confidence_array = array(); // 確信度配列
+        foreach ($nlc_res['classes'] as $key => $value)
+        {
+            $class_name_array[$key] = $value['class_name'];
+            $confidence_array[$key] = $value['confidence'];
+        } 
+
+        $target_corpus = Api::where('display_api_id', 'like', $display_api_id)->first()->corpuses->first();
+        $target_classes = $target_corpus->corpusClasses;
+
+        $class_threshold = array();
+        foreach ($target_classes as $class)
+        {
+            $class_threshold[$class->name] = $class->threshold;
+        }
+
+        var_dump( $class_threshold );exit;
+
+        $res_array['passed_classes'] = 1; 
+        $res_array['results'] = 1;
+        
+        // 'class_name'
+        // 'confidence'
+        // 'threshold'
+        // 'result'
+
+        return json_encode($res_array, JSON_PRETTY_PRINT);
+    }
 
 }

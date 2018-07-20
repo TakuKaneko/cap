@@ -17,9 +17,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'クラスA',
                 'corpus_id' => '100',
-                'threshold' => null,
                 'training_data_count' => 2,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -27,9 +27,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 2,
                 'name' => 'クラスB',
                 'corpus_id' => '100',
-                'threshold' => null,
                 'training_data_count' => 1,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -37,9 +37,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 3,
                 'name' => 'クラスC',
                 'corpus_id' => '100',
-                'threshold' => null,
                 'training_data_count' => 1,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -47,9 +47,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 4,
                 'name' => 'クラスD',
                 'corpus_id' => '101',
-                'threshold' => null,
                 'training_data_count' => 1,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -57,9 +57,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 5,
                 'name' => 'クラスE',
                 'corpus_id' => '101',
-                'threshold' => null,
                 'training_data_count' => 1,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
@@ -67,9 +67,9 @@ class CorpusClassesTableSeeder extends Seeder
                 'id' => 6,
                 'name' => 'クラスa',
                 'corpus_id' => '1',
-                'threshold' => null,
                 'training_data_count' => 1,
                 'test_data_count' => 1,
+                'threshold' => 0.5,
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ]

@@ -8,7 +8,7 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/exec/{api_id}', "ApiController@getCognitiveAdCheckResult");
+Route::get('/exec/{display_api_id}', "ApiController@getCognitiveAdCheckResult");
 Route::get('/list/{company_id?}', "ApiController@getApiList");
 
 
