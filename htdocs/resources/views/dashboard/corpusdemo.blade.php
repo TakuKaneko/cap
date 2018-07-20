@@ -8,6 +8,22 @@
 
 @section('page-css')
   <link rel="stylesheet" type="text/css" href="{{ mix('/css/main/dashboard/corpus.css') }}" />
+  <style>
+    .bd-callout {
+      padding: 1.25rem;
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid #eee;
+      border-left-width: .25rem;
+      border-radius: .25rem;
+    }
+    .bd-callout p {
+      margin-bottom: 0;
+    }
+    .bd-callout-warning {
+      border-left-color: #f0ad4e;
+    }
+  </style>
 @endsection
 
 @php
@@ -49,68 +65,58 @@ function time_diff($update_time)
             <div class="card-body" style="padding: 10px 25px;">
 
 
-              <!-- 処理メッセージ -->
-            @if(Session::has('success_msg'))
-              <div class="row mt-3">
-                <div class="col-12">
-                  <div class="alert alert-info">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <i class="material-icons">close</i>
-                    </button>
-                    <span>{{ session('success_msg') }}</span>
-                  </div>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            @endif
+            @if (session('msg') || count($errors) > 0)
+              <script>
+                //   type = ['', 'info', 'danger','success', 'warning', 'rose', 'primary'];
+                //   color = Math.floor((Math.random() * 6) + 1);
+                function showAlert(msg, type) {
+                  $.notify({
+                    icon: "notifications",
+                    message: msg
 
-            @if(Session::has('error_msg'))
-            <div class="row mt-3">
-                <div class="col-12">
-                  <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <i class="material-icons">close</i>
-                    </button>
-                    <span>{{ session('error_msg') }}</span>
-                  </div>
-                </div>
-              </div>
-              <!-- /.row -->
-            @endif
+                  }, {
+                    type: type,
+                    timer: 1000,
+                    placement: {
+                      from: 'top',
+                      align: 'center'
+                    }
+                  });
+                }
 
-            @if(count($errors))
-            <div class="row mt-3">
-                <div class="col-12">
-                  <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <i class="material-icons">close</i>
-                    </button>
-                    <ul style="margin-bottom: 0;">
+              @if(session('msg')) 
+                showAlert('{{ session("msg") }}', 'success');
+              @endif
+
+              @if(count($errors) > 0)
+                // error_msg = '<ul style="margin-bottom: 0;">';
+                error_msg = '<p class="warning-notify">';
                 @foreach($errors->all() as $error)
-                      <li>{{ $error }}</li>
+                  error_msg += '{{ $error }}<br>';
                 @endforeach
-                    </ul>
+                error_msg += '</p>';
+
+                showAlert(error_msg, 'warning');
+              @endif
+                
+              </script>
+            @endif
+
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="bd-callout bd-callout-warning">
+                    <p>作成できるコーパスは8個までです。</p>
                   </div>
                 </div>
               </div>
-              <!-- /.row -->
-            @endif
 
-            <!-- 新規作成ボタン -->
+              <!-- 新規作成ボタン -->
               <div class="row mt-2">
               @if(count($corpuses) < 8) 
                 <button type="button" class="btn btn-danger" style="margin-left:15px;" data-toggle="modal" data-target="#addCorpusModal">新規作成</button>
               @else
-              <div class="col-12">
-                <div class="alert alert-warning">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="material-icons">close</i>
-                  </button>
-                  <p style="margin-bottom: 0;">作成できるコーパスは8個までです。<br>
-                  新たにコーパスを作成する場合、登録されているコーパスを削除してください。</p>
-                </div>
-              </div>
+                <button type="button" class="btn btn-default" style="margin-left:15px;" disabled>新規作成</button>
               @endif
               </div>
               <!-- /.row -->
@@ -119,6 +125,7 @@ function time_diff($update_time)
               <!-- カード一覧 -->
               <div class="row">
               @foreach($corpuses as $corpus)
+                
                 <!-- カード -->
                 <div class="col-lg-4 col-md-4 col-sm-6">
                   <div class="card detail-card" style="margin:10px 0;" onclick="window.open('/corpus/view/{{ $corpus->id }}','_blank')" data-corpus-id="{{ $corpus->id }}" data-corpus-name="{{ $corpus->name }}" data-corpus-is-production="{{ $corpus->is_production }}">
@@ -264,7 +271,6 @@ function time_diff($update_time)
   <!-- /.modal -->
 @endsection
 
-<script src="/js/main/corpus/view.js"></script>
 @section('page-js')
   <script src="{{ mix('/js/main/dashboard/context-menu.js') }}"></script>
 @endsection

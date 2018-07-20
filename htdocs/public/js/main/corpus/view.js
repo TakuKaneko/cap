@@ -68,28 +68,7 @@
 /***/ "./resources/assets/js/main/corpus/view.js":
 /***/ (function(module, exports) {
 
-// デバッグ用
-var debug = true;
-
-function logInfo(msg) {
-  if (debug) console.log(msg);
-}
-
-/**
- * コーパス作成モーダル制御
- */
-function setCreateCorpusModal() {}
-
-function initialize() {}
-// setCreateCorpusModal();
-
-
-// 
-(function () {
-  //
-  logInfo('[Start] view.js');
-  initialize();
-})();
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/user/Projects/CapDir/cap_dev_20180717/htdocs/resources/assets/js/main/corpus/view.js'");
 
 /***/ }),
 

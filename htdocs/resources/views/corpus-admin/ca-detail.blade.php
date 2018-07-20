@@ -23,8 +23,9 @@
 </style>
       <!--  コンテンツ  -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
+
         @if(Session::has('success_msg'))
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success mt-3" role="alert">
           {{ session('success_msg') }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -33,7 +34,7 @@
         @endif
 
         @if(Session::has('error_msg'))
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
           {{ session('error_msg') }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -43,7 +44,7 @@
 
 
         @if(count($errors) > 0)
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -56,7 +57,7 @@
         @endif
 
 
-        <div class="panel-group mt-1">
+        <div class="panel-group mt-3">
           <div class="panel panel-default">
             <div class="panel-heading border-bottom mb-2">
               <h4 class="panel-title">
@@ -68,7 +69,7 @@
                 <table class="table mb-0">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col"></th>
+                      <th scope="col" width="25%"></th>
                       <th scope="col">内容</th>
                     </tr>
                   </thead>
@@ -347,7 +348,7 @@
       <div class="modal fade" id="editCorpusModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form action="/corpus/edit" method="post" class="needs-validation" id="edit-corpus-form">
+            <form action="/corpus/edit/{{ $corpus->id }}" method="post" class="needs-validation" id="edit-corpus-form">
               {{ csrf_field() }}
               <div class="modal-header">
                 <h5 class="modal-title">コーパスの編集</h5>

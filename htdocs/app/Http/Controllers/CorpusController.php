@@ -92,7 +92,6 @@ class CorpusController extends Controller
         $corpus = new Corpus;
         $corpus->name = $form['name'];
         $corpus->description = $form['description'];
-        $corpus->service_identify_id = "";
         $corpus->status = CorpusStateType::NoTrainingData;
         $corpus->type = CorpusType::NationalLanguage;
         $corpus->is_production = false;
@@ -104,12 +103,12 @@ class CorpusController extends Controller
 
       } catch (\PDOException $e){
         DB::rollBack();
-        return redirect('corpus')->with('error_msg', 'コーパスの作成に失敗しました')->withInput();
+        return redirect('corpus')->withErrors(array('コーパスの作成に失敗しました'))->withInput();
 
       };
 
       // 処理成功
-      return redirect('corpus')->with('success_msg', 'コーパスが作成されました');
+      return redirect('corpus')->with('msg', 'コーパスが作成されました');
 
     }
 
@@ -167,12 +166,13 @@ class CorpusController extends Controller
 
       } catch (\PDOException $e){
         DB::rollBack();
-        return redirect('/corpus')->with('error_msg', 'コーパスの削除に失敗しました');
+
+        return redirect('/corpus')->withErrors(array('コーパスの削除に失敗しました'));
 
       };
 
       // 処理成功
-      return redirect('/corpus')->with('success_msg', 'コーパスの削除が完了しました');
+      return redirect('/corpus')->with('msg', 'コーパスの削除が完了しました');
     }
 
 
@@ -198,7 +198,7 @@ class CorpusController extends Controller
     /**
      * コーパスの編集
      */
-    public function editCorpus(Request $request) {
+    public function editCorpus($corpus_id, Request $request) {
       // 認証チェック
       $user = Auth::user();
       if($user === null) {
@@ -212,7 +212,7 @@ class CorpusController extends Controller
       }
 
       $form = $request->all();
-      $corpus_id = $form['corpus_id'];
+      // $corpus_id = $form['corpus_id'];
 
       // 登録処理
       DB::beginTransaction();
@@ -230,7 +230,7 @@ class CorpusController extends Controller
         DB::rollBack();
 
         return redirect('/corpus/view/'. $corpus_id)
-          ->with('error_msg', 'コーパスの編集に失敗しました')->withInput();
+          ->withErrors(array('コーパスの編集に失敗しました'))->withInput();
       };
 
       // 処理成功
