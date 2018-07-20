@@ -18,8 +18,8 @@ class UsersTableSeeder extends Seeder
         'email' => 'test@gmail.com',
         'password' => bcrypt('sld001'),
         'company_id' => 1,
-        'role' => 1,
-        'remember_token' => '',
+        'role' => 10,
+        'remember_token' => NULL,
         'created_at' => NOW(),
         'updated_at' => NOW()
       ],
@@ -29,8 +29,8 @@ class UsersTableSeeder extends Seeder
         'email' => 'test2@gmail.com',
         'password' => bcrypt('sld002'),
         'company_id' => 1,
-        'role' => 1,
-        'remember_token' => '',
+        'role' => 10,
+        'remember_token' => NULL,
         'created_at' => NOW(),
         'updated_at' => NOW()
       ],
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
         'password' => bcrypt('sld003'),
         'company_id' => 2,
         'role' => 0,
-        'remember_token' => '',
+        'remember_token' => NULL,
         'created_at' => NOW(),
         'updated_at' => NOW()
       ]

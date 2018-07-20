@@ -14,31 +14,54 @@
   .setting-table button {
     padding: 5px;
   }
+
+  .warning-notify {
+    margin-bottom: 0; 
+    line-height: 1.5;
+  }
+
 </style>
       <div class="content">
         <div class="container-fluid">
-          @if (session('msg'))
-            <script>
-              $(function(){
-                type = ['', 'info', 'danger','success', 'warning', 'rose', 'primary'];
-                color = Math.floor((Math.random() * 6) + 1);
+          <div class="row">
 
+          @if (session('msg') || count($errors) > 0)
+            <script>
+              //   type = ['', 'info', 'danger','success', 'warning', 'rose', 'primary'];
+              //   color = Math.floor((Math.random() * 6) + 1);
+              function showAlert(msg, type) {
                 $.notify({
                   icon: "notifications",
-                  message: "{{ session('msg') }}"
+                  message: msg
 
                 }, {
-                  type: 'success',
+                  type: type,
                   timer: 1000,
                   placement: {
                     from: 'top',
-                    align: 'right'
+                    align: 'center'
                   }
                 });
-              });
+              }
+
+            @if(session('msg')) 
+              showAlert('{{ session("msg") }}', 'success');
+            @endif
+
+            @if(count($errors) > 0)
+              // error_msg = '<ul style="margin-bottom: 0;">';
+              error_msg = '<p class="warning-notify">';
+              @foreach($errors->all() as $error)
+                error_msg += '{{ $error }}<br>';
+              @endforeach
+              error_msg += '</p>';
+
+              showAlert(error_msg, 'warning');
+            @endif
+              
             </script>
           @endif
-          <div class="row">
+
             <div class="col-md-12 col-lg-6">
               <div class="card">
                 <div class="card-header card-header-default">
@@ -47,68 +70,51 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
+
+                  @if(count($users) === 0) 
+                  <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <i class="material-icons">close</i>
+                    </button>
+                    <span>登録されているユーザは存在しません</span>
+                  </div>
+
+                  @else
                     <table class="table setting-table">
                       <thead class=" text-info">
                         <th>氏名</th>
                         <th>登録メール</th>
-                        <th>ステータス</th>
                         <th class="btnbox"></th>
                       </thead>
                       <tbody>
+                    @foreach($users as $user)
                         <tr>
-                          <td>管理 太郎</td>
-                          <td>admin@test.com</td>
-                          <td>有効</td>
+                          <td>{{ $user->sei_kanji }} {{ $user->mei_kanji }}</td>
+                          <td>{{ $user->email }}</td>
                           <td>
-                            <button type="button" rel="tooltip" class="btn btn-success" onclick="location.href='/acount/edit/1'">
+                            <button type="button" rel="tooltip" class="btn btn-success" data-toggle="modal" data-target="#editUserModal"
+                              data-edit-user="{{ $user->id }}" data-sei-kanji="{{ $user->sei_kanji }}" data-mei-kanji="{{ $user->mei_kanji }}" data-email="{{ $user->email }}">
                               <i class="material-icons">edit</i>
                             </button>
-                            <button type="button" rel="tooltip" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                      @if($user->id !== $my_user_id)
+                            <button type="button" rel="tooltip" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"
+                              data-delete-user="{{ $user->id }}">
                               <i class="material-icons">close</i>
                             </button>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">本当に削除してもよろしいですか？</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  実行すると当該アカウントのプロフィール情報は全て削除されます。
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                  <button type="button" class="btn btn-primary">削除</button>
-                                </div>
-                                </div>
-                              </div>
-                            </div>
+                      @endif
                           </td>
                         </tr>
-                        <tr>
-                          <td>管理 太郎2</td>
-                          <td>admin2@test.com</td>
-                          <td>有効</td>
-                          <td>
-                            <button type="button" rel="tooltip" class="btn btn-success" onclick="location.href='/acount/edit/1'">
-                              <i class="material-icons">edit</i>
-                            </button>
-                            <button type="button" rel="tooltip" class="btn btn-danger">
-                              <i class="material-icons">close</i>
-                            </button>
-                          </td>
-                        </tr>
+                    @endforeach
                       </tbody>
                     </table>
-                    <button type="button" class="btn btn-info">新規登録</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addUserModal">新規登録</button>
+                  @endif
                   </div>
                 </div>
               </div>
             </div>
+            <!-- /.col -->
+
             <div class="col-md-12 col-lg-6">
               <div class="card">
                 <div class="card-header card-header-default">
@@ -162,6 +168,8 @@
               </div>
             </div>
           </div>
+          <!-- /.row -->
+
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -210,6 +218,8 @@
               </div>
             </div>
           </div>
+          <!-- /.row -->
+
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -252,6 +262,212 @@
               </div>
             </div>
           </div>
+          <!-- /.row -->
+
         </div>
       </div>
+      <!-- /.content -->
+
+
+      <!-- モーダル群 -->
+
+      <!-- ユーザ追加モーダル -->
+      <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action="/settings/user/register" method="post" id="add-user-form">
+              {{ csrf_field() }}
+
+              <div class="modal-header">
+                <h5 class="modal-title">アカウントの新規作成</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <!-- /.modal-header -->
+              <div class="modal-body">
+              
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="addSeiKanjiField" class="bmd-label-floating">姓</label>
+                      <input type="text" class="form-control" name="sei_kanji" id="addSeiKanjiField" required>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="addMeiKanjiField" class="bmd-label-floating">名</label>
+                      <input type="text" class="form-control" name="mei_kanji" id="addMeiKanjiField" required>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="addEmailField" class="bmd-label-floating">メールアドレス</label>
+                      <input type="email" class="form-control" name="email" id="addEmailField" required>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="addPasswordField" class="bmd-label-floating">パスワード</label>
+                      <input type="password" class="form-control" name="password" id="addPasswordField" aria-describedby="addPwHelp" minlength="6" required>
+                      <small id="addPwHelp" class="form-text text-muted">パスワードは6文字以上で指定してください</small>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                
+              </div>
+              <!-- /.modal-body -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                <button type="submit" class="btn btn-brand">登録</button>
+              </div>
+              <!-- /.modal-footer -->
+            </form>
+            <!-- /form -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+      </div>
+      <!-- /ユーザ追加モーダル -->
+
+
+      <!-- ユーザ編集モーダル -->
+      <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action="/settings/user/edit" method="post" id="edit-user-form">
+              {{ csrf_field() }}
+
+              <div class="modal-header">
+                <h5 class="modal-title">アカウントの編集</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <!-- /.modal-header -->
+              <div class="modal-body">
+              
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="editSeiKanjiField" class="bmd-label-floating">姓</label>
+                      <input type="text" class="form-control" name="sei_kanji" id="editSeiKanjiField" required>
+                      <span class="material-icons form-control-feedback">
+                        <i class="material-icons">clear</i>
+                      </span>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="editMeiKanjiField" class="bmd-label-floating">名</label>
+                      <input type="text" class="form-control" name="mei_kanji" id="editMeiKanjiField" required>
+                      <span class="material-icons form-control-feedback">
+                        <i class="material-icons">clear</i>
+                      </span>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="editEmailField" class="bmd-label-floating">メールアドレス</label>
+                      <input type="email" class="form-control" name="email" id="editEmailField" required>
+                      <span class="material-icons form-control-feedback">
+                        <i class="material-icons">clear</i>
+                      </span>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="editPasswordField" class="bmd-label-floating">パスワード（変更する場合は入力してください）</label>
+                      <input type="password" class="form-control" name="password" id="editPasswordField" minlength="6" aria-describedby="editPwHelp">
+                      <small id="editPwHelp" class="form-text text-muted">パスワードは6文字以上で指定してください</small>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                
+              </div>
+              <!-- /.modal-body -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                <button type="submit" class="btn btn-brand" id="editSubmitBtn">編集</button>
+                <input type="hidden" name="edit_user_id" id="editUserId">
+              </div>
+              <!-- /.modal-footer -->
+            </form>
+            <!-- /form -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+      </div>
+      <!-- /ユーザ編集モーダル -->
+
+
+      <!-- ユーザ削除モーダル -->
+      <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action="/settings/user/delete" method="post">
+              {{ csrf_field() }}
+
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">本当に削除してもよろしいですか？</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <!-- /.modal-header -->
+              <div class="modal-body">
+                実行すると当該アカウントのプロフィール情報は全て削除されます。
+              </div>
+              <!-- /.modal-body -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                <button type="submit" class="btn btn-danger">削除</button>
+                <input type="hidden" name="delete_user_id" id="deleteUserId">
+              </div>
+              <!-- /.modal-footer -->
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- /ユーザ削除モーダル -->
+@endsection
+
+@section('page-js')
+  <script src="{{ mix('/js/main/dashboard/settings.js') }}"></script>
 @endsection
