@@ -16,45 +16,16 @@ class CorpusesTableSeeder extends Seeder
     {
         DB::table('corpuses')->insert([
             [
-                'id' => 1,
-                'name' => 'サンプル自然言語コーパス',
+                'name' => 'サンプル_景表法チェックコーパス',
                 'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
-                'service_identify_id' => str_random(10),
                 'status' => CorpusStateType::Available,
-                'type' => CorpusType::NationalLanguage,
-                'is_production' => false,
-                'company_id' => '1',
-                'language' => ClassifierLanguage::Japanese,
-                'created_at' => '2018-04-01 12:00:00',
-                'updated_at' => NOW()
-            ],
-            [
-                'id' => 100,
-                'name' => 'サンプル自然言語コーパス',
-                'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
-                'service_identify_id' => str_random(10),
-                'status' => CorpusStateType::Unavailable,
                 'type' => CorpusType::NationalLanguage,
                 'is_production' => true,
                 'company_id' => '1',
                 'language' => ClassifierLanguage::Japanese,
-                'created_at' => '2018-04-01 12:00:00',
+                'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
-            [
-                'id' => 101,
-                'name' => 'サンプル画像コーパス',
-                'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
-                'service_identify_id' => str_random(10),
-                'status' => CorpusStateType::Unavailable,
-                'type' => CorpusType::Image,
-                'is_production' => false,
-                'company_id' => '1',
-                'language' => ClassifierLanguage::Japanese,
-                'created_at' => '2018-04-02 09:00:00',
-                'updated_at' => NOW()
-            ],
-
         ]);
     }
 }

@@ -26,19 +26,19 @@ final class CorpusStateType extends Enum
                 return '利用可能';
                 brake;
             case self::NoTrainingData:
-                return '教師データなし';
+                return 'エラー:教師データがありません。';
                 brake;
             case self::Untrained:
-                return '未学習';
+                return 'エラー:まだ学習処理が実行されていません。';
                 brake;
             case self::Training:
-                return '学習中';
+                return 'エラー:現在学習中です。';
                 brake;
             case self::StandBy:
-                return '本番反映前';
+                return 'エラー:現在検証中です。コーパスを本番反映すると利用できるようになります。';
                 brake;
             case self::Unavailable:
-                return '利用不可';
+                return 'エラー:現在利用できません。コーパスの登録状況をお確かめください。';
                 brake;
             default:
                 return self::getKey($value);
