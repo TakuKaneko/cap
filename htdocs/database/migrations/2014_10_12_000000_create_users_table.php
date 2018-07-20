@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('mei_kanji');
             $table->string('email')->unique();
             $table->string('password');
+            $table->integer('role');
             $table->string('company_id');
             $table->string('remember_token');
             $table->softDeletes();
