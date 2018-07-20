@@ -967,7 +967,7 @@ class CorpusController extends Controller
             $class = new CorpusClass;
             $class->name = $class_name;
             $class->corpus_id = $corpus_id;
-            $class->threshold = null;
+            $class->threshold = config('corpus.threshold_default');
             $class->training_data_count = 0;              // あとで集計して更新する
             $class->test_data_count = 0;                  // あとで集計して更新する
             $class->save();
