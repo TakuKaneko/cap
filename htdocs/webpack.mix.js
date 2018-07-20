@@ -31,7 +31,7 @@ mix.scripts([
 .js('resources/assets/js/plugins/Chart.min.js', 'public/js/chart.js')
 .js('resources/assets/js/main/dashboard/context-menu.js', 'public/js/main/dashboard')
 .js('resources/assets/js/main/corpus/data-view.js', 'public/js/main/corpus')
-.js('resources/assets/js/main/corpus/view.js', 'public/js/main/corpus')
+.js('resources/assets/js/main/dashboard/settings.js', 'public/js/main/dashboard')
 .sass('resources/assets/scss/common-dashboard.scss', 'public/css/common.css')
 .sass('resources/assets/scss/main/dashboard/login.scss', 'public/css/main/dashboard')
 .sass('resources/assets/scss/main/dashboard/corpus.scss', 'public/css/main/dashboard')
