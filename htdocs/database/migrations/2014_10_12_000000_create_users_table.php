@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('role');
             $table->string('company_id');
-            $table->string('remember_token');
+            $table->string('remember_token')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
