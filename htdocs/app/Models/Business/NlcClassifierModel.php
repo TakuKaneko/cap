@@ -162,14 +162,17 @@ class NlcClassifierModel
         /* NLC の実行結果を取得 */
         $nlc_res = $this->runClassify($text);
 
-        $res_array = array();
+        $ca_res_array = array();
 
         // API-ID
-        $res_array['api_id'] = $display_api_id;
+        $ca_res_array['api_id'] = $display_api_id;
         // API-URL
-        $res_array['url'] = config('app.api_exec_url') . $display_api_id;
+        $ca_res_array['url'] = config('app.api_exec_url') . $display_api_id;
         // 審査対象テキスト
-        $res_array['text'] =  $text;
+        $ca_res_array['text'] =  $text;
+        // 閾値以上のクラス
+
+
         // 閾値以上のクラス
         $nlc_result_array = array(); // クラス名と確信度を部分抽出した配列
         foreach ($nlc_res['classes'] as $key => $value)
@@ -186,23 +189,33 @@ class NlcClassifierModel
             $class_threshold_array[$class->name] = $class->threshold;
         }
 
-        $result_array = array();
-        foreach ($nlc_result_array as $nlc_result_value)
+        $passed_classes_array = array();
+        $ca_results_array = array(); // results格納用
+        $cnt = 0;
+        foreach ($nlc_result_array as $key => $value)
         {
-            echo $nlc_result_value . " , ";
-        }exit;
+            $ca_results_array[$cnt]['class_name'] = $key;
+            $ca_results_array[$cnt]['confidence'] = $value;
+            if (array_key_exists($key, $class_threshold_array)) {
+                $ca_results_array[$cnt]['threshold'] = $class_threshold_array[$key];
+                if ($value >= $class_threshold_array[$key]) {
+                    $ca_results_array[$cnt]['result'] = 1;
+                    $passed_classes_array[] = $key;
+                } else {
+                    $ca_results_array[$cnt]['result'] = 0;
+                }
+            } else {
+                $ca_results_array[$cnt]['threshold'] = "";
+                $ca_results_array[$cnt]['result'] = "";
+            }    
+            $cnt++;
+        }
+        $ca_res_array['passed_classes'] = $passed_classes_array;
 
-        var_dump( $class_threshold );exit;
+        // results の内容
+        $ca_res_array['results'] = $ca_results_array;
 
-        $res_array['passed_classes'] = 1; 
-        $res_array['results'] = 1;
-        
-        // 'class_name'
-        // 'confidence'
-        // 'threshold'
-        // 'result'
-
-        return json_encode($res_array, JSON_PRETTY_PRINT);
+        return json_encode($ca_res_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
 }
