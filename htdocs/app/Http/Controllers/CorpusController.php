@@ -1004,6 +1004,7 @@ class CorpusController extends Controller
           'corpus_class_id' => $set_class_id,
           'data_type' => $current_data_type,
           'content' => $content,
+          'training_done_data' => null,
           'created_at' => $now,
           'updated_at' => $now
         ];
