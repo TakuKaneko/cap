@@ -361,6 +361,7 @@ class CorpusController extends Controller
         $creative->corpus_class_id = $corpus_class_id;
         $creative->data_type = $get_data_type;
         $creative->content = $form['content'];
+        $creative->training_done_data = null;
         $creative->save();
 
 
