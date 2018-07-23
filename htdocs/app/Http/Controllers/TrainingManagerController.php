@@ -14,14 +14,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Company;
+use App\Models\Api;
 use App\Models\Corpus;
 use App\Models\CorpusClass;
 use App\Models\CorpusCreative;
 use App\Http\Controllers\Controller;
+use App\Models\Business\TrainingDataModel;
+use App\Models\Business\NlcClassifierModel;
 use Illuminate\Support\Facades\DB;          // DBのトランザクション利用
 use Validator;
 
-// use App\Enums\CorpusStateType;
+use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
 // use App\Enums\CorpusType;
 // use App\Enums\ClassifierLanguage;
@@ -30,7 +34,9 @@ use App\Enums\TrainingDataStatus;
 
 class TrainingManagerController extends Controller
 {
-    // 学習管理画面の表示
+    /**
+     * 学習管理画面の表示
+     */
     public function index($corpus_id) {
 
         // 認証チェック
@@ -90,12 +96,122 @@ class TrainingManagerController extends Controller
         return view('corpus-admin.ca-training', ['corpus' => $corpus, 'training_status' => $training_status]);
     }
 
+
     
+    /**
+     * 学習実行
+     */
+    public function execTraining($corpus_id) {
+        // 認証チェック
+        $user = Auth::user();
+        if($user === null) {
+            return redirect('login'); // ログアウト
+        }
+
+
+        $this->logInfo('[corpus_id: ' . $corpus_id . '] 学習を開始します');
+
+        // 登録処理
+        DB::beginTransaction();
+
+        try{
+
+            // コーパスの存在確認
+            $corpus_count = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+            if($corpus_count === 0) {
+                throw new \Exception('不正なパラメータです');
+            }
+
+            $target_corpus = Corpus::find($corpus_id);
+
+
+            // 学習データモデル生成
+            $training_data = new TrainingDataModel($corpus_id);
+            // CSV保存
+            $training_data->saveTrainingDataCsv();
+
+            // CSV保存結果を確認
+            $error_msg = $training_data->getErrorMessage();
+            if(!empty($error_msg)) {
+                throw new \Exception($error_msg);
+            }
+            $this->logInfo('CSV保存完了');
+
+
+            // CSVファイルパスを取得してトレーニングデータモデルのインスタンス生成
+            $this->logInfo('NLC Classifierモデルインスタンス生成');
+
+            $my_company_id = $user->company_id;
+            $my_company = Company::find($my_company_id);
+            $my_classifier_api = Api::where('company_id', $my_company_id)->first();
+
+            $set_nlc_url = $my_company->nlc_url;
+            $set_nlc_username = $my_company->nlc_username;
+            $set_nlc_password = $my_company->nlc_password;
+            $set_classifier_id = $my_classifier_api->nlc_id;
+
+            $this->logInfo('[nlc_url] ' . $set_nlc_url);
+            $this->logInfo('[username] ' . $set_nlc_username);
+            $this->logInfo('[password] ' . $set_nlc_password);
+            $this->logInfo('[classifier_id] ' . $set_classifier_id);
+            
+            $nlc_classifier = new NlcClassifierModel($set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id);
+
+
+            // コーパスのステータスを学習中に変更してnlc生成実行
+            $target_corpus->status = CorpusStateType::Training;
+            $target_corpus->save();
+
+            $this->logInfo('[NLC用CSVパス]' . $training_data->getTrainingDataPath());
+            $new_nlc = $nlc_classifier->createNlc($training_data->getTrainingDataPath());
+
+            if(!$new_nlc->isAvairable()) {
+                throw new \Exception('学習は正常に完了しませんでした');
+            } 
+
+
+            // 新しいnlc_idを設定
+            $api = Api::find($my_classifier_api->id);
+            $api->nlc_id = $new_nlc->getClassifierId();
+
+            
+            // クリエイティブの学習完了日をセット
+            $training_data->setTrainingDoneDate();
+            
+            $error_msg = $training_data->getErrorMessage();
+            if(!empty($error_msg)) {
+                throw new \Exception($error_msg);
+            }
+            $this->logInfo('学習完了日のセット完了');
+            
+
+            // コーパスのステータス変更
+            $target_corpus->status = CorpusStateType::StandBy;
+            $target_corpus->save();
+
+            DB::commit();
+
+        } catch (\PDOException $e){
+            DB::rollBack();
+            return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
+    
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
+        }
+
+        $this->logInfo('正常に完了しました');
+        return redirect('/corpus/training/' . $corpus_id)->with('msg', '学習が完了しました');
+    }
+
+
+
+
 
     /**
      * 開発ログ確認用
      */
-    private $debug = false;
+    private $debug = true;
     private function logInfo($msg) {
       if($this->debug) {
         var_dump($msg);

@@ -159,7 +159,8 @@
                             <p class="step-list__text">
                               <!-- <small class="mt-15">実行可能</small><br> -->
                             @if($training_status['can_training'])
-                              <button type="button" class="btn btn-danger">学習実行</button>
+                              <!-- <button type="button" class="btn btn-danger">学習実行</button> -->
+                              <a href="/corpus/training/exec/{{ $corpus->id }}" class="btn btn-danger">学習実行</a>
                             @else
                               <button type="button" class="btn btn-danger" disabled>実行不可</button>
                             @endif
@@ -388,10 +389,12 @@
                     <div class="card-body">
                     @if($training_status['training_data_status'] === App\Enums\TrainingDataStatus::NoData || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::DataDeficiencies || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::ExistUntrainingData )
                       <span class="text-danger" data-feather="alert-triangle" style="width:40px;height:40px;"></span>
+                      <p style="margin:0;color:indianred;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
                     @else
                       <span class="text-success" data-feather="check" style="width:40px;height:40px;"></span>
+                      <p style="margin:0;color:limegreen;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
                     @endif
-                      <p style="margin:0;color:indianred;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
+                      
                     </div>
 
                   </div>

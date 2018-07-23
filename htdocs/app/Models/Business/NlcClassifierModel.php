@@ -43,9 +43,9 @@ class NlcClassifierModel
     {
         // 教師データを元にNLCを作成
 
-        $this->nlc_url = "";
-        $this->classifier_id = "";
-        $this->status = "Avairable";
+        $this->nlc_url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/";
+        $this->classifier_id = "28680bx78-nlc-1988";
+        $this->status = "Available";
 
         return $this;
     }
@@ -222,6 +222,13 @@ class NlcClassifierModel
         $ca_res_array['results'] = $ca_results_array;
 
         return json_encode($ca_res_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * NLCのClassifier_idを取得
+     */
+    public function getClassifierId() {
+        return $this->classifier_id;
     }
 
 }
