@@ -10,7 +10,9 @@
         "fideloper/proxy": "~3.3",
         "laravel/tinker": "~1.0",
         "ext-mysqli": "*",
-        "tymon/jwt-auth": "dev-develop"
+        "tymon/jwt-auth": "dev-develop",
+        "barryvdh/laravel-debugbar": "^3.1",
+        "bensampo/laravel-enum": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -37,7 +39,19 @@
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "php htdocs/artisan key:generate"
+            "php htdocs/artisan key:generate",
+            "php htdocs/artisan cache:clear",
+            "php htdocs/artisan view:clear",
+            "php htdocs/artisan route:clear",
+            "php htdocs/artisan config:cache",
+            "sed -i -e \"s/develop/production/\" htdocs/.env",
+            "sed -i -e \"s/true/false/\" htdocs/.env",
+            "sed -i -e \"s/DB_HOST=127.0.0.1/DB_HOST=sl-us-south-1-portal.28.dblayer.com/\" htdocs/.env",
+            "sed -i -e \"s/DB_PORT=3306/DB_PORT=50824/\" htdocs/.env",
+            "sed -i -e \"s/DB_USERNAME=root/DB_USERNAME=admin/\" htdocs/.env",
+            "sed -i -e \"s/DB_PASSWORD=/DB_PASSWORD=BQGFDVBCPBWTIQVB/\" htdocs/.env",
+            "php htdocs/artisan migrate:refresh",
+            "php htdocs/artisan db:seed"
         ],
         "post-install-cmd": [
             "mkdir -p /tmp/app/htdocs/bootstrap/cache",
@@ -45,8 +59,20 @@
             "mkdir -p /tmp/app/htdocs/storage/framework/views",
             "mkdir -p /tmp/app/htdocs/storage/framework/cache",
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "php htdocs/artisan cache:clear",
+            "php htdocs/artisan view:clear",
+            "php htdocs/artisan route:clear",
+            "php htdocs/artisan config:cache",
             "php htdocs/artisan optimize",
-            "php htdocs/artisan key:generate"
+            "php htdocs/artisan key:generate",
+            "sed -i -e \"s/develop/production/\" htdocs/.env",
+            "sed -i -e \"s/true/false/\" htdocs/.env",
+            "sed -i -e \"s/DB_HOST=127.0.0.1/DB_HOST=sl-us-south-1-portal.28.dblayer.com/\" htdocs/.env",
+            "sed -i -e \"s/DB_PORT=3306/DB_PORT=50824/\" htdocs/.env",
+            "sed -i -e \"s/DB_USERNAME=root/DB_USERNAME=admin/\" htdocs/.env",
+            "sed -i -e \"s/DB_PASSWORD=/DB_PASSWORD=BQGFDVBCPBWTIQVB/\" htdocs/.env",
+            "php htdocs/artisan migrate:refresh",
+            "php htdocs/artisan db:seed"
         ],
         "post-update-cmd": [
             "mkdir -p /tmp/app/htdocs/bootstrap/cache",
@@ -54,8 +80,20 @@
             "mkdir -p /tmp/app/htdocs/storage/framework/views",
             "mkdir -p /tmp/app/htdocs/storage/framework/cache",
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php htdocs/artisan cache:clear",
+            "php htdocs/artisan view:clear",
+            "php htdocs/artisan route:clear",
+            "php htdocs/artisan config:cache",
             "php htdocs/artisan optimize",
-            "php htdocs/artisan key:generate"
+            "php htdocs/artisan key:generate",
+            "sed -i -e \"s/develop/production/\" htdocs/.env",
+            "sed -i -e \"s/true/false/\" htdocs/.env",
+            "sed -i -e \"s/DB_HOST=127.0.0.1/DB_HOST=sl-us-south-1-portal.28.dblayer.com/\" htdocs/.env",
+            "sed -i -e \"s/DB_PORT=3306/DB_PORT=50824/\" htdocs/.env",
+            "sed -i -e \"s/DB_USERNAME=root/DB_USERNAME=admin/\" htdocs/.env",
+            "sed -i -e \"s/DB_PASSWORD=/DB_PASSWORD=BQGFDVBCPBWTIQVB/\" htdocs/.env",
+            "php htdocs/artisan migrate:refresh",
+            "php htdocs/artisan db:seed"
         ]
     },
     "config": {
