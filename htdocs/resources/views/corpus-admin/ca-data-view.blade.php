@@ -488,7 +488,7 @@
 
         <!-- 学習データアップロード -->
         <div class="modal fade" id="SelectTrainingCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <form action="/corpus/data/csv/upload/{{ $corpus->id }}/{{ \App\Enums\CorpusDataType::Training }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
@@ -499,7 +499,17 @@
                 </div>
                 <!-- /.modal-header -->
                 <div class="modal-body">
-                  <input type="file" value="ファイルを選択" name="csv_file">
+                  <div class="alert alert-danger mt-3" role="alert">
+                    <ul style="margin-bottom: 0;">
+                      <li>既に登録されている学習データは削除されます。</li>
+                      <li>学習データは5-15,000件での範囲で準備してください。</li>
+                      <li>学習データのテキストはそれぞれ1,024文字以内で準備してください。</li>
+                    </ul>
+                  </div>
+                  <!-- /.alert -->
+                  <div class="form-group mt-4">
+                    <input type="file" value="ファイルを選択" name="csv_file" required>
+                  </div>
                   {{ csrf_field() }}
                 </div>
                 <!-- /.modal-body -->
@@ -516,7 +526,7 @@
 
         <!-- テストデータアップロード -->
         <div class="modal fade" id="SelectTextCsvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <form action="/corpus/data/csv/upload/{{ $corpus->id }}/{{ \App\Enums\CorpusDataType::Test }}" method="post" enctype="multipart/form-data" id="csvUpload">
                 <div class="modal-header">
@@ -527,7 +537,15 @@
                 </div>
                 <!-- /.modal-header -->
                 <div class="modal-body">
-                  <input type="file" value="ファイルを選択" name="csv_file">
+                  <div class="alert alert-warning mt-3" role="alert">
+                    <ul style="margin-bottom: 0;">
+                      <li>テストデータは、学習データの10％を目安に準備することを推奨しています。</li>
+                    </ul>
+                  </div>
+                  <!-- /.alert -->
+                  <div class="form-group mt-4">
+                    <input type="file" value="ファイルを選択" name="csv_file" required>
+                  </div>
                   {{ csrf_field() }}
                 </div>
                 <!-- /.modal-body -->
