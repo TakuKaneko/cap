@@ -932,9 +932,12 @@ class CorpusController extends Controller
         }
 
         // 文字コード変更
-        mb_convert_variables('UTF-8', 'SJIS-win', $line);
-        $content = $line[0];
-        $class_name = $line[1];
+        // mb_convert_variables('UTF-8', 'SJIS-win', $line);
+        
+        $content = mb_convert_encoding($line[0], "UTF-8", "auto");
+        $class_name = mb_convert_encoding($line[1], "UTF-8", "auto");
+
+        $this->logInfo('[CSVデータ] コンテント: ' . $content . ', クラス: ' . $class_name . '<br>');
 
         // クラス名のバリデーション
         $validator = Validator::make(array('class_name' => $class_name), CorpusClass::$csv_insert_rule, CorpusClass::$csv_insert_error_message);
@@ -1009,6 +1012,7 @@ class CorpusController extends Controller
       }
 
       // dd($insert_creative_data);exit;
+      // exit;
       return $insert_creative_data;
     }
 
