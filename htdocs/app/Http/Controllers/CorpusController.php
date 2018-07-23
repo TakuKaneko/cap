@@ -650,6 +650,7 @@ class CorpusController extends Controller
         $training_data = CorpusCreative::select()
           ->join('corpus_classes','corpus_classes.id','=','corpus_creatives.corpus_class_id')
           ->whereIn('corpus_classes.corpus_id', [$corpus_id])
+          ->where('corpus_creatives.data_type', CorpusDataType::Training)
           ->get();
 
         foreach ($training_data as $data) {
