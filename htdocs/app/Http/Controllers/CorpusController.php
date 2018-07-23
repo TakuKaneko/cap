@@ -701,9 +701,12 @@ class CorpusController extends Controller
 
 
         // CSVデータ件数チェック(範囲: 5-15000件)
-        $res = $this->isAllowdCsvRow($file, $corpus_id);
-        if(!$res) {
-          throw new \Exception('アップロード可能なデータ件数は5〜15,000件です');
+        // 学習の時だけ
+        if($data_type === CorpusDataType::Training) {
+          $res = $this->isAllowdCsvRow($file, $corpus_id);
+          if(!$res) {
+            throw new \Exception('アップロード可能なデータ件数は5〜15,000件です');
+          }
         }
 
       }  catch(\Exception $e) {
@@ -934,8 +937,8 @@ class CorpusController extends Controller
         // 文字コード変更
         // mb_convert_variables('UTF-8', 'SJIS-win', $line);
         
-        $content = mb_convert_encoding($line[0], "UTF-8", "auto");
-        $class_name = mb_convert_encoding($line[1], "UTF-8", "auto");
+        $content = mb_convert_encoding($line[0], "UTF-8", "ASCII,JIS,UTF-8,EUC-JP,SJIS");
+        $class_name = mb_convert_encoding($line[1], "UTF-8", "ASCII,JIS,UTF-8,EUC-JP,SJIS");
 
         $this->logInfo('[CSVデータ] コンテント: ' . $content . ', クラス: ' . $class_name . '<br>');
 
