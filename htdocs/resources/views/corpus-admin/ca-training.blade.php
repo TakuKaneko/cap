@@ -157,8 +157,12 @@
                           </div>
                           <div class="col-3">
                             <p class="step-list__text">
-                              <small class="mt-15">実行可能</small><br>
+                              <!-- <small class="mt-15">実行可能</small><br> -->
+                            @if($training_status['can_training'])
                               <button type="button" class="btn btn-danger">学習実行</button>
+                            @else
+                              <button type="button" class="btn btn-danger" disabled>実行不可</button>
+                            @endif
                             </p>
                           </div>
                         </div>
@@ -379,12 +383,17 @@
                 <div class="col-6">
                   <div class="card bg-light mb-3">
                     <div class="card-header">
-                      未学習データ
+                      学習データ
                     </div>
                     <div class="card-body">
+                    @if($training_status['training_data_status'] === App\Enums\TrainingDataStatus::NoData || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::DataDeficiencies || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::ExistUntrainingData )
                       <span class="text-danger" data-feather="alert-triangle" style="width:40px;height:40px;"></span>
-                      <p style="margin:0;color:indianred;font-weight:bold;">あり</p>
+                    @else
+                      <span class="text-success" data-feather="check" style="width:40px;height:40px;"></span>
+                    @endif
+                      <p style="margin:0;color:indianred;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
                     </div>
+
                   </div>
                 </div>
                 {{--  カード2  --}}
