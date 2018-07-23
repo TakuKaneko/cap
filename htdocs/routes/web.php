@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
   // });
   // 暫定
   Route::get('/corpus/training/{corpus_id}', 'TrainingManagerController@index');
+  Route::get('/corpus/training/exec/{corpus_id}', 'TrainingManagerController@execTraining');
 
   // サービス管理
   Route::get('/settings', 'ServiceController@index');
