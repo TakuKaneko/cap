@@ -824,14 +824,6 @@ class CorpusController extends Controller
 
 
     /**
-     * 学習管理画面
-     */
-    public function trainingManage($corpus_id) {
-      return view('corpus-admin.ca-training', ['corpus' => Corpus::find($corpus_id)]);
-    }
-
-
-    /**
      * CSVファイルが正常にアップされたかどうか
      */
     private function getCsvFileStatus($request) {
