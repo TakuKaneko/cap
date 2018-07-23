@@ -99,9 +99,17 @@
             <div class="alert alert-info" role="alert">
               2016/10/20 10:53時点の学習データで稼働中<a href="/corpus/training" class="ml-3">学習管理ページに移動</a>
             </div>
-            <!-- <div class="col-12">
-              <p>2016/10/20 10:53時点の学習データで稼働中<br><a href="/corpus/training">学習管理ページに移動</a></p>
-            </div> -->
+          </div>
+        </div>
+        <!-- /.row -->
+        @endif
+
+        @if($corpus->status == \App\Enums\CorpusStateType::Training) 
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+              このコーパスは学習中です。学習データの登録、編集、削除の操作はできません。
+            </div>
           </div>
         </div>
         <!-- /.row -->
@@ -164,6 +172,29 @@
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="training" role="tabpanel" aria-labelledby="training-tab" style="width:100%;"> 
 
+            @if($corpus->status == \App\Enums\CorpusStateType::Training) 
+              <div class="row">
+                <div class="col-auto mr-auto">
+                <button type="button" class="btn btn-outline-brand" disabled>
+                  <span data-feather="plus" style="width:20px;height:20px;"></span>
+                  <span>クラス/テキスト追加</span>
+                </button>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-light" disabled>
+                    <span class="text-muted" data-feather="upload" style="width:20px;height:20px;"></span>
+                    <span>CSVアップロード</span>
+                  </button>
+                  <a href="/corpus/csv/download/{{ $corpus->id }}" class="btn btn-light" role="button" aria-pressed="true">
+                    <span class="text-muted" data-feather="download" style="width:20px;height:20px;"></span>
+                    <span>CSVダウンロード</span>
+                  </a>
+                  <button type="button" class="btn btn-link">
+                    <span><a href="/files/corpus-admin/training_data_sample.csv">サンプル</a></span>
+                  </button>
+                </div>
+              </div>
+            @else 
               <div class="row">
                 <div class="col-auto mr-auto">
                 <button type="button" class="btn btn-outline-brand" data-toggle="modal" data-target="#addClassTextModal" data-datatype="1" data-mtitle="クラス/テキスト追加">
@@ -185,6 +216,10 @@
                   </button>
                 </div>
               </div>
+
+            @endif
+
+
 
               @if(count($corpus_classes) === 0)
               <div class="alert alert-secondary mt-2" role="alert">
@@ -230,11 +265,18 @@
                     </div>
                     @else
                       <ul class="corpusTextList">
-                     @for($i = 0; $i < count($training_creatives[$class->id]); $i++)
-                        <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" 
-                          data-target="#editClassTextModal" data-mtitle="テキスト編集" data-classid="{{ $class->id }}" data-content="{{ $training_creatives[$class->id][$i]->content }}" 
-                          data-creativeid="{{ $training_creatives[$class->id][$i]->id }}" data-datatype="1">{{ $training_creatives[$class->id][$i]->content }}</a></li>
-                      @endfor
+                      @if($corpus->status == \App\Enums\CorpusStateType::Training) 
+                        @for($i = 0; $i < count($training_creatives[$class->id]); $i++)
+                          <li><a href="javascript:void(0);" class="list-group-item list-group-item-action">{{ $training_creatives[$class->id][$i]->content }}</a></li>
+                        @endfor
+                      @else
+                        @for($i = 0; $i < count($training_creatives[$class->id]); $i++)
+                          <li><a href="#" class="list-group-item list-group-item-action" data-toggle="modal" 
+                            data-target="#editClassTextModal" data-mtitle="テキスト編集" data-classid="{{ $class->id }}" data-content="{{ $training_creatives[$class->id][$i]->content }}" 
+                            data-creativeid="{{ $training_creatives[$class->id][$i]->id }}" data-datatype="1">{{ $training_creatives[$class->id][$i]->content }}</a>
+                          </li>
+                        @endfor
+                      @endif
                     @endif
                       </ul>
                     </div>
