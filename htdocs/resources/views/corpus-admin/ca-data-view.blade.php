@@ -83,7 +83,12 @@
         .nav-pills-brand .nav-link.active, .nav-pills-brand .show>.nav-link {
           color: #fff;
           background-color: #00A1EA;
-       }
+        }
+
+        .nav-pills-brand .nav-link.test.active, .nav-pills-brand .show>.nav-link {
+          color: #fff;
+          background-color: #17a2b8;
+        }
       </style>
       {{--  コンテンツ  --}}
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
@@ -271,9 +276,9 @@
                   <div class="nav flex-column nav-pills-brand" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                   @foreach($corpus_classes as $index => $class)
                     @if($index === 0)
-                      <a class="nav-link active h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
+                      <a class="nav-link test active h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
                     @else
-                    <a class="nav-link h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
+                    <a class="nav-link test h6" id="v-pills-tab{{ $index }}_2" data-toggle="pill" href="#v-pills-{{ $index }}_2" role="tab" aria-controls="v-pills-{{ $index }}_2" aria-selected="true">
                     @endif
                       <span>{{ $class->name }}</span>
                       <span class="badge badge-pill badge-light ml-1">{{ $class->test_data_count }}</span>
