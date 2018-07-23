@@ -205,7 +205,7 @@ function time_diff($update_time)
             <p>コーパスを作成し教師データを学習することで、ユーザから入力されたクリエイティブの意図を分類し、結果をAPIとして提供できます。</p>
             <div class="form-group">
               <label for="corpus_name" class="bmd-label-floating">コーパス名</label>
-              <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="corpus_name">
+              <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="corpus_name" required>
               <span class="bmd-help">10字程度の識別しやすい名前を記入してください。</span>
               <div class="invalid-feedback">
                 テキストを入力してください
@@ -214,7 +214,7 @@ function time_diff($update_time)
             <!-- /.form-group -->
             <div class="form-group">
               <label for="corpus_description" class="bmd-label-floating">説明文</label>
-              <textarea name="description" class="form-control" id="corpus_description" rows="2">{{ old('description') }}</textarea>
+              <textarea name="description" class="form-control" id="corpus_description" rows="2" required>{{ old('description') }}</textarea>
               <span class="bmd-help">50字以内で記入してください。</span>
             </div>
             <!-- /.form-group -->
