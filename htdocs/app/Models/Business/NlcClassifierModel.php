@@ -42,6 +42,12 @@ class NlcClassifierModel
     public function createNlc($data)
     {
         // 教師データを元にNLCを作成
+
+        $this->nlc_url = "";
+        $this->classifier_id = "";
+        $this->status = "Avairable";
+
+        return $this;
     }
 
     /**

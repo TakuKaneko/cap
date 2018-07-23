@@ -62,7 +62,6 @@ class ApiController extends Controller
         // 分析結果を取得
         return $nlc->runCognitiveAdCheck($display_api_id, $request->input('text'));
 
-
     }
 
     /**

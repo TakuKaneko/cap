@@ -18,6 +18,7 @@ class CreateCorpusCreativesTable extends Migration
             $table->string('corpus_class_id');
             $table->string('data_type');
             $table->text('content');
+            $table->timestamp('training_done_data')->nullable();
             $table->timestamps();
         });
     }
