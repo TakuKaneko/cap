@@ -99,27 +99,19 @@ strong {
           box-shadow: none;
 }
 
-input::-webkit-input-placeholder {
+.form-control::-webkit-input-placeholder {
   color: lightgray;
 }
 
-input:-ms-input-placeholder {
+.form-control:-ms-input-placeholder {
   color: lightgray;
 }
 
-input::-ms-input-placeholder {
+.form-control::-moz-placeholder {
   color: lightgray;
 }
 
-input::placeholder {
-  color: lightgray;
-}
-
-input:-ms-input-placeholder {
-  color: lightgray;
-}
-
-input::-ms-input-placeholder {
+.form-control::-placeholder {
   color: lightgray;
 }
 

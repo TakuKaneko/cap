@@ -94,23 +94,15 @@ strong {
 .form-control:focus {
     box-shadow: none;
 }
-
-@mixin placeholder($color) {
-  &::placeholder {
-    color: $color;
-  }
-
-  // IE
-  &:-ms-input-placeholder {
-    color: $color;
-  }
-
-  // Edge
-  &::-ms-input-placeholder {
-    color: $color;
-  }
+.form-control::-webkit-input-placeholder {
+    color: lightgray;
 }
-
-input {
-  @include placeholder(lightgray);
+.form-control:-ms-input-placeholder {
+    color: lightgray;
+}
+.form-control::-moz-placeholder {
+    color: lightgray;
+}
+.form-control::-placeholder {
+    color: lightgray;
 }
