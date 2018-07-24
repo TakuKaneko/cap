@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 use App\Jobs\CheckNlcTrainingStatus;
 
@@ -207,8 +208,10 @@ class TrainingManagerController extends Controller
 
 
             // job
-            $log = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id))->delay(5);
-            dispatch($log);
+            $job = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id));
+            dispatch($job);
+
+            // Artisan::queue('work');
 
 
         } catch (\PDOException $e){
