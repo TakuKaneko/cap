@@ -193,7 +193,7 @@ class TrainingManagerController extends Controller
             if(!empty($error_msg)) {
                 throw new \Exception($error_msg);
             }
- 
+
             // 新しいnlc_idを設定
             $api = Api::find($my_classifier_api->id);
             $api->nlc_id = $new_nlc->getClassifierId();
