@@ -140,13 +140,15 @@ class NlcClassifierModel
             //     $this->setStatus($this->classifier_id);
             // }
             
-
+            return $this;
+            
         } catch (\Exception $e) {
             $this->err_msg = $e->getMessage();
             // var_dump('[error] '. $this->err_msg);exit;
+            
+            return $this;
         }
 
-        return $this;
     }
 
     /**
