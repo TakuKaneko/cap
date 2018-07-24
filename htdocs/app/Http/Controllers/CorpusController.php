@@ -97,6 +97,7 @@ class CorpusController extends Controller
         $corpus->is_production = false;
         $corpus->company_id = $user->company_id;
         $corpus->language = $form['language'];
+        $corpus->tmp_nlc_id = "";
         $corpus->save();
 
         DB::commit();
