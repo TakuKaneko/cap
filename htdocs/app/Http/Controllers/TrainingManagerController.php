@@ -209,9 +209,8 @@ class TrainingManagerController extends Controller
 
             // job
             $job = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id));
-            dispatch($job);
-
-            // Artisan::queue('work');
+            dispatch($job)->delay(now()->addMinutes(1));
+            
 
 
         } catch (\PDOException $e){
