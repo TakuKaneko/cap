@@ -93,6 +93,12 @@
       </style>
       <!--  コンテンツ  -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
+      @if (session('msg'))
+        <script>
+          alert('{{ session("msg") }}');
+        </script>
+      @endif
+
         <section>
           <div class="row">
             {{-- 学習ステップ  --}}
