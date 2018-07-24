@@ -1,4 +1,4 @@
 composer.lock
-vendor
-node_modules
+htdocs/node_modules/
 htdocs/vendor/
+htdocs/bootstrap/cache/
