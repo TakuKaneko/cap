@@ -22,6 +22,7 @@ class CreateCorpusesTable extends Migration
             $table->boolean('is_production')->default(false);
             $table->string('company_id');
             $table->string('language');
+            $table->string('tmp_nlc_id');
             $table->softDeletes();
             $table->timestamps();
         });

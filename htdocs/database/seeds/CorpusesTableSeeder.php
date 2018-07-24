@@ -23,6 +23,7 @@ class CorpusesTableSeeder extends Seeder
                 'is_production' => true,
                 'company_id' => '1',
                 'language' => ClassifierLanguage::Japanese,
+                'tmp_nlc_id' => '28680bx78-nlc-1824',
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ],
