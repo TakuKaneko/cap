@@ -53,8 +53,8 @@ return [
     */
 
     // 'url' => env('APP_URL', 'http://localhost'),
-    'url' => env('APP_URL', 'http://127.0.0.1:8000/'),
-    'api_exec_url' => 'http://127.0.0.1:8000/api/exec/', 
+    'url' => env('APP_URL', 'https://cap-development.mybluemix.net/'),
+    'api_exec_url' => 'https://cap-development.mybluemix.net/api/exec/' ,
 
     /*
     |--------------------------------------------------------------------------

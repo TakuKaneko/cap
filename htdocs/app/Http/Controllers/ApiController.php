@@ -77,6 +77,7 @@ class ApiController extends Controller
     protected function isAuthenticated($request_token) {
         // Companiesテーブルの認証トークンカラムと突合チェック
         return Company::where('authroize_token', 'like', $request_token)->exists();
+
     }
 
     /**

@@ -37,6 +37,12 @@ class NlcClassifierModel
         }
     }
 
+    public function toString()
+    {
+        return $this->nlc_url . " : " . $this->username . " : " . $this->password . " : "
+         . $this->classifier_id . " : " . $this->status . " : " . $this->err_msg . "/";
+    }
+
 
     /**
      * エラーメッセージを返す
@@ -183,8 +189,7 @@ class NlcClassifierModel
         } 
         catch (\Exception $e)
         {
-            $this->status = "error: curl exec exception.";
-            echo "exception";exit;
+            $this->status = "error: curl exec exception1.";
             return;
         }
 
@@ -219,7 +224,7 @@ class NlcClassifierModel
             } 
             catch (\Exception $e)
             {
-                $this->status = "error: curl exec exception.";
+                $this->status = "error: curl exec exception2.";
                 return;
             }
         }

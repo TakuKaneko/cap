@@ -189,10 +189,10 @@
                         <div class="row">
                           <div class="col-7">
                             <h4 class="step-list__heading">
-                              AI学習結果の検証レポート<small>（任意）</small>
+                              AI学習結果のテスト<small>（任意）</small>
                             </h4>
                             <p class="step-list__text">
-                              検証データを基に品質検証を行い精度レポートを確認します。
+                              テストデータを元に回答精度を確認します。
                             </p>
                           </div>
                           <div class="col-2" style="margin-top:10px;">
@@ -200,7 +200,7 @@
                           </div>
                           <div class="col-3">
                             <p class="step-list__text">
-                              <button type="button" class="btn btn-danger mt-15">検証実行</button>
+                              <button type="button" class="btn btn-danger mt-15">テスト実行</button>
                             </p>
                           </div>
                         </div>
@@ -220,10 +220,10 @@
                         <div class="row">
                           <div class="col-7">
                             <h4 class="step-list__heading">
-                              AIのテスト実行<small>（任意）</small>
+                              AI回答の検証<small>（任意）</small>
                             </h4>
                             <p class="step-list__text">
-                              試験したいデータを入力し、応答を確認します。
+                              検証したいデータを個別入力し、回答を確認します。
                             </p>
                           </div>
                           <div class="col-2" style="margin-top:10px;">
@@ -231,7 +231,7 @@
                           </div>
                           <div class="col-3">
                             <p class="step-list__text">
-                              <button type="button" class="btn btn-danger mt-15">テスト実行</button>
+                              <button type="button" class="btn btn-danger mt-15">検証実行</button>
                             </p>
                           </div>
                         </div>
@@ -254,7 +254,7 @@
                               教師データの修正<small>（任意）</small>
                             </h4>
                             <p class="step-list__text">
-                              教師データを修正し再学習することで精度を向上できます。
+                              学習データを修正することで精度を向上します。
                             </p>
                           </div>
                           <div class="col-2" style="margin-top:10px;">
