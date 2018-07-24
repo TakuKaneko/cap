@@ -16,6 +16,7 @@ class NlcClassifierModel
     protected $password;
     protected $classifier_id;  // NLC classfier-id
     protected $status; // NLCのステータス（0:avairable, 1:training, 9:unavairable）
+    protected $err_msg; // エラーメッセージ
     
     /**
      * コンストラクタ
@@ -36,18 +37,116 @@ class NlcClassifierModel
         }
     }
 
+
+    /**
+     * エラーメッセージを返す
+     */
+    public function getErrorMessage() {
+        return $this->err_msg;
+    }
+
+
+    /**
+     * NLC の削除
+     */
+    public function deleteNlc() {
+
+        if ($this->username && $this->password && $this->nlc_url && $this->classifier_id) {
+            // curl の実行
+            try {
+                $curl = curl_init();
+
+                curl_setopt($curl, CURLOPT_URL, $this->nlc_url . $this->classifier_id);
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+                curl_setopt($curl, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  // curl_execの結果を文字列で返す
+
+                $result = curl_exec($curl);
+                $result_json = json_decode($result, true);
+                curl_close($curl);
+
+                // エラー処理
+                if( array_key_exists('code', $result_json) && ($result_json['code'] !== 200) ) {
+                    throw new \Exception($result_json['error'] . ': ' . $result_json['description']);
+                }
+
+                $this->classifier_id = NULL;
+                $this->err_msg = "";
+
+                return;
+
+            } 
+            catch (\Exception $e)
+            {
+                $this->err_msg = $e->getMessage();
+                return;
+            }
+
+        } 
+
+        // プロパティがセットされていない場合、エラーセット
+        $this->err_msg = $e->getMessage();
+        return;
+    }
+
+
     /**
      * NLC の生成
      */
     public function createNlc($data)
     {
         // 教師データを元にNLCを作成
+        // nlcのapiをcurlでたたく
+        try {
+            $curl = curl_init();
 
-        $this->nlc_url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/";
-        $this->classifier_id = "28680bx78-nlc-1988";
-        $this->status = "Available";
+            curl_setopt($curl, CURLOPT_URL, $this->nlc_url);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+            curl_setopt($curl, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  // curl_execの結果を文字列で返す
+            // post設定
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    
+            $result = curl_exec($curl);
+            $result_json = json_decode($result, true);
+            curl_close($curl);
 
-        return $this;
+            // エラー処理
+            if( array_key_exists('code', $result_json) && ($result_json['code'] !== 200) ) {
+                throw new \Exception($result_json['error'] . ': ' . $result_json['description']);
+            }
+
+            if($result_json['status'] !== 'Training') {
+                throw new \Exception('学習に失敗しました');
+            }
+
+
+            $this->status = $result_json['status'];
+            $this->classifier_id = $result_json['classifier_id'];
+
+            // // 3分ごとにnlcのapiで学習ステータスを確認する
+            // $break_status = 'Available';
+            // $sleep_time = 60 * 3;
+
+            // while($this->getStatus() !== $break_status) {
+            //     sleep($sleep_time);
+            //     $this->setStatus($this->classifier_id);
+            // }
+
+            return $this;
+            
+
+        } catch (\Exception $e) {
+            $this->err_msg = $e->getMessage();
+            // var_dump('[error] '. $this->err_msg);exit;
+        }
     }
 
     /**

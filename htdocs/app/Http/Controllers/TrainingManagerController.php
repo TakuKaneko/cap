@@ -28,7 +28,7 @@ use Validator;
 use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
 // use App\Enums\CorpusType;
-// use App\Enums\ClassifierLanguage;
+use App\Enums\ClassifierLanguage;
 use App\Enums\TrainingDataStatus;
 
 
@@ -158,36 +158,62 @@ class TrainingManagerController extends Controller
             $nlc_classifier = new NlcClassifierModel($set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id);
 
 
+            // すでにnlc_idがあれば削除
+            if($nlc_classifier->getClassifierId()) {
+                // NLC削除
+                $nlc_classifier->deleteNlc();
+
+                $error_msg = $training_data->getErrorMessage();
+                if(!empty($error_msg)) {
+                    throw new \Exception($error_msg);
+                }
+
+                // apisテーブルのnlc_idをからに
+                $api = Api::find($my_classifier_api->id);
+                $api->nlc_id = "";
+                $api->save();
+            }
+
+
+            $this->logInfo('[NLC用CSVパス]' . $training_data->getTrainingDataPath());
+
+            // nlc生成
+            $cfile = new \CURLFile($training_data->getTrainingDataPath());
+            $data = array(
+                "training_data" => $cfile,
+                "training_metadata" => "{\"language\":\"" . ClassifierLanguage::getDescription($target_corpus->language) . "\",\"name\":\"" . $target_corpus->name . "\"}"
+            );
+
+            $new_nlc = $nlc_classifier->createNlc($data);
+
+            $error_msg = $new_nlc->getErrorMessage();
+            if(!empty($error_msg)) {
+                throw new \Exception($error_msg);
+            }
+ 
+            // 新しいnlc_idを設定
+            $api = Api::find($my_classifier_api->id);
+            $api->nlc_id = $new_nlc->getClassifierId();
+            $api->save();
+
             // コーパスのステータスを学習中に変更してnlc生成実行
             $target_corpus->status = CorpusStateType::Training;
             $target_corpus->save();
 
-            $this->logInfo('[NLC用CSVパス]' . $training_data->getTrainingDataPath());
-            $new_nlc = $nlc_classifier->createNlc($training_data->getTrainingDataPath());
 
-            if(!$new_nlc->isAvairable()) {
-                throw new \Exception('学習は正常に完了しませんでした');
-            } 
-
-
-            // 新しいnlc_idを設定
-            $api = Api::find($my_classifier_api->id);
-            $api->nlc_id = $new_nlc->getClassifierId();
-
+            // // クリエイティブの学習完了日をセット
+            // $training_data->setTrainingDoneDate();
             
-            // クリエイティブの学習完了日をセット
-            $training_data->setTrainingDoneDate();
-            
-            $error_msg = $training_data->getErrorMessage();
-            if(!empty($error_msg)) {
-                throw new \Exception($error_msg);
-            }
-            $this->logInfo('学習完了日のセット完了');
+            // $error_msg = $training_data->getErrorMessage();
+            // if(!empty($error_msg)) {
+            //     throw new \Exception($error_msg);
+            // }
+            // $this->logInfo('学習完了日のセット完了');
             
 
-            // コーパスのステータス変更
-            $target_corpus->status = CorpusStateType::StandBy;
-            $target_corpus->save();
+            // // コーパスのステータス変更
+            // $target_corpus->status = CorpusStateType::StandBy;
+            // $target_corpus->save();
 
             DB::commit();
 
@@ -201,7 +227,7 @@ class TrainingManagerController extends Controller
         }
 
         $this->logInfo('正常に完了しました');
-        return redirect('/corpus/training/' . $corpus_id)->with('msg', '学習が完了しました');
+        return redirect('/corpus/training/' . $corpus_id)->with('msg', 'ただ今学習中です。');
     }
 
 
