@@ -18,7 +18,7 @@ class ApisTableSeeder extends Seeder
                 'name' => 'テストカンパニー社のサンプルAPI①',
                 'description' => 'Laravelが自動生成したテスト用のAPIです。Laravelが自動生成したテスト用のAPIです。Laravelが自動生成したテスト用のAPIです。',
                 'company_id' => 1,
-                'nlc_id' => '28680bx78-nlc-1988',
+                'nlc_id' => '28680bx78-nlc-1824',
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ]
