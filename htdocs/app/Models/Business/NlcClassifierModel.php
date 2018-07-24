@@ -32,7 +32,7 @@ class NlcClassifierModel
             $this->classifier_id = $classifier_id;
 
             // status をNLCから取得しプロパティにセット
-            $this->setStatus($classifier_id);
+            $this->setStatus();
         }
     }
 
@@ -92,7 +92,7 @@ class NlcClassifierModel
     /**
      * NLC の現在のステータスをプロパティにセット
      */
-    public function setStatus($classifier_id)
+    public function setStatus()
     {
         if ($this->username && $this->password && $this->nlc_url && $this->classifier_id)
         {
@@ -140,6 +140,7 @@ class NlcClassifierModel
      */
     public function isAvairable()
     {
+        // $this->setStatus();
         if ($this->status == "Available")
         {
             return true;
@@ -148,16 +149,14 @@ class NlcClassifierModel
     }
 
     /**
-     * NLC に対するクエリが正常化であれば true を返す
+     * NLC に対するクエリが正常であれば true を返す
      */
     public function isQueryCorrect($text)
     {
-        $text_length = mb_strlen($text, 'UTF-8');
-        if ($text_length < 1024)
-        {
-            return true;
-        }
-        return false;
+        // textの文字数チェック
+        $text_length_flg = mb_strlen($text, 'UTF-8') < 1024 ? true : false;
+
+        return $text_length_flg;
     }
 
     /**
@@ -177,10 +176,7 @@ class NlcClassifierModel
         // 審査対象テキスト
         $ca_res_array['text'] =  $text;
         // 閾値以上のクラス
-
-
-        // 閾値以上のクラス
-        $nlc_result_array = array(); // クラス名と確信度を部分抽出した配列
+        $nlc_result_array = array(); // NLC実行結果から取得したクラス名と確信度を格納する配列
         foreach ($nlc_res['classes'] as $key => $value)
         {
             $nlc_result_array[$value['class_name']] = $value['confidence'];
@@ -189,25 +185,29 @@ class NlcClassifierModel
         $target_corpus = Api::where('display_api_id', 'like', $display_api_id)->first()->corpuses->first();
         $target_classes = $target_corpus->corpusClasses;
 
-        $class_threshold_array = array();
+        $class_threshold_array = array(); // コーパスクラスTBLに保存された各クラスの名前と閾値を格納する配列
         foreach ($target_classes as $class)
         {
             $class_threshold_array[$class->name] = $class->threshold;
         }
 
         $passed_classes_array = array();
-        $ca_results_array = array(); // results格納用
+        $ca_results_array = array(); // APIレスポンスの[results]値格納用の配列
         $cnt = 0;
         foreach ($nlc_result_array as $key => $value)
         {
             $ca_results_array[$cnt]['class_name'] = $key;
             $ca_results_array[$cnt]['confidence'] = $value;
-            if (array_key_exists($key, $class_threshold_array)) {
+            if (array_key_exists($key, $class_threshold_array)) 
+            {
                 $ca_results_array[$cnt]['threshold'] = $class_threshold_array[$key];
-                if ($value >= $class_threshold_array[$key]) {
+                if ($value >= $class_threshold_array[$key]) 
+                {
                     $ca_results_array[$cnt]['result'] = 1;
                     $passed_classes_array[] = $key;
-                } else {
+                } 
+                else 
+                {
                     $ca_results_array[$cnt]['result'] = 0;
                 }
             } else {
