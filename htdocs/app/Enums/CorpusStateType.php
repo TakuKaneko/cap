@@ -44,4 +44,31 @@ final class CorpusStateType extends Enum
                 return self::getKey($value);
         }
     }
+
+    public static function getTrainingAvairableMessage($value): string
+    {
+        switch ($value){
+            case self::Available:
+                return '完了済み';
+                brake;
+            case self::NoTrainingData:
+                return '学習不可';
+                brake;
+            case self::Untrained:
+                return '学習可能';
+                brake;
+            case self::Training:
+                return '学習中...';
+                brake;
+            case self::StandBy:
+                return '完了済み';
+                brake;
+            case self::Unavailable:
+                return '学習可能';
+                brake;
+            default:
+                return self::getKey($value);
+        }
+    }
+
 }
