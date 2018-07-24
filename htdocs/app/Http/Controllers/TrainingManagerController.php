@@ -14,6 +14,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Jobs\CheckNlcTrainingStatus;
+
 use App\Models\Company;
 use App\Models\Api;
 use App\Models\Corpus;
@@ -201,36 +203,30 @@ class TrainingManagerController extends Controller
             $target_corpus->save();
 
 
-            // // クリエイティブの学習完了日をセット
-            // $training_data->setTrainingDoneDate();
-            
-            // $error_msg = $training_data->getErrorMessage();
-            // if(!empty($error_msg)) {
-            //     throw new \Exception($error_msg);
-            // }
-            // $this->logInfo('学習完了日のセット完了');
-            
-
-            // // コーパスのステータス変更
-            // $target_corpus->status = CorpusStateType::StandBy;
-            // $target_corpus->save();
-
             DB::commit();
+
+
+            // job
+            $log = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id))->delay(5);
+            dispatch($log);
+
 
         } catch (\PDOException $e){
             DB::rollBack();
+            var_dump($e->getMessage());
+            exit;
             return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
     
         } catch(\Exception $e) {
             DB::rollBack();
+            var_dump($e->getMessage());
+            exit;
             return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
         }
 
         $this->logInfo('正常に完了しました');
         return redirect('/corpus/training/' . $corpus_id)->with('msg', 'ただ今学習中です。');
     }
-
-
 
 
 
