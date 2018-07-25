@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register weßb routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 use Illuminate\Support\Facades\Log;
 
 Route::group(['middleware' => ['auth']], function () {
@@ -58,27 +48,14 @@ Route::group(['middleware' => ['auth']], function () {
   // });
 });
 
-// Route::get('/acount', function() {
-//   return view('dashboard.acount-list');
-// });
-
-// Route::post('/acount', function() {
-//   return redirect('acount')->with('msg', __('編集が完了しました。'));
-//   // return view('acount-list');
-// });
-
-// Route::get('/acount/edit/1', function() {
-//   return view('dashboard.acount-edit');
-// });
-
-// Route::post('/acount/confirm/1', function() {
-//   return view('dashboard.acount-confirm');
-// });
-
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 
-/*
+
+/********************************
+ * Auth::routes(); の中身
+ *******************************/
+/* 
   // Authentication Routes...
     $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
     $this->post('login', 'Auth\LoginController@login');
