@@ -137,7 +137,7 @@ class TrainingManagerController extends Controller
             }
 
             $target_corpus = Corpus::find($corpus_id);
-
+            $target_corpus_production_val = $target_corpus->is_production;
 
             // 学習データモデル生成
             $training_data = new TrainingDataModel($corpus_id);
@@ -152,35 +152,35 @@ class TrainingManagerController extends Controller
             $this->logInfo('CSV保存完了');
 
 
-            // CSVファイルパスを取得してトレーニングデータモデルのインスタンス生成
-            $this->logInfo('NLC Classifierモデルインスタンス生成');
-
             $my_company_id = $user->company_id;
             $my_company = Company::find($my_company_id);
-            // $my_classifier_api = Api::where('company_id', $my_company_id)->first();
 
             $set_nlc_url = $my_company->nlc_url;
             $set_nlc_username = $my_company->nlc_username;
             $set_nlc_password = $my_company->nlc_password;
-            // $set_classifier_id = $my_classifier_api->nlc_id;
             $set_classifier_id = $target_corpus->tmp_nlc_id;
+
+            if($target_corpus_production_val === 1) {
+                $production_nlc_id = Api::where('company_id', $my_company_id)->first()->nlc_id;
+                $set_classifier_id = $production_nlc_id;
+                $this->logInfo('本番のコーパスのnlc idを利用します');    
+            }
 
             $this->logInfo('[nlc_url] ' . $set_nlc_url);
             $this->logInfo('[username] ' . $set_nlc_username);
             $this->logInfo('[password] ' . $set_nlc_password);
             $this->logInfo('[classifier_id] ' . $set_classifier_id);
             
-            $nlc_classifier = new NlcClassifierModel($set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id);
-
 
             // すでにnlc_idがあれば削除
-            if($nlc_classifier->getClassifierId()) {
+            if(!empty($set_classifier_id)) {
                 // NLC削除
                 $this->logInfo('nlcを削除します');
-                $nlc_classifier = $nlc_classifier->deleteNlc();
 
-                $error_msg = $nlc_classifier->getErrorMessage();
-                $this->logInfo($error_msg);
+                $nlc = new NlcClassifierModel($set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id);
+                $del_nlc = $nlc->deleteNlc();
+
+                $error_msg = $del_nlc->getErrorMessage();
                 if(!empty($error_msg)) {
                     throw new \Exception($error_msg);
                 }
@@ -188,6 +188,15 @@ class TrainingManagerController extends Controller
                 // apisテーブルのnlc_idをからに
                 $target_corpus->tmp_nlc_id = "";
                 $target_corpus->save();
+
+                // 本番稼働中のコーパスの場合
+                if($target_corpus_production_val === 1) {
+                    $target_api = Api::where('company_id', $my_company_id)->first();
+                    $target_api->nlc_id = "";
+                    $target_api->save();
+                }
+
+                $set_classifier_id = "";
             }
 
 
@@ -200,7 +209,8 @@ class TrainingManagerController extends Controller
                 "training_metadata" => "{\"language\":\"" . ClassifierLanguage::getDescription($target_corpus->language) . "\",\"name\":\"" . $target_corpus->name . "\"}"
             );
 
-            $new_nlc = $nlc_classifier->createNlc($data);
+            $nlc = new NlcClassifierModel($set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id);
+            $new_nlc = $nlc->createNlc($data);
 
             $error_msg = $new_nlc->getErrorMessage();
             if(!empty($error_msg)) {
@@ -208,11 +218,16 @@ class TrainingManagerController extends Controller
             }
 
             // 新しいnlc_idを設定
-            // $api = Api::find($my_classifier_api->id);
-            // $api->nlc_id = $new_nlc->getClassifierId();
-            // $api->save();
             $target_corpus->tmp_nlc_id = $new_nlc->getClassifierId();
             $target_corpus->save();
+
+            // 本番のコーパスの場合
+            if($target_corpus_production_val === 1) {
+                $target_api = Api::where('company_id', $my_company_id)->first();
+                $target_api->nlc_id = $new_nlc->getClassifierId();
+                $target_api->save();
+            }
+
 
             // コーパスのステータスを学習中に変更してnlc生成実行
             $target_corpus->status = CorpusStateType::Training;
@@ -397,7 +412,7 @@ class TrainingManagerController extends Controller
     /**
      * 開発ログ確認用
      */
-    private $debug = false;
+    private $debug = true;
     private function logInfo($msg) {
       if($this->debug) {
         var_dump($msg);
