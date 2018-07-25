@@ -276,9 +276,7 @@ class TrainingManagerController extends Controller
 
         $this->logInfo('正常に完了しました');
         return redirect('/corpus/training/' . $corpus_id)->with('msg', '本番反映が完了しました。');
-
     }
-
 
     /**
      * 訓練ステータスチェック
@@ -390,14 +388,10 @@ class TrainingManagerController extends Controller
 
         }
 
-
         // 現在のコーパスステータス返却
         $res['data']['corpus_status'] = $target_corpus->status;
-
         return json_encode($res);
     }
-
-
 
     /**
      * 開発ログ確認用
