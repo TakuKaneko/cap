@@ -156,12 +156,12 @@
                       </td>
                       <td class="step-list__cell">
                         <!-- <small class="mt-15">実行可能</small><br> -->
-                        @if($training_status['can_training'])
+                        @if($step_training_status['can_training'])
                           <!-- <button type="button" class="btn btn-danger">学習実行</button> -->
-                          <p class="text-danger">{{ $training_status['training_data_status'] }}</p>
+                          <p class="text-danger">{{ $step_training_status['message'] }}</p>
                           <a href="/corpus/training/exec/{{ $corpus->id }}" class="btn btn-danger">学習実行</a>
                         @else
-                          <p class="text-secondary">{{ $training_status['training_data_status'] }}</p>
+                          <p class="text-secondary">{{ $step_training_status['message'] }}</p>
                           <button type="button" class="btn btn-secondary" disabled>実行不可</button>
                         @endif
                       </td>

@@ -68,7 +68,15 @@ class TrainingManagerController extends Controller
                                                 ->whereIn('corpus_class_id', $corpus_class_id_list)
                                                 ->count();
 
-        // 学習データの状態
+        // 学習ステップ：学習可否状態
+        $training_avairable_flg = $corpus->status == '2' ? true : false;
+        $step_training_status_array = array(
+            'number' => $corpus->status,
+            'can_training' => $training_avairable_flg,
+            'message' => CorpusStateType::getTrainingAvairableMessage($corpus->status)
+        );
+
+        // これまでの学習状況：学習データの状態
         $training_data_status;
 
         if($training_data_count == 0) {
@@ -85,19 +93,23 @@ class TrainingManagerController extends Controller
             }
         }
         
-        // 学習可能かどうか
+        // これまでの学習状況：学習可能かどうか
         $can_training = false;
         if($training_data_status == TrainingDataStatus::getDescription('3')) {
             $can_training = true;
         }
 
-        // 学習状況
+        // これまでの学習状況：学習状況
         $training_status = array(
             'training_data_status' => $training_data_status,
             'can_training' => $can_training
         );
 
-        return view('corpus-admin.ca-training', ['corpus' => $corpus, 'training_status' => $training_status]);
+        return view('corpus-admin.ca-training', [
+            'corpus' => $corpus, 
+            'step_training_status' => $step_training_status_array, 
+            'training_status' => $training_status
+        ]);
     }
 
     /**
@@ -237,10 +249,14 @@ class TrainingManagerController extends Controller
         $corpus = Corpus::find($corpus_id);
         $tmp_nlc_id = $corpus->tmp_nlc_id;
 
-        // 指定コーパスに紐づくAPIレコード取得
+        // 指定コーパスに紐づくAPIテーブルレコード取得
         $target_api = $corpus->apis->first();
 
-        // APIテーブル更新
+        // 指定コーパスに紐づくAPIコーパステーブルレコード取得
+        // $target_api_corpus = $corpus->pivot;
+        var_dump( $corpus->pivot );exit;
+
+        // APIテーブル + APIコーパステーブル 更新
         DB::beginTransaction();
         try 
         {
