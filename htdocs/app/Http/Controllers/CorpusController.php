@@ -544,6 +544,15 @@ class CorpusController extends Controller
           }
         }
 
+
+        if($get_data_type === CorpusDataType::Training) {
+          // コーパスを未学習ステータスに
+          $my_corpus = Corpus::find($corpus_id);
+          $my_corpus->status = CorpusStateType::Untrained;
+          $my_corpus->save();
+        }
+
+
         DB::commit();
 
       } catch (\PDOException $e){
@@ -556,7 +565,9 @@ class CorpusController extends Controller
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type) . 'の編集が完了しました');
+      $success_msg = CorpusDataType::getDescription($get_data_type) . 'の編集が完了しました。';
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg)
+                                                        ->with('data_type', $get_data_type);
     }
 
 
@@ -629,6 +640,22 @@ class CorpusController extends Controller
 
             $class->delete();
           }
+        }
+
+
+        if($get_data_type === CorpusDataType::Training) {
+          // コーパスを未学習ステータスに
+          $my_corpus = Corpus::find($corpus_id);
+          $my_corpus->status = CorpusStateType::Untrained;
+          $my_corpus->save();
+
+          // クラスが全てなくなった場合、コーパスステータスを教師データ無しに更新
+          $my_class_count = CorpusClass::where('corpus_id', $corpus_id)->count();
+          if($my_class_count === 0) {
+            $my_corpus->status = CorpusStateType::NoTrainingData;
+            $my_corpus->save();
+          }
+          
         }
 
         DB::commit();
