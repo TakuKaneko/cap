@@ -19,7 +19,7 @@ class CreateCorpusesTable extends Migration
             $table->string('description');
             $table->string('status');
             $table->integer('type');
-            $table->boolean('is_production')->default(false);
+            $table->string('is_production');
             $table->string('company_id');
             $table->string('language');
             $table->string('tmp_nlc_id');

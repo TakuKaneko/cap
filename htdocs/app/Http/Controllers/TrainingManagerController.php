@@ -286,7 +286,7 @@ class TrainingManagerController extends Controller
             
             // コーパスのステータスを[Avairable]に更新
             $target_corpus->status = CorpusStateType::Available;
-            $target_corpus->save();
+            // $target_corpus->save();
             $this->logInfo('コーパス更新完了 : ' . $target_corpus->status);
 
             // もし検証用コーパスだったら
@@ -303,21 +303,28 @@ class TrainingManagerController extends Controller
                 // 検証コーパスの用途を本番用に更新
                 $target_corpus__ = Corpus::find($corpus_id);
                 $target_corpus__->is_production = '1';
-                $target_corpus__->save();
+                // $target_corpus__->save();
                 $this->logInfo('検証コーパス更新完了 : ' . $target_corpus__->is_production);
 
                 // 中間テーブルのコーパスIDを更新
                 $target_middle = ApiCorpus::where('api_id', 'like', $select_api_id)->get()->first();
+                $source_corpus_id = $target_middle->corpus_id;
+                // echo $source_corpus_id;exit;
                 $target_middle->corpus_id = $corpus_id;
                 $target_middle->save();
                 $this->logInfo('middle更新完了 : ' . $target_middle->corpus_id);
 
                 // 本番コーパスの用途を検証用に更新
-                $target2_corpus = Corpus::find($target_middle->corpus_id);
+                $target2_corpus = Corpus::find($source_corpus_id);
                 // dd($target2_corpus);exit;
+
                 $target2_corpus->is_production = '0';
-                $target2_corpus->save();
+                // $target2_corpus->save();
                 $this->logInfo('本番コーパス更新完了 : ' . $target2_corpus->is_production);
+
+                $target_corpus->save();
+                $target_corpus__->save();
+                $target2_corpus->save();
 
             // もし本番用コーパスだったら
             } else {
@@ -331,7 +338,6 @@ class TrainingManagerController extends Controller
             } 
             
             DB::commit();
-            dd( $target_corpus__ );exit;
 
         } catch (\PDOException $e){
             DB::rollBack();

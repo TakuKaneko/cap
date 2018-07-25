@@ -27,7 +27,7 @@ class ApiInfoController extends Controller
             $corpus = $api->corpuses->first();
             $api_list[$key]["display_api_id"] = $api->display_api_id;
             $api_list[$key]["name"] = $api->name;
-            // $api_list[$key]["description"] = $api->description;
+            $api_list[$key]["corpus_name"] = $api->corpuses->first()->name;
             $api_list[$key]["status_availability"] = $corpus->status == 0 ? '可' : '不可';
             $api_list[$key]["status_description"] = CorpusStateType::getDescription($corpus->status);
             $api_list[$key]["api_url"] = config('app.api_exec_url') . $api->id;

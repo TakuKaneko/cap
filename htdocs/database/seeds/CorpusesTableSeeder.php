@@ -20,7 +20,7 @@ class CorpusesTableSeeder extends Seeder
                 'description' => 'これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。これはLaravelが自動生成した初期コーパスです。',
                 'status' => CorpusStateType::Available,
                 'type' => CorpusType::NationalLanguage,
-                'is_production' => true,
+                'is_production' => '1',
                 'company_id' => '1',
                 'language' => ClassifierLanguage::Japanese,
                 'tmp_nlc_id' => '28680bx78-nlc-1824',

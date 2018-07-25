@@ -111,7 +111,7 @@
           <div class="panel panel-default">
             <div class="panel-heading border-bottom mb-2">
               <h4 class="panel-title">
-                <a data-toggle="collapse" href="#collapse2" style="text-decoration:none;">稼動状況</a>
+                <a data-toggle="collapse" href="#collapse2" style="text-decoration:none;">稼動状況（※※未実装※※）</a>
               </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse show">

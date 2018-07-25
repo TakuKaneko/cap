@@ -347,6 +347,7 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         'CreateCorpusClassesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_113227_create_corpus_classes_table.php',
         'CreateCorpusCreativesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_113302_create_corpus_creatives_table.php',
         'CreateCorpusesTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_02_185921_create_corpuses_table.php',
+        'CreateJobsTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_24_145350_create_jobs_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

@@ -50,6 +50,7 @@
                         <th></th>
                         <th>API-ID</th>
                         <th>API名</th>
+                        <th>利用コーパス名</th>
                         <th>利用可否</th>
                         <th>ステータス</th>
                       </thead>
@@ -59,6 +60,7 @@
                             <td><label><input type="radio" name="display" checked> 表示</label></td>
                             <td>{{ $api["display_api_id"] }}</td>
                             <td>{{ $api["name"] }}</td>
+                            <td>{{ $api["corpus_name"] }}</td>
                             <td>{{ $api["status_availability"] }}</td>
                             <td>{{ $api["status_description"] }}</td>
                           </tr>

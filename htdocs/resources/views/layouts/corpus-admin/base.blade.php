@@ -109,6 +109,8 @@
                 学習管理
               </a>
             </li>
+
+{{--            
             <li class="nav-item">
               @if (Request::is('corpus/deploy/1'))
               <a class="nav-link active" href="/corpus/deploy/{{ $corpus->id }}">
@@ -119,16 +121,6 @@
                 本番切替
               </a>
             </li>
-            {{--  <li class="nav-item">
-              @if (Request::is('corpus/connect/1'))
-              <a class="nav-link active" href="/corpus/connect/{{ $corpus->id }}">
-              @else
-              <a class="nav-link" href="/corpus/connect/{{ $corpus->id }}">
-              @endif
-                <span data-feather="zap"></span>
-                API接続情報
-              </a>
-            </li>  --}}
             <li class="nav-item">
               @if (Request::is('corpus/stop/1'))
               <a class="nav-link active" href="/corpus/stop/{{ $corpus->id }}">
@@ -139,6 +131,8 @@
                 停止
               </a>
             </li>
+--}}
+
           </ul>
         </div>
       </nav>
