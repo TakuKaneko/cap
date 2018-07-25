@@ -19,6 +19,7 @@ use App\Jobs\CheckNlcTrainingStatus;
 
 use App\Models\Company;
 use App\Models\Api;
+use App\Models\ApiCorpus;
 use App\Models\Corpus;
 use App\Models\CorpusClass;
 use App\Models\CorpusCreative;
@@ -70,9 +71,11 @@ class TrainingManagerController extends Controller
 
         // 学習ステップ：学習可否状態
         $training_avairable_flg = $corpus->status == '2' ? true : false;
+        $test_avairable_flg = $corpus->status == '0' || $corpus->status == '4' || $corpus->status == '9' ? true : false;
         $step_training_status_array = array(
             'number' => $corpus->status,
             'can_training' => $training_avairable_flg,
+            'can_test' => $test_avairable_flg,
             'message' => CorpusStateType::getTrainingAvairableMessage($corpus->status)
         );
 
@@ -105,10 +108,14 @@ class TrainingManagerController extends Controller
             'can_training' => $can_training
         );
 
+        // 現在利用中のAPIリスト
+        $api_list = Api::where('company_id', 'like', $user->company_id)->get();
+
         return view('corpus-admin.ca-training', [
             'corpus' => $corpus, 
             'step_training_status' => $step_training_status_array, 
-            'training_status' => $training_status
+            'training_status' => $training_status,
+            'api_list' => $api_list
         ]);
     }
 
@@ -258,26 +265,70 @@ class TrainingManagerController extends Controller
      * コーパスの本番反映
      * @param String $corpus_id
      */
-    public function avtivateCorpus($corpus_id) 
+    public function activateCorpus(Request $request, $corpus_id) 
     {
-        // 指定コーパスの仮nlc_idを取得
-        $corpus = Corpus::find($corpus_id);
-        $tmp_nlc_id = $corpus->tmp_nlc_id;
-
-        // 指定コーパスに紐づくAPIテーブルレコード取得
-        $target_api = $corpus->apis->first();
-
-        // 指定コーパスに紐づくAPIコーパステーブルレコード取得
-        // $target_api_corpus = $corpus->pivot;
-        var_dump( $corpus->pivot );exit;
-
-        // APIテーブル + APIコーパステーブル 更新
-        DB::beginTransaction();
         try 
         {
-            $target_api->nlc_id = $tmp_nlc_id;
-            $target_api->save();
+            // API, コーパス, 中間テーブル 更新トランザクション開始
+            DB::beginTransaction();
+
+            // 変更先の指定API
+            $select_api_id = $request->input('select_api');
+
+            // 指定コーパスの仮nlc_idを取得
+            $target_corpus = Corpus::find($corpus_id);
+            $tmp_nlc_id = $target_corpus->tmp_nlc_id;
+            $this->logInfo('tmp : ' . $tmp_nlc_id);
+            
+            // コーパスのステータスを[Avairable]に更新
+            $target_corpus->status = CorpusStateType::Available;
+            $target_corpus->save();
+            $this->logInfo('コーパス更新完了 : ' . $target_corpus->status);
+
+            // もし検証用コーパスだったら
+            if ($target_corpus->is_production == '0')
+            {
+                $this->logInfo('if in .');
+
+                // APIテーブルのnlc_idを更新
+                $target_api = Api::find($select_api_id);
+                $target_api->nlc_id = $tmp_nlc_id;
+                $target_api->save();
+                $this->logInfo('API更新完了 : ' . $target_api->nlc_id);
+                
+                // 検証コーパスの用途を本番用に更新
+                $target_corpus__ = Corpus::find($corpus_id);
+                $target_corpus__->is_production = '1';
+                $target_corpus__->save();
+                $this->logInfo('検証コーパス更新完了 : ' . $target_corpus__->is_production);
+
+                // 中間テーブルのコーパスIDを更新
+                $target_middle = ApiCorpus::where('api_id', 'like', $select_api_id)->get()->first();
+                $target_middle->corpus_id = $corpus_id;
+                $target_middle->save();
+                $this->logInfo('middle更新完了 : ' . $target_middle->corpus_id);
+
+                // 本番コーパスの用途を検証用に更新
+                $target2_corpus = Corpus::find($target_middle->corpus_id);
+                // dd($target2_corpus);exit;
+                $target2_corpus->is_production = '0';
+                $target2_corpus->save();
+                $this->logInfo('本番コーパス更新完了 : ' . $target2_corpus->is_production);
+
+            // もし本番用コーパスだったら
+            } else {
+                $this->logInfo('else in .');
+
+                // APIテーブルのnlc_idを更新
+                $target_api = $target_corpus->apis->first();
+                $target_api->nlc_id = $tmp_nlc_id;
+                $target_api->save();
+                $this->logInfo('API更新完了 : ' . $target_api->nlc_id);    
+            } 
+            
             DB::commit();
+            dd( $target_corpus__ );exit;
+
         } catch (\PDOException $e){
             DB::rollBack();
             var_dump($e->getMessage());

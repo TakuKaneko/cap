@@ -188,7 +188,13 @@
                         <span class="text-muted" data-feather="chevrons-right" style=""></span>
                       </td>
                       <td class="step-list__cell">
-                        <button type="button" class="btn btn-outline-danger">テスト実行</button>
+                        @if ($step_training_status['can_test'])
+                          <p class="text-danger">実行可能</p>
+                          <button type="button" class="btn btn-outline-danger">テスト実行</button>
+                        @else
+                          <!-- <p class="text-secondary">実行不可</p> -->
+                          <button type="button" class="btn btn-secondary" disabled>実行不可</button>
+                        @endif
                       </td>
                     </tr>
 
@@ -213,7 +219,13 @@
                         <span class="text-muted" data-feather="chevrons-right" style=""></span>
                       </td>
                       <td class="step-list__cell">
-                        <button type="button" class="btn btn-outline-danger">検証実行</button>
+                        @if ($step_training_status['can_test'])
+                          <p class="text-danger">実行可能</p>
+                          <button type="button" class="btn btn-outline-danger">検証実行</button>
+                        @else
+                          <!-- <p class="text-secondary">実行不可</p> -->
+                          <button type="button" class="btn btn-secondary" disabled>実行不可</button>
+                        @endif
                       </td>
                     </tr>
 
@@ -335,7 +347,7 @@
                         <span class="text-muted" data-feather="chevrons-right" style=""></span>
                       </td>
                       <td class="step-list__cell">
-                        @if ($corpus->is_production == '0')
+                        @if ($step_training_status['number'] == '4')
                           <p class="text-danger">実行可能</p>
                           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#honbanModal">本番反映</button>
                           <div class="modal fade" id="honbanModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
@@ -349,11 +361,22 @@
                                 </div>
                                 <div class="modal-body">
                                   <p>
-                                    本番反映を行うことでこのコーパスがご利用中のAPIに紐付き、AI審査が行われるようになります。<br>
+                                    本番反映を行うことで、このコーパスがご利用中のAPIに紐付き、AI審査が行われるようになります。<br>
                                     現在APIに紐づいているコーパスは「検証用」に切り替わり、このコーパスが「本番用」として利用開始されます。<br>
-                                    このコーパスを「本番用」に切り替えますか？
+                                    紐付けるAPIを指定して「本番用」に切り替えてください。
                                   </p>
-                                  <form action="/corpus/training/activate/{{ $corpus->id }}" method="GET" name="form_threshold" class="form_threshold mt-15">
+                                  <form action="/corpus/training/activate/{{ $corpus->id }}" method="POST" name="form_select_api" class="form_threshold mt-15">
+                                    {{ csrf_field() }}
+                                    <div class="form-group row">
+                                      <p class="font-weight-bold">紐付けるAPIを指定してください：</p>
+                                      <!-- <div class="col-5"> -->
+                                        <select class="form-control" id="select_api" name="select_api">
+                                          @foreach ($api_list as $api)
+                                            <option value="{{ $api->id }}">{{ $api->name }}</option>
+                                          @endforeach
+                                        </select>
+                                      <!-- </div> -->
+                                    </div>
                                     <div class="form-group row">
                                       <div class="col-12 text-align-center">
                                         <button type="submit" class="btn btn-danger mr-3" style="">切り替え</button>
@@ -366,7 +389,6 @@
                             </div>
                           </div>
                         @else
-                          <p class="text-secondary">反映済み</p>
                           <button type="button" class="btn btn-secondary" disabled>実行不可</button>
                         @endif
                       </td>
