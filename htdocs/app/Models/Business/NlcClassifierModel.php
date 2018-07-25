@@ -82,13 +82,13 @@ class NlcClassifierModel
                 $this->classifier_id = NULL;
                 $this->err_msg = "";
 
-                return;
+                return $this;
 
             } 
             catch (\Exception $e)
             {
-                $this->err_msg = $e->getMessage();
-                return;
+                $this->err_msg = '[code: nlc-del]' . $e->getMessage();
+                return $this;
             }
 
         } 

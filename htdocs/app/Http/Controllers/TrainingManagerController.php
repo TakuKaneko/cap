@@ -109,11 +109,15 @@ class TrainingManagerController extends Controller
         if($user === null) {
             return redirect('login'); // ログアウト
         }
+
+
         $this->logInfo('[corpus_id: ' . $corpus_id . '] 学習を開始します');
 
         // 登録処理
         DB::beginTransaction();
+
         try{
+
             // コーパスの存在確認
             $corpus_count = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
             if($corpus_count === 0) {
@@ -160,17 +164,18 @@ class TrainingManagerController extends Controller
             // すでにnlc_idがあれば削除
             if($nlc_classifier->getClassifierId()) {
                 // NLC削除
-                $nlc_classifier->deleteNlc();
+                $this->logInfo('nlcを削除します');
+                $nlc_classifier = $nlc_classifier->deleteNlc();
 
-                $error_msg = $training_data->getErrorMessage();
+                $error_msg = $nlc_classifier->getErrorMessage();
+                $this->logInfo($error_msg);
                 if(!empty($error_msg)) {
                     throw new \Exception($error_msg);
                 }
 
                 // apisテーブルのnlc_idをからに
-                $api = Api::find($my_classifier_api->id);
-                $api->nlc_id = "";
-                $api->save();
+                $target_corpus->tmp_nlc_id = "";
+                $target_corpus->save();
             }
 
 
@@ -201,11 +206,9 @@ class TrainingManagerController extends Controller
             $target_corpus->status = CorpusStateType::Training;
             $target_corpus->save();
 
-            DB::commit();
 
-            // job
-            $job = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id));
-            dispatch($job)->delay(now()->addMinutes(1));
+            DB::commit();            
+
 
         } catch (\PDOException $e){
             DB::rollBack();
@@ -378,7 +381,7 @@ class TrainingManagerController extends Controller
     /**
      * 開発ログ確認用
      */
-    private $debug = true;
+    private $debug = false;
     private function logInfo($msg) {
       if($this->debug) {
         var_dump($msg);
