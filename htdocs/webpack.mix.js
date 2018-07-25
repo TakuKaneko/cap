@@ -23,7 +23,8 @@ mix.scripts([
   'resources/assets/js/plugins/material-dashboard.js'
 ], 'public/js/dashboard-common.js')
 .scripts([
-  'resources/assets/js/plugins/jquery-3.3.1.slim.min.js',
+  // 'resources/assets/js/plugins/jquery-3.3.1.slim.min.js',
+  'resources/assets/js/core/jquery.min.js',
   'resources/assets/js/plugins/popper.min.js', 
   'resources/assets/js/plugins/bootstrap.min.js',
   'resources/assets/js/plugins/jquery.circliful.min.js'
