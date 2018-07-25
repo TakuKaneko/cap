@@ -45,8 +45,7 @@
             "php htdocs/artisan route:clear",
             "php htdocs/artisan clear-compiled",
             "php htdocs/artisan optimize",
-            "php htdocs/artisan migrate:refresh --seed",
-            "php htdocs/artisan queue:work"
+            "php htdocs/artisan migrate:refresh --seed"
         ],
         "post-install-cmd": [
             "mkdir -p /tmp/app/htdocs/bootstrap/cache",
@@ -60,8 +59,7 @@
             "php htdocs/artisan clear-compiled",
             "php htdocs/artisan optimize",
             "php htdocs/artisan key:generate",
-            "php htdocs/artisan migrate:refresh --seed",
-            "php htdocs/artisan queue:work"
+            "php htdocs/artisan migrate:refresh --seed"
         ],
         "post-update-cmd": [
             "mkdir -p /tmp/app/htdocs/bootstrap/cache",
@@ -75,8 +73,7 @@
             "php htdocs/artisan clear-compiled",
             "php htdocs/artisan optimize",
             "php htdocs/artisan key:generate",
-            "php htdocs/artisan migrate:refresh --seed",
-            "php htdocs/artisan queue:work"
+            "php htdocs/artisan migrate:refresh --seed"
         ]
     },
     "config": {

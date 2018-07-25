@@ -13,8 +13,9 @@
         }
         .step-list__cell {
           padding-top: 10px;
+          padding-bottom: 5px;
           padding-right: 10px;
-          vertical-align: top;
+          vertical-align: middle;
         }
         .step-list__cell .row {
           max-height: 70px;
@@ -118,24 +119,18 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              教師データの登録
-                            </h4>
-                            <p class="step-list__text">
-                              準備した教師データをシステム登録します。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-outline-info mt-15" onclick="location.href='/corpus/data/view/1'">データ管理</button>
-                            </p>
-                          </div>
-                        </div>
+                        <h4 class="step-list__heading">
+                          教師データの登録
+                        </h4>
+                        <p class="step-list__text">
+                          学習/テストデータをシステム登録します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <button type="button" class="btn btn-link" onclick="location.href='/corpus/data/view/1'">データ管理画面へ</button>
                       </td>
                     </tr>
 
@@ -149,30 +144,26 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI学習の実行
-                            </h4>
-                            <p class="step-list__text">
-                              登録された教師データを基にAI学習を行います。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <!-- <small class="mt-15">実行可能</small><br> -->
-                            @if($training_status['can_training'])
-                              <!-- <button type="button" class="btn btn-danger">学習実行</button> -->
-                              <a href="/corpus/training/exec/{{ $corpus->id }}" class="btn btn-danger">学習実行</a>
-                            @else
-                              <button type="button" class="btn btn-danger" disabled>実行不可</button>
-                            @endif
-                            </p>
-                          </div>
-                        </div>
+                        <h4 class="step-list__heading">
+                          AI学習の実行
+                        </h4>
+                        <p class="step-list__text">
+                          学習データを元にAI学習を行います。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <!-- <small class="mt-15">実行可能</small><br> -->
+                        @if($training_status['can_training'])
+                          <!-- <button type="button" class="btn btn-danger">学習実行</button> -->
+                          <p class="text-danger">{{ $training_status['training_data_status'] }}</p>
+                          <a href="/corpus/training/exec/{{ $corpus->id }}" class="btn btn-danger">学習実行</a>
+                        @else
+                          <p class="text-secondary">{{ $training_status['training_data_status'] }}</p>
+                          <button type="button" class="btn btn-secondary" disabled>実行不可</button>
+                        @endif
                       </td>
                     </tr>
 
@@ -186,24 +177,18 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI学習結果のテスト<small>（任意）</small>
-                            </h4>
-                            <p class="step-list__text">
-                              テストデータを元に回答精度を確認します。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-danger mt-15">テスト実行</button>
-                            </p>
-                          </div>
-                        </div>
+                        <h4 class="step-list__heading">
+                          AI学習結果のテスト<small>（任意）</small>
+                        </h4>
+                        <p class="step-list__text">
+                          テストデータを元にAIの回答精度を確認します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <button type="button" class="btn btn-outline-danger">テスト実行</button>
                       </td>
                     </tr>
 
@@ -217,24 +202,18 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI回答の検証<small>（任意）</small>
-                            </h4>
-                            <p class="step-list__text">
-                              検証したいデータを個別入力し、回答を確認します。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-danger mt-15">検証実行</button>
-                            </p>
-                          </div>
-                        </div>
+                        <h4 class="step-list__heading">
+                          AI回答の個別検証<small>（任意）</small>
+                        </h4>
+                        <p class="step-list__text">
+                          検証したいテキストを個別に入力し、回答内容を確認します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <button type="button" class="btn btn-outline-danger">検証実行</button>
                       </td>
                     </tr>
 
@@ -248,24 +227,18 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              教師データの修正<small>（任意）</small>
-                            </h4>
-                            <p class="step-list__text">
-                              学習データを修正することで精度を向上します。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-outline-info mt-15">データ登録</button>
-                            </p>
-                          </div>
-                        </div>
+                        <h4 class="step-list__heading">
+                          学習データの修正<small>（任意）</small>
+                        </h4>
+                        <p class="step-list__text">
+                          学習データを修正し回答精度を改善します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <button type="button" class="btn btn-link">データ管理画面へ</button>
                       </td>
                     </tr>
 
@@ -279,69 +252,63 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              AI確信度の閾値設定<small>（任意）</small>
-                            </h4>
-                            <p class="step-list__text">
-                              AI判定の基準となる確信度の閾値を設定します。
-                            </p>
-                          </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-outline-info mt-15" data-toggle="modal" data-target="#shikiichiModal">閾値設定</button>
-                              <div class="modal fade" id="shikiichiModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="modalLongTitle">確信度の閾値設定</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <p>
-                                        閾値を設定することで、AI判定の精度を調整することができます。<br>
-                                        閾値は、0 ～ 1 の範囲で設定でき、確信度（confidence）が閾値以上の場合に判定結果（passed_classes）として出力されます。<br>
-                                        以下フォームに閾値を入力してください。 例）0.5、0.8123
-                                      </p>
-                                      <form action="/corpus/1/threshold/setting" method="POST" name="form_threshold" class="form_threshold mt-15">
-                                        <div class="form-group row">
-                                          <label for="threshold_class_all" class="col-5 col-form-label" style="color:darkblue;padding-top:25px;">
-                                            共通<br>
-                                          </label>
-                                          <div class="col-5">
-                                            <span class="text-secondary" style="font-size:0.8rem;">全クラスの初期値として設定されます。</span>
-                                            <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
-                                          </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="threshold_class_1" class="col-5 col-form-label">景表法NG</label>
-                                          <div class="col-5">
-                                            <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
-                                          </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <label for="threshold_class_1" class="col-5 col-form-label">薬機法NG</label>
-                                          <div class="col-5">
-                                            <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
-                                          </div>
-                                        </div>
-                                        <div class="form-group row">
-                                          <div class="col-12 text-align-center">
-                                            <button type="submit" class="btn btn-primary" style="width:70px;">保存</button>
-                                          </div>
-                                        </div>
-                                      </form>
+                        <h4 class="step-list__heading">
+                          AI判定の閾値設定<small>（任意）</small>
+                        </h4>
+                        <p class="step-list__text">
+                          AI判定の基準となる確信度の閾値を設定します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#shikiichiModal">閾値設定</button>
+                        <div class="modal fade" id="shikiichiModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modalLongTitle">確信度の閾値設定</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <p>
+                                  閾値を設定することで、AI判定の精度を調整することができます。<br>
+                                  閾値は、0 ～ 1 の範囲で設定でき、確信度（confidence）が閾値以上の場合に判定結果（passed_classes）として出力されます。<br>
+                                  以下フォームに閾値を入力してください。 例）0.5、0.8123
+                                </p>
+                                <form action="/corpus/1/threshold/setting" method="POST" name="form_threshold" class="form_threshold mt-15">
+                                  <div class="form-group row">
+                                    <label for="threshold_class_all" class="col-5 col-form-label" style="color:darkblue;padding-top:25px;">
+                                      共通<br>
+                                    </label>
+                                    <div class="col-5">
+                                      <span class="text-secondary" style="font-size:0.8rem;">全クラスの初期値として設定されます。</span>
+                                      <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
                                     </div>
                                   </div>
-                                </div>
+                                  <div class="form-group row">
+                                    <label for="threshold_class_1" class="col-5 col-form-label">景表法NG</label>
+                                    <div class="col-5">
+                                      <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="threshold_class_1" class="col-5 col-form-label">薬機法NG</label>
+                                    <div class="col-5">
+                                      <input type="text" class="form-control" id="threshold_class_1" placeholder="閾値を入力">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <div class="col-12 text-align-center">
+                                      <button type="submit" class="btn btn-primary" style="width:70px;">保存</button>
+                                    </div>
+                                  </div>
+                                </form>
                               </div>
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -357,24 +324,51 @@
                         </div>
                       </td>
                       <td class="step-list__cell">
-                        <div class="row">
-                          <div class="col-7">
-                            <h4 class="step-list__heading">
-                              本番反映
-                            </h4>
-                            <p class="step-list__text">
-                              学習済みコーパスを本番で運用開始します。
-                            </p>
+                        <h4 class="step-list__heading">
+                          本番反映
+                        </h4>
+                        <p class="step-list__text">
+                          学習済みコーパスを本番で運用開始します。
+                        </p>
+                      </td>
+                      <td class="step-list__cell">
+                        <span class="text-muted" data-feather="chevrons-right" style=""></span>
+                      </td>
+                      <td class="step-list__cell">
+                        @if ($corpus->is_production == '0')
+                          <p class="text-danger">実行可能</p>
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#honbanModal">本番反映</button>
+                          <div class="modal fade" id="honbanModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="modalLongTitle">本番反映の確認</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>
+                                    本番反映を行うことでこのコーパスがご利用中のAPIに紐付き、AI審査が行われるようになります。<br>
+                                    現在APIに紐づいているコーパスは「検証用」に切り替わり、このコーパスが「本番用」として利用開始されます。<br>
+                                    このコーパスを「本番用」に切り替えますか？
+                                  </p>
+                                  <form action="/corpus/training/activate/{{ $corpus->id }}" method="GET" name="form_threshold" class="form_threshold mt-15">
+                                    <div class="form-group row">
+                                      <div class="col-12 text-align-center">
+                                        <button type="submit" class="btn btn-danger mr-3" style="">切り替え</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">閉じる</button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-2" style="margin-top:10px;">
-                            <span class="text-muted" data-feather="chevrons-right" style="width:85%;height:65%;"></span>
-                          </div>
-                          <div class="col-3">
-                            <p class="step-list__text">
-                              <button type="button" class="btn btn-outline-info mt-15">本番反映</button>
-                            </p>
-                          </div>
-                        </div>
+                        @else
+                          <p class="text-secondary">反映済み</p>
+                          <button type="button" class="btn btn-secondary" disabled>実行不可</button>
+                        @endif
                       </td>
                     </tr>
 
@@ -395,10 +389,10 @@
                     <div class="card-body">
                     @if($training_status['training_data_status'] === App\Enums\TrainingDataStatus::NoData || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::DataDeficiencies || $training_status['training_data_status'] === App\Enums\TrainingDataStatus::ExistUntrainingData )
                       <span class="text-danger" data-feather="alert-triangle" style="width:40px;height:40px;"></span>
-                      <p style="margin:0;color:indianred;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
+                      <p style="margin:0;color:indianred;font-weight:bold;">{{ $training_status['training_data_status'] }}</p>
                     @else
                       <span class="text-success" data-feather="check" style="width:40px;height:40px;"></span>
-                      <p style="margin:0;color:limegreen;font-weight:bold;">{{ App\Enums\TrainingDataStatus::getDescription($training_status['training_data_status']) }}</p>
+                      <p style="margin:0;color:limegreen;font-weight:bold;">{{ $training_status['training_data_status'] }}</p>
                     @endif
                       
                     </div>

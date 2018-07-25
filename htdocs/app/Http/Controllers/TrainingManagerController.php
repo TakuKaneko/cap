@@ -69,27 +69,25 @@ class TrainingManagerController extends Controller
         $training_data_status;
 
         if($training_data_count == 0) {
-            $training_data_status = TrainingDataStatus::NoData;
+            $training_data_status = TrainingDataStatus::getDescription('1');
 
         } else if(5 > $training_data_count || $training_data_count > 15000) {
-            $training_data_status = TrainingDataStatus::DataDeficiencies;
+            $training_data_status = TrainingDataStatus::getDescription('2');
 
         } else {
             if($untraining_data_count > 0) {
-                $training_data_status = TrainingDataStatus::ExistUntrainingData;
-
+                $training_data_status = TrainingDataStatus::getDescription('3');
             } else {
-                $training_data_status = TrainingDataStatus::NnUntrainingData;
+                $training_data_status = TrainingDataStatus::getDescription('4');
             }
         }
         
         // 学習可能かどうか
         $can_training = false;
-        if($training_data_status === TrainingDataStatus::ExistUntrainingData) {
+        if($training_data_status == TrainingDataStatus::getDescription('3')) {
             $can_training = true;
         }
 
-        
         // 学習状況
         $training_status = array(
             'training_data_status' => $training_data_status,
@@ -99,8 +97,6 @@ class TrainingManagerController extends Controller
         return view('corpus-admin.ca-training', ['corpus' => $corpus, 'training_status' => $training_status]);
     }
 
-
-    
     /**
      * 学習実行
      */
@@ -110,15 +106,11 @@ class TrainingManagerController extends Controller
         if($user === null) {
             return redirect('login'); // ログアウト
         }
-
-
         $this->logInfo('[corpus_id: ' . $corpus_id . '] 学習を開始します');
 
         // 登録処理
         DB::beginTransaction();
-
         try{
-
             // コーパスの存在確認
             $corpus_count = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
             if($corpus_count === 0) {
@@ -203,15 +195,11 @@ class TrainingManagerController extends Controller
             $target_corpus->status = CorpusStateType::Training;
             $target_corpus->save();
 
-
             DB::commit();
-
 
             // job
             $job = (new CheckNlcTrainingStatus($corpus_id, $set_nlc_url, $set_nlc_username, $set_nlc_password, $set_classifier_id));
             dispatch($job)->delay(now()->addMinutes(1));
-            
-
 
         } catch (\PDOException $e){
             DB::rollBack();
@@ -228,6 +216,43 @@ class TrainingManagerController extends Controller
 
         $this->logInfo('正常に完了しました');
         return redirect('/corpus/training/' . $corpus_id)->with('msg', 'ただ今学習中です。');
+    }
+
+    /**
+     * コーパスの本番反映
+     * @param String $corpus_id
+     */
+    public function avtivateCorpus($corpus_id) 
+    {
+        // 指定コーパスの仮nlc_idを取得
+        $corpus = Corpus::find($corpus_id);
+        $tmp_nlc_id = $corpus->tmp_nlc_id;
+
+        // 指定コーパスに紐づくAPIレコード取得
+        $target_api = $corpus->apis->first();
+
+        // APIテーブル更新
+        DB::beginTransaction();
+        try 
+        {
+            $target_api->nlc_id = $tmp_nlc_id;
+            $target_api->save();
+            DB::commit();
+        } catch (\PDOException $e){
+            DB::rollBack();
+            var_dump($e->getMessage());
+            exit;
+            return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
+        } catch(\Exception $e) {
+            DB::rollBack();
+            var_dump($e->getMessage());
+            exit;
+            return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
+        }
+
+        $this->logInfo('正常に完了しました');
+        return redirect('/corpus/training/' . $corpus_id)->with('msg', '本番反映が完了しました。');
+
     }
 
 

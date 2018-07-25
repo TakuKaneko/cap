@@ -39,13 +39,11 @@ Route::group(['middleware' => ['auth']], function () {
   // Route::post('/corpus/data/csv/upload/training/{corpus_id}', 'CorpusController@trainingDataUplocad');
   // Route::post('/corpus/data/csv/upload/test/{corpus_id}', 'CorpusController@testDataUplocad');
   Route::post('/corpus/data/csv/upload/{corpus_id}/{data_type}', 'CorpusController@trainingDataUplocad');
-  
-  // // Route::get('/corpus/training', function() {
-  //   return view('corpus-admin.ca-training');
-  // });
-  // 暫定
+
+  /** コーパス管理画面 学習管理 */  
   Route::get('/corpus/training/{corpus_id}', 'TrainingManagerController@index');
   Route::get('/corpus/training/exec/{corpus_id}', 'TrainingManagerController@execTraining');
+  Route::get('/corpus/training/activate/{corpus_id}', 'TrainingManagerController@avtivateCorpus');
 
   // サービス管理
   Route::get('/settings', 'ServiceController@index');
