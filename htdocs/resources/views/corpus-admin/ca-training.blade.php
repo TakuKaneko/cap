@@ -406,7 +406,7 @@
 
             <div class="col-4 text-align-center" style="border-left:solid 1px lightgray;">
               <h4 class="text-align-left">これまでの学習状況</h4>
-              <div class="row">
+              <!-- <div class="row">
                 {{--  カード1  --}}
                 <div class="col-6">
                   <div class="card bg-light mb-3">
@@ -438,9 +438,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="row">
+              <!-- <div class="row">
                 {{--  カード3  --}}
                 <div class="col-6">
                   <div class="card bg-light mb-3">
@@ -467,7 +467,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="row">
                 {{--  学習結果棒グラフ  --}}
