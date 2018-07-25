@@ -130,7 +130,7 @@
                         <span class="text-muted" data-feather="chevrons-right" style=""></span>
                       </td>
                       <td class="step-list__cell">
-                        <button type="button" class="btn btn-link" onclick="location.href='/corpus/data/view/1'">データ管理画面へ</button>
+                        <button type="button" class="btn btn-link" onclick="location.href='/corpus/data/view/{{ $corpus->id }}'">データ管理画面へ</button>
                       </td>
                     </tr>
 
