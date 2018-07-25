@@ -318,14 +318,19 @@ class TrainingManagerController extends Controller
         if($user === null) {
             $res['result'] = false;
             $res['error']['message'] = '認証に失敗しました';
+            return json_encode($res);
         }
 
         // コーパスidがユーザの企業に所属しているか
-        $target_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
-        if(count($target_corpus)  === 0) {
+        $target_corpus_count = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->count();
+
+        if($target_corpus_count  === 0) {
             $res['result'] = false;
             $res['error']['message'] = '不正なパラメータです';
+            return json_encode($res);
         }
+
+        $target_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
 
         
         // コーパスのステータスがトレーニング中であればステータスチェック実施
