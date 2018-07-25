@@ -97,7 +97,7 @@
         <div class="row mt-3">
           <div class="col-12">
             <div class="alert alert-info" role="alert">
-              2016/10/20 10:53時点の学習データで稼働中<a href="/corpus/training" class="ml-3">学習管理ページに移動</a>
+              2016/10/20 10:53時点の学習データで稼働中
             </div>
           </div>
         </div>
@@ -138,11 +138,19 @@
         @if(Session::has('success_msg'))
         <div class="alert alert-success" role="alert">
           {{ session('success_msg') }}
+          @if(Session::has('data_type') && session('data_type') == 1 && $training_creatives_count >= 5)
+          <a href="/corpus/training/{{ $corpus->id }}">学習管理ページ</a>で学習を実行しましょう。
+
+          @elseif(Session::has('data_type') && session('data_type') == 0)
+          <a href="/corpus/training/{{ $corpus->id }}">学習管理ページ</a>でテストを実行しましょう。
+          @endif
+          
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         @endif
+
 
         @if(Session::has('error_msg'))
         <div class="alert alert-danger" role="alert">
