@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/cap-icon.png">
-  <title>CAP -薬機法&景表法分類-</title>
+  <title>CAP -{{ $corpus->name }}-</title>
 
   <!-- Core CSS -->
   <link href="/css/bootstrap.css" rel="stylesheet">
@@ -52,7 +52,7 @@
       </div>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#" style="color:white;font-weight:bold;font-size:1rem;"><span> - </span>薬機法&景表法分類の文言チェック<span> - コーパス</span></a>
+          <a class="nav-link" href="#" style="color:white;font-weight:bold;font-size:1rem;"><span> - </span>{{ $corpus->name }}</a>
         </li>
       </ul>
       <ul class="navbar-nav px-3">

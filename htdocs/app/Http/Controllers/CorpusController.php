@@ -15,15 +15,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Api;
+use App\Models\Company;
 use App\Models\CompanyApi;
 use App\Models\ApiCorpus;
 use App\Models\Corpus;
 use App\Models\CorpusClass;
 use App\Models\CorpusCreative;
+use App\Models\Business\NlcClassifierModel;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;          // DBのトランザクション利用
 use Validator;
 use Carbon\Carbon;
+use Log; // 追加
 
 use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
@@ -141,10 +145,17 @@ class CorpusController extends Controller
 
       try {
         // コーパスの削除
-        $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id);
+        $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
         // $corpus = Corpus::where('id', $corpus_id)->where('company_id', '9999');
         
         if(!empty($corpus)) {
+          LOG::info('コーパスの削除を実施します');
+
+          $corpus_tmp_nlc_id = $corpus->tmp_nlc_id;
+          LOG::info('[$corpus_tmp_nlc_id] ' . $corpus_tmp_nlc_id);
+
+
+          // コーパス削除
           $corpus->delete();
 
           // 関連するクラス、クリエイティブの削除
@@ -159,6 +170,25 @@ class CorpusController extends Controller
           $del_classes->delete();
           $del_creatives->delete();
   
+
+          // 紐付くnlc削除
+          if(!empty($corpus_tmp_nlc_id)) {
+            $my_company = Company::find($user->company_id);
+
+            $my_nlc_url = $my_company->nlc_url;
+            $my_username = $my_company->nlc_username;
+            $my_password = $my_company->nlc_password;
+
+            $nlc = new NlcClassifierModel($my_nlc_url, $my_username, $my_password, $corpus_tmp_nlc_id);
+            $del_nlc = $nlc->deleteNlc();
+
+            $error_msg = $del_nlc->getErrorMessage();
+            if(!empty($error_msg)) {
+              throw new \Exception($error_msg);
+            }
+
+          }
+
           DB::commit();
 
         } else {
@@ -167,10 +197,13 @@ class CorpusController extends Controller
 
       } catch (\PDOException $e){
         DB::rollBack();
-
         return redirect('/corpus')->withErrors(array('コーパスの削除に失敗しました'));
 
-      };
+      } catch(\Exception $e) {
+        DB::rollBack();
+        return redirect('/corpus')->withErrors(array($e->getMessage()));
+
+      }
 
       // 処理成功
       return redirect('/corpus')->with('msg', 'コーパスの削除が完了しました');
@@ -257,6 +290,7 @@ class CorpusController extends Controller
       
       $training_crative_list = [];
       $test_crative_list = [];
+      $training_creatives_count = 0;
 
       foreach($classes as $class) {
         // 対象のクラスidのクリエイティブを取得して
@@ -271,6 +305,7 @@ class CorpusController extends Controller
           
           if($data_type === CorpusDataType::Training) {
             $training_crative_list[$class_id][] = $creative;
+            $training_creatives_count++;
 
           } else if($data_type === CorpusDataType::Test) {
             $test_crative_list[$class_id][] = $creative;
@@ -282,7 +317,9 @@ class CorpusController extends Controller
 
       return view('corpus-admin.ca-data-view', [
         'corpus' => $corpus, 'corpus_classes' => $classes,
-        'training_creatives' => $training_crative_list, 'test_creatives' => $test_crative_list
+        'training_creatives' => $training_crative_list, 
+        'test_creatives' => $test_crative_list,
+        'training_creatives_count' => $training_creatives_count
       ]);
 
     }
@@ -378,13 +415,14 @@ class CorpusController extends Controller
           $update_class->training_data_count = $count;
 
           // コーパスのステータス更新
-          // 学習データ登録時に教師データなしステータスだったら未学習に更新
+          // old)学習データ登録時に教師データなしステータスだったら未学習に更新
           $corpus = Corpus::find($corpus_id);
-          // dd($corpus->status);
-          if((int)$corpus->status === CorpusStateType::NoTrainingData) {
+          
+          // new)常に未学習に更新
+          // if((int)$corpus->status === CorpusStateType::NoTrainingData) {
             $corpus->status = CorpusStateType::Untrained;
             $corpus->save();
-          }
+          // }
 
         } else if($get_data_type === CorpusDataType::Test) {
           $count = $update_class->test_data_count;
@@ -407,7 +445,9 @@ class CorpusController extends Controller
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type) . 'の登録が完了しました');
+      $success_msg = CorpusDataType::getDescription($get_data_type) . 'の登録が完了しました。';
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg)
+                                                        ->with('data_type', $get_data_type);
     }
 
 
@@ -504,6 +544,15 @@ class CorpusController extends Controller
           }
         }
 
+
+        if($get_data_type === CorpusDataType::Training) {
+          // コーパスを未学習ステータスに
+          $my_corpus = Corpus::find($corpus_id);
+          $my_corpus->status = CorpusStateType::Untrained;
+          $my_corpus->save();
+        }
+
+
         DB::commit();
 
       } catch (\PDOException $e){
@@ -516,7 +565,9 @@ class CorpusController extends Controller
       }
 
       // 処理完了
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', CorpusDataType::getDescription($get_data_type) . 'の編集が完了しました');
+      $success_msg = CorpusDataType::getDescription($get_data_type) . 'の編集が完了しました。';
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg)
+                                                        ->with('data_type', $get_data_type);
     }
 
 
@@ -589,6 +640,22 @@ class CorpusController extends Controller
 
             $class->delete();
           }
+        }
+
+
+        if($get_data_type === CorpusDataType::Training) {
+          // コーパスを未学習ステータスに
+          $my_corpus = Corpus::find($corpus_id);
+          $my_corpus->status = CorpusStateType::Untrained;
+          $my_corpus->save();
+
+          // クラスが全てなくなった場合、コーパスステータスを教師データ無しに更新
+          $my_class_count = CorpusClass::where('corpus_id', $corpus_id)->count();
+          if($my_class_count === 0) {
+            $my_corpus->status = CorpusStateType::NoTrainingData;
+            $my_corpus->save();
+          }
+          
         }
 
         DB::commit();
@@ -819,7 +886,9 @@ class CorpusController extends Controller
 
       }
 
-      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', 'CSVアップロードに成功しました');
+      $success_msg = CorpusDataType::getDescription($data_type) . 'のCSVアップロードに成功しました。';
+      return redirect('/corpus/data/view/' . $corpus_id)->with('success_msg', $success_msg)
+                                                        ->with('data_type', $data_type);
 
     }
     

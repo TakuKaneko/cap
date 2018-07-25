@@ -168,8 +168,10 @@ class TrainingManagerController extends Controller
             $set_classifier_id = $target_corpus->tmp_nlc_id;
 
             if($target_corpus_production_val === 1) {
-                $production_nlc_id = Api::where('company_id', $my_company_id)->first()->nlc_id;
+                $my_api_id = ApiCorpus::where('corpus_id', $corpus_id)->first()->api_id;
+                $production_nlc_id = Api::find($my_api_id)->nlc_id;
                 $set_classifier_id = $production_nlc_id;
+
                 $this->logInfo('本番のコーパスのnlc idを利用します');    
             }
 
@@ -198,7 +200,8 @@ class TrainingManagerController extends Controller
 
                 // 本番稼働中のコーパスの場合
                 if($target_corpus_production_val === 1) {
-                    $target_api = Api::where('company_id', $my_company_id)->first();
+                    $my_api_id = ApiCorpus::where('corpus_id', $corpus_id)->first()->api_id;
+                    $target_api = Api::find($my_api_id);
                     $target_api->nlc_id = "";
                     $target_api->save();
                 }
@@ -230,7 +233,8 @@ class TrainingManagerController extends Controller
 
             // 本番のコーパスの場合
             if($target_corpus_production_val === 1) {
-                $target_api = Api::where('company_id', $my_company_id)->first();
+                $my_api_id = ApiCorpus::where('corpus_id', $corpus_id)->first()->api_id;
+                $target_api = Api::find($my_api_id);
                 $target_api->nlc_id = $new_nlc->getClassifierId();
                 $target_api->save();
             }
