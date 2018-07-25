@@ -93,11 +93,11 @@
       {{--  コンテンツ  --}}
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2">
 
-        @if($corpus->is_production) 
+        @if($corpus->is_production && $corpus->status == \App\Enums\CorpusStateType::Available) 
         <div class="row mt-3">
           <div class="col-12">
             <div class="alert alert-info" role="alert">
-              2016/10/20 10:53時点の学習データで稼働中
+              このコーパスは本番稼働中です
             </div>
           </div>
         </div>
