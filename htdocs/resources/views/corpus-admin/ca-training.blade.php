@@ -158,8 +158,13 @@
                         <!-- <small class="mt-15">実行可能</small><br> -->
                         @if($step_training_status['can_training'])
                           <!-- <button type="button" class="btn btn-danger">学習実行</button> -->
+                          @if($training_status['can_training'])
                           <p class="text-danger">{{ $step_training_status['message'] }}</p>
                           <a href="/corpus/training/exec/{{ $corpus->id }}" class="btn btn-danger">学習実行</a>
+                          @else
+                          <p class="text-secondary">{{ $training_status['training_data_status'] }}</p>
+                          <button type="button" class="btn btn-secondary" disabled>実行不可</button>
+                          @endif
                         @else
                           <p class="text-secondary">{{ $step_training_status['message'] }}</p>
                           <button type="button" class="btn btn-secondary" disabled>実行不可</button>
