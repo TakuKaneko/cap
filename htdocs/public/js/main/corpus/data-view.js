@@ -231,10 +231,79 @@ function seteditClassTextModal() {
   });
 }
 
+function checkTrainingStatus(corpus_id, check_status, checker) {
+  logInfo('[checkTrainingStatus] corpus_id: ' + corpus_id);
+
+  $.ajax({
+    url: '/corpus/training/check/' + corpus_id,
+    type: 'GET',
+    async: true
+  })
+  // Ajaxリクエストが成功した時発動
+  .done(function (res) {
+
+    res = JSON.parse(res);
+    console.log(res);
+
+    if (!res['result']) {
+      // 処理に失敗しました
+      logInfo(res['error']['message']);
+      clearInterval(checker);
+    } else {
+
+      if (res['data']['corpus_status'] === parseInt(check_status)) {
+        alert('コーパスの学習が完了しました');
+        clearInterval(checker);
+
+        // 画面再読み込み
+        location.reload();
+      } else {
+        // ステータス確認継続
+      }
+    }
+  })
+  // Ajaxリクエストが失敗した時発動
+  .fail(function (error) {
+
+    // リクエストに失敗しました
+    logInfo(error);
+    clearInterval(checker);
+  });
+}
+
+/**
+ * bladeテンプレートから呼び出す
+ */
+function execTrainingStatusChecker() {
+  logInfo('[execTrainingStatusChecker] start');
+
+  var param = $('#data-view-js').data('checker-param');
+  param = param.split('|');
+
+  logInfo(param);
+
+  var corpus_id = param[0];
+  var check_status = param[1];
+  var timer = 60000;
+
+  if (corpus_id === undefined || check_status === undefined) {
+    logInfo('[execTrainingStatusChecker] undefined param...');
+    return;
+  }
+
+  var checker = setInterval(function () {
+    checkTrainingStatus(corpus_id, check_status, checker);
+  }, timer);
+
+  checkTrainingStatus(corpus_id, check_status, checker);
+}
+
 function initialize() {
   setAddClassTextModal();
   seteditClassTextModal();
   setEditCorpusModal();
+
+  execTrainingStatusChecker();
 }
 
 // 

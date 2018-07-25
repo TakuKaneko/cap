@@ -253,7 +253,7 @@ class CorpusController extends Controller
       
 
       $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
-      $classes = CorpusClass::where('corpus_id', $corpus->id)->get();
+      $classes = CorpusClass::where('corpus_id', $corpus->id)->orderBy('training_data_count', 'desc')->get();
       
       $training_crative_list = [];
       $test_crative_list = [];

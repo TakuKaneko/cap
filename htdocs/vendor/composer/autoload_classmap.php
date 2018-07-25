@@ -22,6 +22,7 @@ return array(
     'CreateCorpusClassesTable' => $baseDir . '/database/migrations/2018_07_09_113227_create_corpus_classes_table.php',
     'CreateCorpusCreativesTable' => $baseDir . '/database/migrations/2018_07_09_113302_create_corpus_creatives_table.php',
     'CreateCorpusesTable' => $baseDir . '/database/migrations/2018_05_02_185921_create_corpuses_table.php',
+    'CreateJobsTable' => $baseDir . '/database/migrations/2018_07_24_145350_create_jobs_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

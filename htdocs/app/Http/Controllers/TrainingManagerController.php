@@ -26,7 +26,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Business\TrainingDataModel;
 use App\Models\Business\NlcClassifierModel;
 use Illuminate\Support\Facades\DB;          // DBのトランザクション利用
+
+use Log; // 追加
 use Validator;
+use Carbon\Carbon;
 
 use App\Enums\CorpusStateType;
 use App\Enums\CorpusDataType;
@@ -138,12 +141,13 @@ class TrainingManagerController extends Controller
 
             $my_company_id = $user->company_id;
             $my_company = Company::find($my_company_id);
-            $my_classifier_api = Api::where('company_id', $my_company_id)->first();
+            // $my_classifier_api = Api::where('company_id', $my_company_id)->first();
 
             $set_nlc_url = $my_company->nlc_url;
             $set_nlc_username = $my_company->nlc_username;
             $set_nlc_password = $my_company->nlc_password;
-            $set_classifier_id = $my_classifier_api->nlc_id;
+            // $set_classifier_id = $my_classifier_api->nlc_id;
+            $set_classifier_id = $target_corpus->tmp_nlc_id;
 
             $this->logInfo('[nlc_url] ' . $set_nlc_url);
             $this->logInfo('[username] ' . $set_nlc_username);
@@ -187,9 +191,11 @@ class TrainingManagerController extends Controller
             }
 
             // 新しいnlc_idを設定
-            $api = Api::find($my_classifier_api->id);
-            $api->nlc_id = $new_nlc->getClassifierId();
-            $api->save();
+            // $api = Api::find($my_classifier_api->id);
+            // $api->nlc_id = $new_nlc->getClassifierId();
+            // $api->save();
+            $target_corpus->tmp_nlc_id = $new_nlc->getClassifierId();
+            $target_corpus->save();
 
             // コーパスのステータスを学習中に変更してnlc生成実行
             $target_corpus->status = CorpusStateType::Training;
@@ -253,6 +259,124 @@ class TrainingManagerController extends Controller
         $this->logInfo('正常に完了しました');
         return redirect('/corpus/training/' . $corpus_id)->with('msg', '本番反映が完了しました。');
 
+    }
+
+
+    /**
+     * 訓練ステータスチェック
+     */
+    public function chechTrainingStatus($corpus_id) {
+        // レスポンス形式
+        $res = array(
+            'result' => true,
+            'data' => array(
+                'corpus_status' => ''
+            ),
+            'error' => array(
+                'message' => ''
+            )
+        );
+
+        // nlcのチェックステータス
+        $nlc_training_status = 'Training';
+        $nlc_complate_status = 'Available';
+
+        // 認証チェック
+        $user = Auth::user();
+        if($user === null) {
+            $res['result'] = false;
+            $res['error']['message'] = '認証に失敗しました';
+        }
+
+        // コーパスidがユーザの企業に所属しているか
+        $target_corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
+        if(count($target_corpus)  === 0) {
+            $res['result'] = false;
+            $res['error']['message'] = '不正なパラメータです';
+        }
+
+        
+        // コーパスのステータスがトレーニング中であればステータスチェック実施
+        if((int)$target_corpus->status !== CorpusStateType::Training) {
+            // それ以外のステータスはスキップ
+            LOG::info('[chechTrainingStatus] トレーニングステータス以外がセットされています');
+            LOG::info('[chechTrainingStatus] ' . $target_corpus->status);
+
+        } else {
+
+            DB::beginTransaction();
+            LOG::info('[chechTrainingStatus] トランザクションを開始します');
+
+            try {
+                // nlcインスタンスを生成
+                $my_company = Company::find($user->company_id);
+
+                $set_nlc_url = $my_company->nlc_url;
+                $set_username = $my_company->nlc_username;
+                $set_password = $my_company->nlc_password;
+                $set_classifier_id = $target_corpus->tmp_nlc_id;
+
+                LOG::info('[chechTrainingStatus] NLCインスタンスを生成します');
+                $nlc = new NlcClassifierModel($set_nlc_url, $set_username, $set_password, $set_classifier_id);
+
+
+
+                // ステータス確認してレスポンスにセット
+                $nlc_current_status = $nlc->getStatus();
+                LOG::info('[chechTrainingStatus] 現在のNLCステータス: ' . $nlc_current_status);
+
+                $res['data']['nlc_current_status'] = $nlc_current_status;
+
+                if($nlc_current_status === $nlc_complate_status) {
+                    LOG::info('[chechTrainingStatus] NLCの学習は完了しています');
+
+                    // コーパスのステータスを更新
+                    $target_corpus->status = CorpusStateType::StandBy;
+                    $target_corpus->save();
+
+
+                    // 未学習データの学習完了日をセット
+                    LOG::info('[chechTrainingStatus] 学習完了日をセットします');
+
+                    $related_class_id = CorpusClass::where('corpus_id', $corpus_id)->get(['id']);
+
+                    // 100件ずつ取り出して更新
+                    $related_creatives = CorpusCreative::whereIn('corpus_class_id', $related_class_id)
+                        ->where('data_type', CorpusDataType::Training)
+                        ->chunk(100, function ($creatives) {
+                            
+                            $now = Carbon::now();
+
+                            foreach($creatives as $creative) {
+                                $creative->training_done_data = $now;
+                                $creative->save();
+                            }
+                        }
+                    );
+
+                } else {
+                    LOG::info('[chechTrainingStatus] NLCの学習は完了していません');
+                } 
+
+                DB::commit();
+
+
+            } catch(\PDOException $e) {
+                DB::rollBack();
+
+                $res['result'] = false;
+                $res['error']['message'] = 'データベースの更新に失敗しました';
+
+                return json_encode($res);
+            }
+
+        }
+
+
+        // 現在のコーパスステータス返却
+        $res['data']['corpus_status'] = $target_corpus->status;
+
+        return json_encode($res);
     }
 
 
