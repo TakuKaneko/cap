@@ -262,7 +262,7 @@ class TrainingManagerController extends Controller
         }
 
         $this->logInfo('正常に完了しました');
-        return redirect('/corpus/training/' . $corpus_id)->with('msg', 'ただ今学習中です。');
+        return redirect('/corpus/training/' . $corpus_id)->with('msg', 'ただ今学習中です。完了まで15分程度かかります。\n完了までそのままお待ちください。');
     }
 
     /**
