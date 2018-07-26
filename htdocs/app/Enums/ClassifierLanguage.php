@@ -73,34 +73,34 @@ final class ClassifierLanguage extends Enum
                 'label' => self::getJapaneseDescription(self::English),
                 'value' => self::English
             ],
-            [
-                'label' => self::getJapaneseDescription(self::Arabic),
-                'value' => self::Arabic
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::French),
-                'value' => self::French
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::German),
-                'value' => self::German
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::Italian),
-                'value' => self::Italian
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::Korean),
-                'value' => self::Korean
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::BrazilianPortuguese),
-                'value' => self::BrazilianPortuguese
-            ],
-            [
-                'label' => self::getJapaneseDescription(self::Spanish),
-                'value' => self::Spanish
-            ]
+            // [
+            //     'label' => self::getJapaneseDescription(self::Arabic),
+            //     'value' => self::Arabic
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::French),
+            //     'value' => self::French
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::German),
+            //     'value' => self::German
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::Italian),
+            //     'value' => self::Italian
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::Korean),
+            //     'value' => self::Korean
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::BrazilianPortuguese),
+            //     'value' => self::BrazilianPortuguese
+            // ],
+            // [
+            //     'label' => self::getJapaneseDescription(self::Spanish),
+            //     'value' => self::Spanish
+            // ]
         ];
     }
 
