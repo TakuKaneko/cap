@@ -162,9 +162,6 @@ class NlcClassifierModel
      */
     public function runClassify($text)
     {
-        // クリエイティブのバリデーション実施
-        // $res = $this->creativeValidation($creative);
-
         // テキスト分類のcurl実行
         try {
             $query_param = "/classify?text=" . rawurlencode($text);
@@ -272,7 +269,6 @@ class NlcClassifierModel
     {
         /* NLC の実行結果を取得 */
         $nlc_res = $this->runClassify($text);
-
         $ca_res_array = array();
 
         // API-ID

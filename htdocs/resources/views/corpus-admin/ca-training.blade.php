@@ -194,7 +194,7 @@
                       </td>
                       <td class="step-list__cell">
                         @if ($step_training_status['can_test'])
-                          <p class="text-danger">実行可能</p>
+                          <p class="text-danger">（未実装）</p>
                           <button type="button" class="btn btn-outline-danger">テスト実行</button>
                         @else
                           <!-- <p class="text-secondary">実行不可</p> -->
@@ -225,7 +225,7 @@
                       </td>
                       <td class="step-list__cell">
                         @if ($step_training_status['can_test'])
-                          <p class="text-danger">実行可能</p>
+                          <p class="text-danger">（未実装）</p>
                           <button type="button" class="btn btn-outline-danger">検証実行</button>
                         @else
                           <!-- <p class="text-secondary">実行不可</p> -->
@@ -280,6 +280,7 @@
                         <span class="text-muted" data-feather="chevrons-right" style=""></span>
                       </td>
                       <td class="step-list__cell">
+                        <p class="text-danger">（未実装）</p>
                         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#shikiichiModal">閾値設定</button>
                         <div class="modal fade" id="shikiichiModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

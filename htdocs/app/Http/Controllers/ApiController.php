@@ -25,6 +25,8 @@ class ApiController extends Controller
         $auth_flg = $this->isAuthenticated($token);
         // 実在するdisplay_api_idであればapi_idを取得、実在しなければFALSE
         $api_id_flg = $this->changeApiId($display_api_id); 
+        // 審査テキスト取得
+        $text = $request->input('text');
 
         // エラー処理：認証失敗した場合
         if (!$auth_flg)
@@ -55,7 +57,7 @@ class ApiController extends Controller
         $nlc = new NLC($company->nlc_url, $company->nlc_username, $company->nlc_password, $classifier_id);
 
         // エラー処理：ステータスが Avairable 以外の場合
-        if (!$nlc->isAvairable() or !$nlc->isQueryCorrect($request->input('text')))
+        if (!$nlc->isAvairable() or !$nlc->isQueryCorrect($text))
         {
             $res = array();
             $res['code'] = '404';
@@ -66,7 +68,7 @@ class ApiController extends Controller
         }
 
         // 分析結果を取得
-        return $nlc->runCognitiveAdCheck($display_api_id, $request->input('text'));
+        return $nlc->runCognitiveAdCheck($display_api_id, $text);
     }
 
     /**

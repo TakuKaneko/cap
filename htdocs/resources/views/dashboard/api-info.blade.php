@@ -109,7 +109,7 @@
                         <p>リクエスト例）</p>
                         <pre class="doc-content"><code>curl -G 
     -H <span class="bold">"X-Pasonatech-Cap-Token:0123abcd"</span> <span style="color:green;"> //<- 認証トークンはHTTPリクエストのヘッダに必ず付加してください。</span>
-    --data-urlencode "text: <span class="bold">今日は晴れです。</span>" "{{ config('app.api_exec_url') }}<span class="bold">001abcd-cap-0000</span>"</code></pre>
+    --data-urlencode "text=<span class="bold">今日は晴れです。</span>" "{{ config('app.api_exec_url') }}<span class="bold">001abcd-cap-0000</span>"</code></pre>
 
                         <h5 class="bold text-default">リクエストパラメータ</h5>
                         <table class="parameter_table">

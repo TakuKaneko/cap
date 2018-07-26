@@ -335,6 +335,9 @@ class TrainingManagerController extends Controller
                 $target_api->nlc_id = $tmp_nlc_id;
                 $target_api->save();
                 $this->logInfo('API更新完了 : ' . $target_api->nlc_id);    
+
+                // 本番コーパスのステータス保存
+                $target_corpus->save();
             } 
             
             DB::commit();
