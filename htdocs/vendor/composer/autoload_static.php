@@ -4,12 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
+class ComposerStaticInitab0887db980eae721b49dc9b28169a01
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
@@ -18,7 +18,6 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
-        '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -97,7 +96,6 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
             'DeepCopy\\' => 9,
-            'DebugBar\\' => 9,
         ),
         'C' => 
         array (
@@ -106,7 +104,6 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         'B' => 
         array (
             'BenSampo\\Enum\\' => 14,
-            'Barryvdh\\Debugbar\\' => 18,
         ),
         'A' => 
         array (
@@ -265,10 +262,6 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
-        'DebugBar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
-        ),
         'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
@@ -276,10 +269,6 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         'BenSampo\\Enum\\' => 
         array (
             0 => __DIR__ . '/..' . '/bensampo/laravel-enum/src',
-        ),
-        'Barryvdh\\Debugbar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src',
         ),
         'App\\' => 
         array (
@@ -896,11 +885,11 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitab0887db980eae721b49dc9b28169a01::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitab0887db980eae721b49dc9b28169a01::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitab0887db980eae721b49dc9b28169a01::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitab0887db980eae721b49dc9b28169a01::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitab0887db980eae721b49dc9b28169a01::$classMap;
 
         }, null, ClassLoader::class);
     }
