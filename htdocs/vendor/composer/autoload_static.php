@@ -339,6 +339,7 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         'CompanyApisTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CompanyApisTableSeeder.php',
         'CorpusClassesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusClassesTableSeeder.php',
         'CorpusCreativesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusCreativesTableSeeder.php',
+        'CorpusesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CorpusesTableSeeder.php',
         'CreateApiCorpusTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
         'CreateApisTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_092320_create_apis_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2018_06_19_135558_create_companies_table.php',
