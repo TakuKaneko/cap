@@ -39,6 +39,7 @@
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
+            "mkdir -p /tmp/app/htdocs/public/files/corpus-admin/training-datas",
             "php htdocs/artisan key:generate",
             "php htdocs/artisan cache:clear",
             "php htdocs/artisan view:clear",
@@ -52,6 +53,7 @@
             "mkdir -p /tmp/app/htdocs/storage/framework/sessions",
             "mkdir -p /tmp/app/htdocs/storage/framework/views",
             "mkdir -p /tmp/app/htdocs/storage/framework/cache",
+            "mkdir -p /tmp/app/htdocs/public/files/corpus-admin/training-datas",
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php htdocs/artisan cache:clear",
             "php htdocs/artisan view:clear",
@@ -66,6 +68,7 @@
             "mkdir -p /tmp/app/htdocs/storage/framework/sessions",
             "mkdir -p /tmp/app/htdocs/storage/framework/views",
             "mkdir -p /tmp/app/htdocs/storage/framework/cache",
+            "mkdir -p /tmp/app/htdocs/public/files/corpus-admin/training-datas",
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php htdocs/artisan cache:clear",
             "php htdocs/artisan view:clear",
