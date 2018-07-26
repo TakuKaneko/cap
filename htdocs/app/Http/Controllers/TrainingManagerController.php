@@ -144,7 +144,7 @@ class TrainingManagerController extends Controller
             }
 
             $target_corpus = Corpus::find($corpus_id);
-            $target_corpus_production_val = $target_corpus->is_production;
+            $target_corpus_production_val = (int)$target_corpus->is_production;
 
             // 学習データモデル生成
             $training_data = new TrainingDataModel($corpus_id);
