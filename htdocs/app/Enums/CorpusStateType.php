@@ -23,22 +23,22 @@ final class CorpusStateType extends Enum
     {
         switch ($value){
             case self::Available:
-                return '利用可能';
+                return '本番稼働中';
                 brake;
             case self::NoTrainingData:
-                return 'エラー:教師データがありません。';
+                return '注意：教師データなし';
                 brake;
             case self::Untrained:
-                return 'エラー:まだ学習処理が実行されていません。';
+                return '注意：学習未実行';
                 brake;
             case self::Training:
-                return 'エラー:現在学習中です。';
+                return '注意：学習中';
                 brake;
             case self::StandBy:
-                return 'エラー:現在検証中です。コーパスを本番反映すると利用できるようになります。';
+                return '注意：本番反映未実行';
                 brake;
             case self::Unavailable:
-                return 'エラー:現在利用できません。コーパスの登録状況をお確かめください。';
+                return '注意：コーパスの登録不備';
                 brake;
             default:
                 return self::getKey($value);
