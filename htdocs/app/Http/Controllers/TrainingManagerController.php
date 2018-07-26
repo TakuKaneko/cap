@@ -250,14 +250,10 @@ class TrainingManagerController extends Controller
 
         } catch (\PDOException $e){
             DB::rollBack();
-            var_dump($e->getMessage());
-            exit;
             return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
     
         } catch(\Exception $e) {
             DB::rollBack();
-            var_dump($e->getMessage());
-            exit;
             return redirect('/corpus/training/' . $corpus_id)->with('error_msg', $e->getMessage());
         }
 
@@ -481,7 +477,7 @@ class TrainingManagerController extends Controller
     /**
      * 開発ログ確認用
      */
-    private $debug = true;
+    private $debug = false;
     private function logInfo($msg) {
       if($this->debug) {
         var_dump($msg);

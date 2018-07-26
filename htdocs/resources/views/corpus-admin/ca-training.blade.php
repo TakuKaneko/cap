@@ -101,6 +101,14 @@
       @endif
 
         <section>
+          @if(Session::has('error_msg'))
+            <div class="alert alert-danger mt-3" role="alert">
+              {{ session('error_msg') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif
           <div class="row">
             {{-- 学習ステップ  --}}
             <div class="col-8">

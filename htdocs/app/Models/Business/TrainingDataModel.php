@@ -20,6 +20,7 @@ class TrainingDataModel
     const SAVE_FILE_PATH = '/../../../public/files/corpus-admin/training-datas/';
     protected $corpus_id; // コーパスID
     protected $file_name; // ファイル名
+    protected $file_path;
     protected $record_cnt; // レコード件数
     protected $err_msg; // エラーメッセージ
     
@@ -50,12 +51,13 @@ class TrainingDataModel
             $this->file_name = "training_data_" . $timestamp . ".csv";
 
             // ファイルパス
-            $save_filepath = dirname(__FILE__) . self::SAVE_FILE_PATH . $this->file_name;
+            $this->file_path = dirname(__FILE__) . self::SAVE_FILE_PATH . $this->file_name;
+
 
             // CSV形式で保存
-            if(touch($save_filepath)) {
+            if(is_writable(dirname($this->file_path)) && touch($this->file_path)) {
                 // 書き込み
-                $file = new \SplFileObject($save_filepath, "w");
+                $file = new \SplFileObject($this->file_path, "w");
 
                 foreach($training_data as $data) {
                     $csv = [$data->content, $data->name];
@@ -63,6 +65,8 @@ class TrainingDataModel
                 }
 
                 $file = null;
+            } else {
+                throw new \Exception('学習実行用のテキストデータ取得に失敗しました');
             }
 
             // レコード件数保存
@@ -71,7 +75,7 @@ class TrainingDataModel
 
         } catch (\Exception $e) {
             $this->err_msg = $e->getMessage();
-            // $this->err_msg = $e->getMessage('学習実行用のテキストデータ取得に失敗しました');
+            return;
         }
 
         $this->err_msg = "";
@@ -85,7 +89,8 @@ class TrainingDataModel
     public function getTrainingDataPath()
     {
         // return ROOT_PATH . $this->file_name;
-        return dirname(__FILE__) . self::SAVE_FILE_PATH . $this->file_name;
+        // return dirname(__FILE__) . self::SAVE_FILE_PATH . $this->file_name;
+        return $this->file_path;
     }
 
     /**
