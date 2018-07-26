@@ -284,7 +284,7 @@ function execTrainingStatusChecker() {
 
   var corpus_id = param[0];
   var check_status = param[1];
-  var timer = 60000;
+  var timer = 180000;
 
   if (corpus_id === undefined || check_status === undefined) {
     logInfo('[execTrainingStatusChecker] undefined param...');
