@@ -23,6 +23,10 @@
     .bd-callout-warning {
       border-left-color: #f0ad4e;
     }
+
+    #my_corpus_list .card:hover {
+      cursor: pointer;
+    }
   </style>
 @endsection
 
@@ -123,7 +127,7 @@ function time_diff($update_time)
 
             @if(count($corpuses) > 0)
               <!-- カード一覧 -->
-              <div class="row">
+              <div class="row" id="my_corpus_list">
               @foreach($corpuses as $corpus)
                 
                 <!-- カード -->
