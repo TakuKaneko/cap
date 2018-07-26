@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             CorpusesTableSeeder::class,
             ApiCorpusTableSeeder::class,
             UsersTableSeeder::class,
-            CorpusClassesTableSeeder::class,
-            CorpusCreativesTableSeeder::class
+            // CorpusClassesTableSeeder::class,
+            // CorpusCreativesTableSeeder::class
         ]);
     }
 }
