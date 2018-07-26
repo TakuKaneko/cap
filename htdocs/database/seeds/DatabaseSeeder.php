@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             CompaniesTableSeeder::class,
             CompanyApisTableSeeder::class,
             ApisTableSeeder::class,
-            CorpusesTableSeeder::class,
+            // CorpusesTableSeeder::class,
             ApiCorpusTableSeeder::class,
             UsersTableSeeder::class,
             CorpusClassesTableSeeder::class,

@@ -14,7 +14,6 @@ return array(
     'CompanyApisTableSeeder' => $baseDir . '/database/seeds/CompanyApisTableSeeder.php',
     'CorpusClassesTableSeeder' => $baseDir . '/database/seeds/CorpusClassesTableSeeder.php',
     'CorpusCreativesTableSeeder' => $baseDir . '/database/seeds/CorpusCreativesTableSeeder.php',
-    'CorpusesTableSeeder' => $baseDir . '/database/seeds/CorpusesTableSeeder.php',
     'CreateApiCorpusTable' => $baseDir . '/database/migrations/2018_07_09_111842_create_api_corpus_table.php',
     'CreateApisTable' => $baseDir . '/database/migrations/2018_06_19_092320_create_apis_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2018_06_19_135558_create_companies_table.php',
