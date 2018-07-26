@@ -313,8 +313,11 @@ class TrainingManagerController extends Controller
                 // 本番コーパスの用途を検証用に更新
                 $target2_corpus = Corpus::find($source_corpus_id);
                 // dd($target2_corpus);exit;
-
                 $target2_corpus->is_production = '0';
+                if ($target2_corpus->status == CorpusStateType::Available)
+                {
+                    $target2_corpus->status = CorpusStateType::StandBy;
+                }
                 // $target2_corpus->save();
                 $this->logInfo('本番コーパス更新完了 : ' . $target2_corpus->is_production);
 
