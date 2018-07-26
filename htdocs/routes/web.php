@@ -46,6 +46,12 @@ Route::group(['middleware' => ['auth']], function () {
   // Route::post('/settings/user/register', function() {
   //   echo 'test';
   // });
+
+  /** 管理者機能：DBリフレッシュ */
+  // Route::group(['middleware' => 'auth.very_basic', 'prefix' => ''], function() {
+  //   Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
+  // });
+
 });
 
 Auth::routes();

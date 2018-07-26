@@ -172,6 +172,10 @@ return [
          */
         // Barryvdh\Debugbar\ServiceProvider::class,
 
+        /**
+         * BASIC認証
+         */
+        // Olssonm\VeryBasicAuth\VeryBasicAuthServiceProvider::class,
          /*
          * Application Service Providers...
          */

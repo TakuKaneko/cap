@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 
 class DashboardController extends Controller
 {
@@ -22,7 +23,16 @@ class DashboardController extends Controller
     }
     
     // ダッシュボードトップの表示
-    public function index() {
+    public function index() 
+    {
         return view('dashboard.top');
     }
+
+    // データベースのリフレッシュ
+    // public function migrateRefresh()
+    // {
+    //     Artisan::call('migrate:refresh');
+    //     Artisan::call('db:seed');
+    //     return redirect('/')->with('msg', 'DBのリフレッシュが完了しました。');
+    // }
 }
