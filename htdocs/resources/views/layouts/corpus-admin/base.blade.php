@@ -100,7 +100,7 @@
               </a>
             </li> --}}
             <li class="nav-item">
-              @if (Request::is('corpus/training'))
+              @if (Request::is('corpus/training/*'))
               <a class="nav-link active" href="/corpus/training/{{ $corpus->id }}">
               @else
               <a class="nav-link" href="/corpus/training/{{ $corpus->id }}">
