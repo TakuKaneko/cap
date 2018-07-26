@@ -474,11 +474,19 @@
                 {{--  学習結果棒グラフ  --}}
                 <div class="col-12">
                   <div class="card bg-light mb-3">
+                    <div class="card-header">現在のステータス</div>
+                    <div class="card-body" style="padding: 0.5rem;">
+                      <p>{{ App\Enums\CorpusStateType::getDescription($corpus->status) }}</p>
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                  <div class="card bg-light mb-3">
                     <div class="card-header">最新の検証結果サマリー<br>（2018/05/01 12:00:00時点）</div>
                     <div class="card-body" style="padding: 0.5rem;">
                       <canvas id="myBarChart" width="200" height="200"></canvas>
                     </div>
                   </div>
+                  <!-- /.card -->
                 </div>
               </div>
             </div>
