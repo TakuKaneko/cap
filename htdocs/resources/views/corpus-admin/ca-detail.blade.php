@@ -399,7 +399,7 @@
               </div>
               <!-- /.modal-body -->
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="add_content_btn">編集する</button>
+                <button type="submit" class="btn btn-primary" id="add_content_btn">保存する</button>
                 <input type="hidden" name="corpus_id" value="{{ $corpus->id }}">
               </div>
               <!-- /.modal-footer -->
