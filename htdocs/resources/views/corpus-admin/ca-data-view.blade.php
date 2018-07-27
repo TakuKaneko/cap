@@ -117,7 +117,7 @@
 
 
         <div class="row mt-3">
-          <div class="col-3">
+          <!-- <div class="col-3">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
               <li class="nav-item">
                 <a class="btn btn-outline-brand nav-link active mr-1" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="true">学習データ</a>
@@ -131,6 +131,20 @@
             {{-- <form class="form-inline my-2 my-lg-0"> --}}
             <input class="form-control form-control-dark w-100 border-bottom" type="text" placeholder="キーワード検索" aria-label="キーワード検索">
             {{-- </form> --}}
+          </div> -->
+          <div class="col-12">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="btn btn-outline-brand nav-link active mr-1" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="true">学習データ</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-outline-info nav-link" id="test-tab" data-toggle="tab" href="#test" role="tab" aria-controls="test" aria-selected="false">テストデータ</a>
+              </li>
+              <li class="nav-item w-50 ">
+                <input class="form-control form-control-dark border-bottom ml-5" type="text" placeholder="キーワード検索" aria-label="キーワード検索">
+              </li>
+            </ul>
+            <!-- /.nav -->
           </div>
         </div>
 
