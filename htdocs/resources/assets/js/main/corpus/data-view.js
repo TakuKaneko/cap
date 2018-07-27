@@ -251,12 +251,35 @@ function execTrainingStatusChecker() {
 }
 
 
+/**
+ * 学習実行確認アラート表示
+ */
+function setConfirmExecTraining() {
+  
+  logInfo('[setConfirmExecTraining] start');
+
+  const corpus_id = $('#data-view-js').data('cid');
+  logInfo(corpus_id);
+
+  $('#exec_corpus_training_btn').off();
+  $('#exec_corpus_training_btn').on('click', function() {
+
+    if(corpus_id !== undefined) {
+      if(confirm('学習の実行には料金が掛かります。\n本当に実行しますか？')) {
+        location.href = "/corpus/training/exec/" + corpus_id;
+      }
+    }
+
+  });
+  
+}
 
 function initialize() {
   setAddClassTextModal();
   seteditClassTextModal();
   setEditCorpusModal();
 
+  setConfirmExecTraining();
   execTrainingStatusChecker();
 }
 

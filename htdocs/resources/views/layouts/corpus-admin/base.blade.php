@@ -147,9 +147,9 @@
   </script>
 
   @if( (int)$corpus->status === \App\Enums\CorpusStateType::Training )
-  <script src="/js/main/corpus/data-view.js" data-checker-param="{{ $corpus->id }}|{{ \App\Enums\CorpusStateType::StandBy }}" id="data-view-js"></script>
+  <script src="/js/main/corpus/data-view.js" data-cid="{{ $corpus->id }}" data-checker-param="{{ $corpus->id }}|{{ \App\Enums\CorpusStateType::StandBy }}" id="data-view-js"></script>
   @else 
-  <script src="/js/main/corpus/data-view.js" data-checker-param="" id="data-view-js"></script>
+  <script src="/js/main/corpus/data-view.js" data-cid="{{ $corpus->id }}" data-checker-param="" id="data-view-js"></script>
   @endif
 
 </body>

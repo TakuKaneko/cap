@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
+class ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -76,6 +76,7 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         array (
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
+            'Laravel\\Dusk\\' => 13,
         ),
         'I' => 
         array (
@@ -85,6 +86,7 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         array (
             'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
+            'Facebook\\WebDriver\\' => 19,
         ),
         'E' => 
         array (
@@ -230,6 +232,10 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'Laravel\\Dusk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/dusk/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -241,6 +247,10 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
+        ),
+        'Facebook\\WebDriver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/facebook/webdriver/lib',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -885,11 +895,11 @@ class ComposerStaticInitb51be6e8926978ba86ed0d0c46601146
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb51be6e8926978ba86ed0d0c46601146::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644::$classMap;
 
         }, null, ClassLoader::class);
     }
