@@ -23,8 +23,8 @@ class CreateCorpusesTable extends Migration
             $table->string('company_id');
             $table->string('language');
             $table->string('tmp_nlc_id');
-            $table->string('created_user_id');
-            $table->string('updated_user_id');
+            $table->string('create_user_id');
+            $table->string('update_user_id');
             $table->softDeletes();
             $table->timestamps();
         });
