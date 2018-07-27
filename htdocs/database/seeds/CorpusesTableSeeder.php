@@ -23,6 +23,8 @@ class CorpusesTableSeeder extends Seeder
                 'company_id' => '1',
                 'language' => '0',
                 'tmp_nlc_id' => '',
+                'created_user_id' => '1',
+                'updated_user_id' => '1',
                 'created_at' => NOW(),
                 'updated_at' => NOW()
             ]
