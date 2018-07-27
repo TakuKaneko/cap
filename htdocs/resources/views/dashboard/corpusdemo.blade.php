@@ -163,17 +163,14 @@ function time_diff($update_time)
                     </div>
                   @if($corpus->related_api_text !== "") 
                     <div class="card-footer" style="padding-top:2px;border-top: 1px solid #eee;">
-                      <div class="stats pull-right">
+                      <div class="stats pull-right" style="margin-left:5px;">
                         関連API:{{ $corpus->related_api_text }}
                       </div>
                     </div>
                   @endif
                     <div class="card-footer" style="padding-top:2px;border-top: 1px solid #eee;">
-                      <div class="stats pull-right">
-                        {{\App\Enums\CorpusType::getDescription($corpus->type)}}
-                      </div>
                       <div class="stats pull-left">
-                        <i class="material-icons">update</i> 最終更新日：{{ time_diff($corpus->updated_at ) }}
+                        <i class="material-icons">update</i> 最終更新日：{{ time_diff($corpus->updated_at ) }}（{{ $corpus->update_username }}）
                       </div>
                     </div>
                   </div>

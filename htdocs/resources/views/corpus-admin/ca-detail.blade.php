@@ -88,11 +88,11 @@
                     </tr>
                     <tr>
                       <th scope="row">作成日</th>
-                      <td>{{ $corpus->created_at }}</td>
+                      <td>{{ $corpus->created_at }}（{{ $corpus->create_username }}）</td>
                     </tr>
                     <tr>
                       <th scope="row">最終更新日</th>
-                      <td>{{ $corpus->updated_at }}</td>
+                      <td>{{ $corpus->updated_at }}（{{ $corpus->update_username }}）</td>
                     </tr>
                   </tbody>
                 </table>

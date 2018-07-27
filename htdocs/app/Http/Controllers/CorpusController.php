@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Api;
+use App\Models\User;
 use App\Models\Company;
 use App\Models\CompanyApi;
 use App\Models\ApiCorpus;
@@ -51,6 +52,16 @@ class CorpusController extends Controller
       $corpuses = Corpus::where('company_id', $company_id)->orderBy('is_production', 'desc')->orderBy('created_at', 'desc')->get();
 
       foreach($corpuses as $index => $corpus) {
+        // 作成者、更新者を追加
+        $create_user = User::find($corpus->create_user_id);
+        $create_username = $create_user->sei_kanji .' '. $create_user->mei_kanji;
+
+        $update_user = User::find($corpus->update_user_id);
+        $update_username = $update_user->sei_kanji .' '. $update_user->mei_kanji;
+
+        $corpuses[$index]['create_username'] = $create_username;
+        $corpuses[$index]['update_username'] = $update_username;
+
         // 関連apiのテキスト追加
         $related_api_text = "";
 
@@ -102,6 +113,8 @@ class CorpusController extends Controller
         $corpus->company_id = $user->company_id;
         $corpus->language = $form['language'];
         $corpus->tmp_nlc_id = "";
+        $corpus->create_user_id = $user->id;
+        $corpus->update_user_id = $user->id;
         $corpus->save();
 
         DB::commit();
@@ -224,6 +237,17 @@ class CorpusController extends Controller
 
       // コーパス情報取得
       $corpus = Corpus::where('id', $corpus_id)->where('company_id', $user->company_id)->first();
+
+      // 作成者、更新者を追加
+      $create_user = User::find($corpus->create_user_id);
+      $create_username = $create_user->sei_kanji .' '. $create_user->mei_kanji;
+
+      $update_user = User::find($corpus->update_user_id);
+      $update_username = $update_user->sei_kanji .' '. $update_user->mei_kanji;
+
+      $corpus['create_username'] = $create_username;
+      $corpus['update_username'] = $update_username;
+
       return view('corpus-admin.ca-detail', ['corpus' => $corpus,  'language_list' => ClassifierLanguage::getList()]);
     }
 
@@ -256,6 +280,7 @@ class CorpusController extends Controller
         $corpus->name = $form['name'];
         $corpus->description = $form['description'];
         $corpus->language = $form['language'];
+        $corpus->update_user_id = $user->id;
         $corpus->save();
 
         DB::commit();
