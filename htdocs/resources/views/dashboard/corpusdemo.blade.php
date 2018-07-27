@@ -27,6 +27,12 @@
     #my_corpus_list .card:hover {
       cursor: pointer;
     }
+    .three-dots-card {
+      overflow: hidden; /* overflow: hidden;　がキモ。*/
+      /* width: 245px; */
+      height: 50px;
+      /* font-size: 16px; */
+    }
   </style>
 @endsection
 
@@ -152,7 +158,7 @@ function time_diff($update_time)
                           <a class="dropdown-item" href="#">削除</a>
                         </div>
                       </div>
-                      <p class="card-text" style="clear:both;margin-bottom:10px;">{{ $corpus->description }}</p>
+                      <p class="card-text three-dots-card" style="clear:both;margin-bottom:10px;">{{ $corpus->description }}</p>
                       {{-- <a href="/corpus/view/1" class="btn btn-sm btn-brand" target="_blank">詳細表示</a> --}}
                     </div>
                   @if($corpus->related_api_text !== "") 
@@ -218,8 +224,8 @@ function time_diff($update_time)
             <!-- /.form-group -->
             <div class="form-group">
               <label for="corpus_description" class="bmd-label-floating">説明文</label>
-              <textarea name="description" class="form-control" id="corpus_description" rows="2" required>{{ old('description') }}</textarea>
-              <span class="bmd-help">50字以内で記入してください。</span>
+              <textarea name="description" class="form-control" id="corpus_description" rows="2" maxlength="255" required>{{ old('description') }}</textarea>
+              <span class="bmd-help">30字程度で記入してください。</span>
             </div>
             <!-- /.form-group -->
             <div class="form-group">
@@ -277,4 +283,5 @@ function time_diff($update_time)
 
 @section('page-js')
   <script src="{{ mix('/js/main/dashboard/context-menu.js') }}"></script>
+  <script src="{{ mix('/js/main/dashboard/settings.js') }}"></script>
 @endsection

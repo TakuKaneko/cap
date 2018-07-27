@@ -274,6 +274,8 @@ function setConfirmExecTraining() {
   
 }
 
+
+
 function initialize() {
   setAddClassTextModal();
   seteditClassTextModal();
@@ -281,6 +283,8 @@ function initialize() {
 
   setConfirmExecTraining();
   execTrainingStatusChecker();
+
+  
 }
 
 // 
