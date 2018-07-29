@@ -36,6 +36,7 @@ class ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644
         'T' => 
         array (
             'TijsVerkoyen\\CssToInlineStyles\\' => 31,
+            'Tests\\' => 6,
         ),
         'S' => 
         array (
@@ -131,6 +132,10 @@ class ComposerStaticInit940a14c92fcc4bdd49a29d119fc36644
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
+        ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Symfony\\Polyfill\\Php70\\' => 
         array (
