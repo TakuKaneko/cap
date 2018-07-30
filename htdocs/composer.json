@@ -10,7 +10,8 @@
         "fideloper/proxy": "~3.3",
         "laravel/tinker": "~1.0",
         "ext-mysqli": "*",
-        "bensampo/laravel-enum": "^1.7"
+        "bensampo/laravel-enum": "^1.7",
+        "laravel/dusk": "2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
