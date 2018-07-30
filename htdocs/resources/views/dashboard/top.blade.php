@@ -5,6 +5,43 @@
 @endsection
 
 @section('content')
+  @if (session('msg') || count($errors) > 0)
+    <script>
+      //   type = ['', 'info', 'danger','success', 'warning', 'rose', 'primary'];
+      //   color = Math.floor((Math.random() * 6) + 1);
+      function showAlert(msg, type) {
+        $.notify({
+          icon: "notifications",
+          message: msg
+
+        }, {
+          type: type,
+          timer: 1000,
+          placement: {
+            from: 'top',
+            align: 'center'
+          }
+        });
+      }
+
+    @if(session('msg')) 
+      showAlert('{{ session("msg") }}', 'success');
+    @endif
+
+    @if(count($errors) > 0)
+      // error_msg = '<ul style="margin-bottom: 0;">';
+      error_msg = '<p class="warning-notify">';
+      @foreach($errors->all() as $error)
+        error_msg += '{{ $error }}<br>';
+      @endforeach
+      error_msg += '</p>';
+
+      showAlert(error_msg, 'warning');
+    @endif
+      
+    </script>
+  @endif
+  
       <div class="content">
         <div class="container-fluid">
           <div class="row">

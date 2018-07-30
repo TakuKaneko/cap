@@ -48,8 +48,11 @@ Route::group(['middleware' => ['auth']], function () {
   // });
 
   /** 管理者機能：DBリフレッシュ */
-  // Route::group(['middleware' => 'auth.very_basic', 'prefix' => ''], function() {
-  //   Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
+  // Route::group(['middleware' => 'auth.very_basic'], function() {
+  //   // Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
+  //   Route::get('/dbrefresh', function (){
+  //     echo "ok.";exit;
+  //   });
   // });
 
 });
