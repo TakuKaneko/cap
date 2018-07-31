@@ -31,8 +31,13 @@ class DashboardController extends Controller
     // データベースのリフレッシュ
     public function migrateRefresh()
     {
-        Artisan::call('migrate:refresh');
-        Artisan::call('db:seed');
-        return redirect('/')->with('msg', 'DBのリフレッシュが完了しました。');
+        if (\App::environment('local', 'develop')) 
+        {
+            Artisan::call('migrate:refresh');
+            Artisan::call('db:seed');
+            return redirect('/')->with('msg', 'DBのリフレッシュが完了しました。');
+        }
+        
+        return;
     }
 }

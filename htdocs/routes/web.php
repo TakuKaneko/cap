@@ -43,17 +43,9 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/settings/user/register', 'ServiceController@registerUser');
   Route::post('/settings/user/edit', 'ServiceController@editUser');
   Route::post('/settings/user/delete', 'ServiceController@deleteUser');
-  // Route::post('/settings/user/register', function() {
-  //   echo 'test';
-  // });
 
   /** 管理者機能：DBリフレッシュ */
-  // Route::group(['middleware' => 'auth.very_basic'], function() {
-  //   // Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
-  //   Route::get('/dbrefresh', function (){
-  //     echo "ok.";exit;
-  //   });
-  // });
+  Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
 
 });
 
