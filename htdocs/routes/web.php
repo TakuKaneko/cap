@@ -47,6 +47,11 @@ Route::group(['middleware' => ['auth']], function () {
   /** 管理者機能：DBリフレッシュ */
   Route::get('/dbrefresh', 'DashboardController@migrateRefresh');
 
+  /** ページロード問題確認用 */
+  Route::get('/test/simple-html-access', function () {
+    return view('dashboard.test');
+  });
+
 });
 
 Auth::routes();
